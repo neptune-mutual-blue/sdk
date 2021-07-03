@@ -55,5 +55,17 @@
     "bs58": "^4.0.1",
     "ethers": "^5.4.1",
     "ipfs-mini": "^1.1.5"
-  }
+  },
+  "description": "Neptune Mutual SDK",
+  "directories": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/neptune-mutual/sdk.git"
+  },
+  "bugs": {
+    "url": "https://github.com/neptune-mutual/sdk/issues"
+  },
+  "homepage": "https://github.com/neptune-mutual/sdk#readme"
 }
