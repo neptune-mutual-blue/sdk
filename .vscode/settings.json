@@ -1,0 +1,18 @@
+{
+  "editor.tabSize": 2,
+  "editor.foldingStrategy": "indentation",
+  "editor.wrappingIndent": "indent",
+  "editor.insertSpaces": true,
+  "editor.defaultFormatter": "vscode.typescript-language-features",
+  "editor.autoIndent": "none",
+  "editor.formatOnSaveMode": "file",
+  "editor.padding.top": 24,
+  "javascript.format.semicolons": "remove",
+  "typescript.format.enable": true,
+  "typescript.format.insertSpaceBeforeFunctionParenthesis": true,
+  "standard.autoFixOnSave": true,
+  "standard.engine": "ts-standard",
+  "standard.validate": [
+    "typescript"
+  ]
+}
