@@ -2,7 +2,7 @@ import { ethers } from 'ethers'
 import { getProtocolContracts } from '../constants/contracts'
 import { AssuranceToken } from '../registry'
 import { ChainId } from '../types'
-import IApproveTransactionArgs from '../types/IApproveTransaction'
+import { IApproveTransactionArgs } from '../types/IApproveTransaction'
 
 const approveAssurance = async (chainId: ChainId, coverKey: string, args: IApproveTransactionArgs, wallet: ethers.Wallet): Promise<void> => {
   const { COVER_ASSURANCE } = getProtocolContracts(chainId)

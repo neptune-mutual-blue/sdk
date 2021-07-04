@@ -2,17 +2,17 @@ import { ethers } from 'ethers'
 import { getProtocolContracts, getChainConfig } from '../constants/contracts'
 import { Cover, IERC20 } from '../registry'
 import { ChainId, ICoverInfo, ICoverInfoStorage } from '../types'
-import IApproveTransactionArgs from '../types/IApproveTransaction'
+import { IApproveTransactionArgs } from '../types/IApproveTransaction'
 import * as ipfs from '../utils/ipfs'
 import { ZERO_ADDRESS } from '../constants/values'
-import DuplicateCoverError from '../types/Exceptions/DuplicateCoverError'
+import { DuplicateCoverError } from '../types/Exceptions/DuplicateCoverError'
 import { Status } from '../types/Status'
 
 const getApprovalAmount = (x: any): string => (x !== null && x !== undefined && parseFloat(x.amount) > 0) ? x.amount : ethers.constants.MaxUint256
 
 const approveAssurance = async (chainId: ChainId, tokenAddress: string, args: IApproveTransactionArgs, wallet: ethers.Wallet): Promise<any> => {
   try {
-    const assuranceToken = IERC20.getInstance(tokenAddress, wallet)
+    const assuranceToken = IERC20.getInstance(chainId, tokenAddress, wallet)
 
     const { COVER_ASSURANCE } = getProtocolContracts(chainId)
     const amount = getApprovalAmount(args)
@@ -35,7 +35,7 @@ const approveStakeAndFees = async (chainId: ChainId, args: IApproveTransactionAr
   try {
     const { tokens: { NEP }, contracts: { COVER_STAKE } } = getChainConfig(chainId)
 
-    const nep = IERC20.getInstance(NEP.at, wallet)
+    const nep = IERC20.getInstance(chainId, NEP.at, wallet)
     const amount = getApprovalAmount(args)
 
     const result = await nep.approve(COVER_STAKE, amount)
@@ -56,7 +56,7 @@ const approveInitialLiquidity = async (chainId: ChainId, args: IApproveTransacti
   try {
     const { tokens: { STABLECOIN }, contracts: { COVER } } = getChainConfig(chainId)
 
-    const nep = IERC20.getInstance(STABLECOIN.at, wallet)
+    const nep = IERC20.getInstance(chainId, STABLECOIN.at, wallet)
     const amount = getApprovalAmount(args)
 
     const result = await nep.approve(COVER, amount)
@@ -73,9 +73,31 @@ const approveInitialLiquidity = async (chainId: ChainId, args: IApproveTransacti
   }
 }
 
+const getCoverInfo = async (chainId: ChainId, key: string, wallet: ethers.Wallet): Promise<ICoverInfoStorage> => {
+  const coverContract = Cover.getInstance(chainId, wallet)
+  const cover = await coverContract.getCover(key)
+  const { info } = cover
+
+  return await ipfs.readBytes32(info) as ICoverInfoStorage
+}
+
 const createCover = async (chainId: ChainId, info: ICoverInfo, wallet: ethers.Wallet): Promise<any> => {
   try {
     const { key, stakeWithFees, assuranceToken, initialLiquidity } = info
+
+    if (!key) { // eslint-disable-line
+      return {
+        status: Status.FAILURE,
+        data: new DuplicateCoverError('Invalid or empty cover key')
+      }
+    }
+
+    if (!stakeWithFees) { // eslint-disable-line
+      return {
+        status: Status.FAILURE,
+        data: new DuplicateCoverError('Invalid or empty cover fee')
+      }
+    }
 
     const storage = info as ICoverInfoStorage
 
@@ -121,4 +143,4 @@ const createCover = async (chainId: ChainId, info: ICoverInfo, wallet: ethers.Wa
   }
 }
 
-export { approveAssurance, approveStakeAndFees, approveInitialLiquidity, createCover }
+export { getCoverInfo, approveAssurance, approveStakeAndFees, approveInitialLiquidity, createCover }

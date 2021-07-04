@@ -1,9 +1,14 @@
+import { ChainId, ICoverInfo, ICoverInfoStorage } from './types'
 import * as types from './types'
-import * as core from './core'
+import { assurance, cover } from './core'
 import * as registry from './registry'
 
 export {
-  types,
-  core,
-  registry
+  assurance,
+  cover,
+  registry,
+  ChainId,
+  ICoverInfo,
+  ICoverInfoStorage,
+  types
 }

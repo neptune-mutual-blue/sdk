@@ -1,4 +1,4 @@
-export default interface IProtocolContracts {
+interface IProtocolContracts {
   PROTOCOL: string
   STORE: string
   CTOKEN_FACTORY: string
@@ -12,3 +12,5 @@ export default interface IProtocolContracts {
   POLICY_ADMIN: string
   VAULT_FACTORY: string
 }
+
+export { IProtocolContracts }

@@ -1,3 +1,5 @@
-import BaseError from './BaseError'
+import { BaseError } from './BaseError'
 
-export default class DuplicateCoverError extends BaseError {}
+class DuplicateCoverError extends BaseError {}
+
+export { DuplicateCoverError }

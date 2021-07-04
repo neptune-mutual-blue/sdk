@@ -1,8 +1,10 @@
-import ethers from 'ethers'
+import { ethers } from 'ethers'
+import { ChainId } from '..'
 import * as abis from '../constants/abis'
+import { getContract } from '../utils/contract'
 
-const getInstance = (tokenAddress: string, wallet: ethers.Wallet): ethers.Contract => {
-  return new ethers.Contract(tokenAddress, abis.IERC20, wallet)
+const getInstance = (chainId: ChainId, tokenAddress: string, signerOrProvider: ethers.providers.Provider | ethers.Signer | undefined): ethers.Contract => {
+  return getContract(chainId, tokenAddress, abis.IERC20, signerOrProvider)
 }
 
 export {

@@ -1,4 +1,4 @@
-export default interface ICoverInfo {
+interface ICoverInfo {
   key: string
   coverName: string
   projectName: string
@@ -34,3 +34,5 @@ export default interface ICoverInfo {
   stakeWithFees: string
   initialLiquidity: string
 }
+
+export { ICoverInfo }

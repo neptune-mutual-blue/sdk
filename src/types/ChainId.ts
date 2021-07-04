@@ -1,4 +1,4 @@
-export enum ChainId {
+enum ChainId {
   Ethereum = 1,
   Ropsten = 3,
   BinanceSmartChain = 56,
@@ -7,4 +7,8 @@ export enum ChainId {
   Fantom = 250,
   MoonBeam = 1284,
   Mumbai = 80001
+}
+
+export {
+  ChainId
 }

@@ -1,12 +1,11 @@
 import { IContractDefinition, IToken, ChainId } from '../../types'
-
-import Token from '../../entities/Token'
+import { Token } from '../../entities/Token'
 
 const nep = new Token(ChainId.Mumbai, '0xaa6E152DCF34F54aCa65d5c4a720763e347F42d4', 'Neptune Mutual Token', 'NEP')
 const wmatic = new Token(ChainId.Mumbai, '0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c', 'Wrapped Matic', 'WMATIC')
 const dai = new Token(ChainId.Mumbai, '0x62E329214173E1C50A7Aee8DC2Ca5e04af6D6B6f', 'Dai Stablecoin', 'DAI')
 
-export default class Mumbai implements IContractDefinition {
+class Mumbai implements IContractDefinition {
   chain: string
   chainId: ChainId
   rpcProvider: string
@@ -57,4 +56,8 @@ export default class Mumbai implements IContractDefinition {
       STABLECOIN: dai
     }
   }
+}
+
+export {
+  Mumbai
 }

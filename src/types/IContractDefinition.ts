@@ -2,7 +2,7 @@ import IToken from './IToken'
 import IProtocolContracts from './IProtocolContracts'
 import { ChainId } from './ChainId'
 
-export default interface IContractDefinition {
+interface IContractDefinition {
   chainId: ChainId
   chain: string
   rpcProvider: string
@@ -13,3 +13,5 @@ export default interface IContractDefinition {
     STABLECOIN: IToken
   }
 }
+
+export { IContractDefinition }

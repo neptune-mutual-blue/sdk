@@ -1,103 +1,85 @@
-# TSDX User Guide
+# Neptune Mutual SDK
 
-Congrats! You just saved yourself hours of work by bootstrapping this project with TSDX. Let’s get you oriented with what’s here and how to use it.
+The Neptune Mutual SDK assists developers to build on top of Neptune Mutual protocol. The SDK supports any Javascript environment so that you can interact with the SDK from both frontend and backend.
 
-> This TSDX setup is meant for developing libraries (not apps!) that can be published to NPM. If you’re looking to build a Node app, you could use `ts-node-dev`, plain `ts-node`, or simple `tsc`.
+**Install Package**
 
-> If you’re new to TypeScript, checkout [this handy cheatsheet](https://devhints.io/typescript)
-
-## Commands
-
-TSDX scaffolds your new library inside `/src`.
-
-To run TSDX, use:
-
-```bash
-npm start # or yarn start
+```
+npm install @neptunemutual/sdk
 ```
 
-This builds to `/dist` and runs the project in watch mode so any edits you save inside `src` causes a rebuild to `/dist`.
+## Multiple Blockchain Support
 
-To do a one-off build, use `npm run build` or `yarn build`.
+Since the SDK supports multiple blockchains, you may want to quickly check the list of supported blockchains before you actually implement anything.
 
-To run tests, use `npm test` or `yarn test`.
+```javascript
+import { ChainId } from '@neptunemutual/sdk'
 
-## Configuration
+console.info('Supported Chains %s', ChainId)
 
-Code quality is set up for you with `prettier`, `husky`, and `lint-staged`. Adjust the respective fields in `package.json` accordingly.
-
-### Jest
-
-Jest tests are set up to run with `npm test` or `yarn test`.
-
-### Bundle Analysis
-
-[`size-limit`](https://github.com/ai/size-limit) is set up to calculate the real cost of your library with `npm run size` and visualize the bundle with `npm run analyze`.
-
-#### Setup Files
-
-This is the folder structure we set up for you:
-
-```txt
-/src
-  index.tsx       # EDIT THIS
-/test
-  blah.test.tsx   # EDIT THIS
-.gitignore
-package.json
-README.md         # EDIT THIS
-tsconfig.json
-```
-
-### Rollup
-
-TSDX uses [Rollup](https://rollupjs.org) as a bundler and generates multiple rollup configs for various module formats and build settings. See [Optimizations](#optimizations) for details.
-
-### TypeScript
-
-`tsconfig.json` is set up to interpret `dom` and `esnext` types, as well as `react` for `jsx`. Adjust according to your needs.
-
-## Continuous Integration
-
-### GitHub Actions
-
-Two actions are added by default:
-
-- `main` which installs deps w/ cache, lints, tests, and builds on all pushes against a Node and OS matrix
-- `size` which comments cost comparison of your library on every pull request using [`size-limit`](https://github.com/ai/size-limit)
-
-## Optimizations
-
-Please see the main `tsdx` [optimizations docs](https://github.com/palmerhq/tsdx#optimizations). In particular, know that you can take advantage of development-only optimizations:
-
-```js
-// ./types/index.d.ts
-declare var __DEV__: boolean;
-
-// inside your code...
-if (__DEV__) {
-  console.log('foo');
+/********************************************
+Supported Chains {
+  '1': 'Ethereum',
+  '3': 'Ropsten',
+  '56': 'BinanceSmartChain',
+  '100': 'xDaiChain',
+  '137': 'Polygon',
+  '250': 'Fantom',
+  '1284': 'MoonBeam',
+  '80001': 'Mumbai',
+  Ethereum: 1,
+  Ropsten: 3,
+  BinanceSmartChain: 56,
+  xDaiChain: 100,
+  Polygon: 137,
+  Fantom: 250,
+  MoonBeam: 1284,
+  Mumbai: 80001
 }
+********************************************/
 ```
 
-You can also choose to install and use [invariant](https://github.com/palmerhq/tsdx#invariant) and [warning](https://github.com/palmerhq/tsdx#warning) functions.
+## Signer or Provider
 
-## Module Formats
+The SDK automatically creates a default readonly provider for you. Therefore, you do not need to specify a signer or provider for such operations. However, for write operations, you must pass a signer as the last argument.
 
-CJS, ESModules, and UMD module formats are supported.
+**Getting Cover Info by Passing a Provider**
 
-The appropriate paths are configured in `package.json` and `dist/index.js` accordingly. Please report if any issues are found.
+```javascript
+import { ethers } from 'ethers'
+import { ChainId, cover } from '@neptunemutual/sdk'
 
-## Named Exports
+const myProvider = () => {
+  const fakePrivateKey = '0586782a6b30a2526f960bfde45db0470c51919c0ac2ae9ad5ad39b847955109'
+  const provider = new ethers.providers.JsonRpcProvider('https://rpc-mumbai.maticvigil.com')
+  return new ethers.Wallet(fakePrivateKey, provider)
+}
 
-Per Palmer Group guidelines, [always use named exports.](https://github.com/palmerhq/typescript#exports) Code split inside your React app instead of your React library.
+const readCoverInfo = async () => {
+  const key = '0x70726f746f3a636f6e7472616374733a636f7665723a6366633a303100000001'
+  const provider = myProvider()
 
-## Including Styles
+  const coverInfo = await cover.getCoverInfo(ChainId.Mumbai, key, provider)
+  console.log(coverInfo)
+}
 
-There are many ways to ship styles, including with CSS-in-JS. TSDX has no opinion on this, configure how you like.
+readCoverInfo()
+```
 
-For vanilla CSS, you can include it at the root directory and add it to the `files` section in your `package.json`, so that it can be imported separately by your users and run through their bundler's loader.
+In this case, you're only reading from the blockchain. The above code can be simplified to this: 
 
-## Publishing to NPM
 
-We recommend using [np](https://github.com/sindresorhus/np).
+```javascript
+import { ChainId, cover } from '@neptunemutual/sdk'
+
+const readCoverInfo = async () => {
+  const key = '0x70726f746f3a636f6e7472616374733a636f7665723a6366633a303100000001'
+
+  const coverInfo = await cover.getCoverInfo(ChainId.Mumbai, key)
+  console.log(coverInfo)
+}
+
+readCoverInfo()
+```
+
+[Read the Full Documentation](https://app.gitbook.com/@neptunemutual/s/docs/neptune-mutual-sdk/quickstart)

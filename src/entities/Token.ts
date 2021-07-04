@@ -1,6 +1,6 @@
 import { IToken, ChainId } from '../types'
 
-export default class Token implements IToken {
+class Token implements IToken {
   chainId: ChainId
   at: string
   name: string
@@ -12,4 +12,8 @@ export default class Token implements IToken {
     this.name = name
     this.symbol = symbol
   }
+}
+
+export {
+  Token
 }

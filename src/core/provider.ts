@@ -1,4 +1,4 @@
-import ethers from 'ethers'
+import { ethers } from 'ethers'
 import { ChainId } from '../types'
 import { getChainConfig } from '../constants/contracts'
 

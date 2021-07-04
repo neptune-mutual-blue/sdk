@@ -1,12 +1,11 @@
 import { IContractDefinition, IToken, ChainId } from '../../types'
-
-import Token from '../../entities/Token'
+import { Token } from '../../entities/Token'
 
 const nep = new Token(ChainId.BinanceSmartChain, '0xcE3805A443eBb27B2A4058eC9d94dC4f9C000633', 'Neptune Mutual Token', 'NEP')
 const wbnb = new Token(ChainId.BinanceSmartChain, '0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c', 'Wrapped BNB', 'WBNB')
 const busd = new Token(ChainId.BinanceSmartChain, '0xe9e7CEA3DedcA5984780Bafc599bD69ADd087D56', 'Binance USD', 'BUSD')
 
-export default class BinanceSmartChain implements IContractDefinition {
+class BinanceSmartChain implements IContractDefinition {
   chain: string
   chainId: ChainId
   rpcProvider: string
@@ -58,3 +57,5 @@ export default class BinanceSmartChain implements IContractDefinition {
     }
   }
 }
+
+export { BinanceSmartChain }
