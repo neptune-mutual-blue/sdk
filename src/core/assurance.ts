@@ -3,10 +3,11 @@ import { getProtocolContracts } from '../constants/contracts'
 import { AssuranceToken, Assurance } from '../registry'
 import { ChainId } from '../types'
 import { IApproveTransactionArgs } from '../types/IApproveTransaction'
+import { IWrappedResult } from '../types/IWrappedResult'
 import { Status } from '../types/Status'
 import { getApprovalAmount } from '../utils/erc20-utils'
 
-const approve = async (chainId: ChainId, key: string, args: IApproveTransactionArgs, signerOrProvider: ethers.providers.Provider | ethers.Signer): Promise<any> => {
+const approve = async (chainId: ChainId, key: string, args: IApproveTransactionArgs, signerOrProvider: ethers.providers.Provider | ethers.Signer): Promise<IWrappedResult> => {
   try {
     const { COVER_ASSURANCE } = getProtocolContracts(chainId)
     const amount = getApprovalAmount(args)
@@ -24,12 +25,13 @@ const approve = async (chainId: ChainId, key: string, args: IApproveTransactionA
 
     return {
       status: Status.EXCEPTION,
-      result: error
+      result: null,
+      error
     }
   }
 }
 
-const add = async (chainId: ChainId, key: string, amount: number, signerOrProvider: ethers.providers.Provider | ethers.Signer): Promise<any> => {
+const add = async (chainId: ChainId, key: string, amount: number, signerOrProvider: ethers.providers.Provider | ethers.Signer): Promise<IWrappedResult> => {
   try {
     const signer = (signerOrProvider as ethers.Signer).getAddress()
 
@@ -46,12 +48,13 @@ const add = async (chainId: ChainId, key: string, amount: number, signerOrProvid
 
     return {
       status: Status.EXCEPTION,
-      result: error
+      result: null,
+      error
     }
   }
 }
 
-const get = async (chainId: ChainId, key: string, signerOrProvider: ethers.providers.Provider | ethers.Signer | undefined): Promise<any> => {
+const get = async (chainId: ChainId, key: string, signerOrProvider: ethers.providers.Provider | ethers.Signer | undefined): Promise<IWrappedResult> => {
   try {
     const contract = Assurance.getInstance(chainId, signerOrProvider)
     const result = await contract.getAssurance(key)
@@ -63,7 +66,8 @@ const get = async (chainId: ChainId, key: string, signerOrProvider: ethers.provi
   } catch (error) {
     return {
       status: Status.EXCEPTION,
-      result: error
+      result: null,
+      error
     }
   }
 }

@@ -8,8 +8,9 @@ import { ZERO_ADDRESS } from '../constants/values'
 import { DuplicateCoverError } from '../types/Exceptions/DuplicateCoverError'
 import { Status } from '../types/Status'
 import { getApprovalAmount } from '../utils/erc20-utils'
+import { IWrappedResult } from '../types/IWrappedResult'
 
-const approveAssurance = async (chainId: ChainId, tokenAddress: string, args: IApproveTransactionArgs, signerOrProvider: ethers.providers.Provider | ethers.Signer): Promise<any> => {
+const approveAssurance = async (chainId: ChainId, tokenAddress: string, args: IApproveTransactionArgs, signerOrProvider: ethers.providers.Provider | ethers.Signer): Promise<IWrappedResult> => {
   try {
     const assuranceToken = IERC20.getInstance(chainId, tokenAddress, signerOrProvider)
 
@@ -25,12 +26,13 @@ const approveAssurance = async (chainId: ChainId, tokenAddress: string, args: IA
   } catch (error) {
     return {
       status: Status.EXCEPTION,
-      result: error
+      result: null,
+      error
     }
   }
 }
 
-const approveStakeAndFees = async (chainId: ChainId, args: IApproveTransactionArgs, signerOrProvider: ethers.providers.Provider | ethers.Signer): Promise<any> => {
+const approveStakeAndFees = async (chainId: ChainId, args: IApproveTransactionArgs, signerOrProvider: ethers.providers.Provider | ethers.Signer): Promise<IWrappedResult> => {
   try {
     const { tokens: { NEP }, contracts: { COVER_STAKE } } = getChainConfig(chainId)
 
@@ -46,12 +48,13 @@ const approveStakeAndFees = async (chainId: ChainId, args: IApproveTransactionAr
   } catch (error) {
     return {
       status: Status.EXCEPTION,
-      result: error
+      result: null,
+      error
     }
   }
 }
 
-const approveInitialLiquidity = async (chainId: ChainId, args: IApproveTransactionArgs, signerOrProvider: ethers.providers.Provider | ethers.Signer): Promise<any> => {
+const approveInitialLiquidity = async (chainId: ChainId, args: IApproveTransactionArgs, signerOrProvider: ethers.providers.Provider | ethers.Signer): Promise<IWrappedResult> => {
   try {
     const { tokens: { STABLECOIN }, contracts: { COVER } } = getChainConfig(chainId)
 
@@ -67,7 +70,8 @@ const approveInitialLiquidity = async (chainId: ChainId, args: IApproveTransacti
   } catch (error) {
     return {
       status: Status.EXCEPTION,
-      result: error
+      result: null,
+      error
     }
   }
 }
@@ -80,21 +84,23 @@ const getCoverInfo = async (chainId: ChainId, key: string, signerOrProvider: eth
   return await ipfs.readBytes32(info) as ICoverInfoStorage
 }
 
-const createCover = async (chainId: ChainId, info: ICoverInfo, signerOrProvider: ethers.providers.Provider | ethers.Signer): Promise<any> => {
+const createCover = async (chainId: ChainId, info: ICoverInfo, signerOrProvider: ethers.providers.Provider | ethers.Signer): Promise<IWrappedResult> => {
   try {
     const { key, stakeWithFees, assuranceToken, initialLiquidity } = info
 
     if (!key) { // eslint-disable-line
       return {
         status: Status.FAILURE,
-        data: new DuplicateCoverError('Invalid or empty cover key')
+        result: null,
+        error: new DuplicateCoverError('Invalid or empty cover key')
       }
     }
 
     if (!stakeWithFees) { // eslint-disable-line
       return {
         status: Status.FAILURE,
-        data: new DuplicateCoverError('Invalid or empty cover fee')
+        result: null,
+        error: new DuplicateCoverError('Invalid or empty cover fee')
       }
     }
 
@@ -111,7 +117,8 @@ const createCover = async (chainId: ChainId, info: ICoverInfo, signerOrProvider:
     if (cover.coverOwner !== ZERO_ADDRESS) {
       return {
         status: Status.FAILURE,
-        data: new DuplicateCoverError(`The namespace "${key}" already exists`)
+        result: null,
+        error: new DuplicateCoverError(`The namespace "${key}" already exists`)
       }
     }
 
@@ -137,7 +144,8 @@ const createCover = async (chainId: ChainId, info: ICoverInfo, signerOrProvider:
   } catch (error) {
     return {
       status: Status.EXCEPTION,
-      result: error
+      result: null,
+      error
     }
   }
 }
