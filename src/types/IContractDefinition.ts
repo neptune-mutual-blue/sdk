@@ -1,5 +1,5 @@
-import IToken from './IToken'
-import IProtocolContracts from './IProtocolContracts'
+import { IToken } from './IToken'
+import { IProtocolContracts } from './IProtocolContracts'
 import { ChainId } from './ChainId'
 
 interface IContractDefinition {

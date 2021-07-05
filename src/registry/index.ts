@@ -1,5 +1,6 @@
 import * as Assurance from './Assurance'
 import * as AssuranceToken from './AssuranceToken'
+import * as ProvisionContract from './ProvisionContract'
 import * as Cover from './Cover'
 import * as IERC20 from './IERC20'
 import * as Staking from './Staking'
@@ -9,6 +10,7 @@ import * as Vault from './Vault'
 export {
   Assurance,
   AssuranceToken,
+  ProvisionContract,
   Cover,
   IERC20,
   Staking,

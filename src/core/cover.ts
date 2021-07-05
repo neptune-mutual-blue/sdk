@@ -1,4 +1,4 @@
-import { ethers } from 'ethers'
+import { ethers, Signer } from 'ethers'
 import { getProtocolContracts, getChainConfig } from '../constants/contracts'
 import { Cover, IERC20 } from '../registry'
 import { ChainId, ICoverInfo, ICoverInfoStorage } from '../types'
@@ -7,12 +7,11 @@ import * as ipfs from '../utils/ipfs'
 import { ZERO_ADDRESS } from '../constants/values'
 import { DuplicateCoverError } from '../types/Exceptions/DuplicateCoverError'
 import { Status } from '../types/Status'
+import { getApprovalAmount } from '../utils/erc20-utils'
 
-const getApprovalAmount = (x: any): string => (x !== null && x !== undefined && parseFloat(x.amount) > 0) ? x.amount : ethers.constants.MaxUint256
-
-const approveAssurance = async (chainId: ChainId, tokenAddress: string, args: IApproveTransactionArgs, wallet: ethers.Wallet): Promise<any> => {
+const approveAssurance = async (chainId: ChainId, tokenAddress: string, args: IApproveTransactionArgs, signerOrProvider: ethers.providers.Provider | ethers.Signer): Promise<any> => {
   try {
-    const assuranceToken = IERC20.getInstance(chainId, tokenAddress, wallet)
+    const assuranceToken = IERC20.getInstance(chainId, tokenAddress, signerOrProvider)
 
     const { COVER_ASSURANCE } = getProtocolContracts(chainId)
     const amount = getApprovalAmount(args)
@@ -31,11 +30,11 @@ const approveAssurance = async (chainId: ChainId, tokenAddress: string, args: IA
   }
 }
 
-const approveStakeAndFees = async (chainId: ChainId, args: IApproveTransactionArgs, wallet: ethers.Wallet): Promise<any> => {
+const approveStakeAndFees = async (chainId: ChainId, args: IApproveTransactionArgs, signerOrProvider: ethers.providers.Provider | ethers.Signer): Promise<any> => {
   try {
     const { tokens: { NEP }, contracts: { COVER_STAKE } } = getChainConfig(chainId)
 
-    const nep = IERC20.getInstance(chainId, NEP.at, wallet)
+    const nep = IERC20.getInstance(chainId, NEP.at, signerOrProvider)
     const amount = getApprovalAmount(args)
 
     const result = await nep.approve(COVER_STAKE, amount)
@@ -52,11 +51,11 @@ const approveStakeAndFees = async (chainId: ChainId, args: IApproveTransactionAr
   }
 }
 
-const approveInitialLiquidity = async (chainId: ChainId, args: IApproveTransactionArgs, wallet: ethers.Wallet): Promise<any> => {
+const approveInitialLiquidity = async (chainId: ChainId, args: IApproveTransactionArgs, signerOrProvider: ethers.providers.Provider | ethers.Signer): Promise<any> => {
   try {
     const { tokens: { STABLECOIN }, contracts: { COVER } } = getChainConfig(chainId)
 
-    const nep = IERC20.getInstance(chainId, STABLECOIN.at, wallet)
+    const nep = IERC20.getInstance(chainId, STABLECOIN.at, signerOrProvider)
     const amount = getApprovalAmount(args)
 
     const result = await nep.approve(COVER, amount)
@@ -73,15 +72,15 @@ const approveInitialLiquidity = async (chainId: ChainId, args: IApproveTransacti
   }
 }
 
-const getCoverInfo = async (chainId: ChainId, key: string, wallet: ethers.Wallet): Promise<ICoverInfoStorage> => {
-  const coverContract = Cover.getInstance(chainId, wallet)
+const getCoverInfo = async (chainId: ChainId, key: string, signerOrProvider: ethers.providers.Provider | ethers.Signer): Promise<ICoverInfoStorage> => {
+  const coverContract = Cover.getInstance(chainId, signerOrProvider)
   const cover = await coverContract.getCover(key)
   const { info } = cover
 
   return await ipfs.readBytes32(info) as ICoverInfoStorage
 }
 
-const createCover = async (chainId: ChainId, info: ICoverInfo, wallet: ethers.Wallet): Promise<any> => {
+const createCover = async (chainId: ChainId, info: ICoverInfo, signerOrProvider: ethers.providers.Provider | ethers.Signer): Promise<any> => {
   try {
     const { key, stakeWithFees, assuranceToken, initialLiquidity } = info
 
@@ -101,12 +100,12 @@ const createCover = async (chainId: ChainId, info: ICoverInfo, wallet: ethers.Wa
 
     const storage = info as ICoverInfoStorage
 
-    storage.createdBy = wallet.address
+    storage.createdBy = await (signerOrProvider as Signer).getAddress()
     storage.permalink = `https://app.neptunemutual.com/covers/view/${key}`
 
     const [hash, hashBytes32] = await ipfs.write(storage)
 
-    const coverContract = Cover.getInstance(chainId, wallet)
+    const coverContract = Cover.getInstance(chainId, signerOrProvider)
     const cover = await coverContract.getCover(key)
 
     if (cover.coverOwner !== ZERO_ADDRESS) {
