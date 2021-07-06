@@ -1,21 +1,22 @@
 import { ethers } from 'ethers'
-import { getProtocolContracts } from '../constants/contracts'
-import { AssuranceToken, Assurance } from '../registry'
-import { ChainId } from '../types'
+import { ChainId } from '..'
+import { getChainConfig } from '../constants/contracts'
+import { IERC20, Vault } from '../registry'
 import { IApproveTransactionArgs } from '../types/IApproveTransactionArgs'
-import { IWrappedResult } from '../types/IWrappedResult'
 import { Status } from '../types/Status'
 import { getApprovalAmount } from '../utils/erc20-utils'
+import { IWrappedResult } from '../types/IWrappedResult'
 import { getAddress } from '../utils/singer'
 
 const approve = async (chainId: ChainId, key: string, args: IApproveTransactionArgs, signerOrProvider: ethers.providers.Provider | ethers.Signer): Promise<IWrappedResult> => {
   try {
-    const { COVER_ASSURANCE } = getProtocolContracts(chainId)
+    const { at } = getChainConfig(chainId).tokens.STABLECOIN
+    const stablecoin = IERC20.getInstance(chainId, at, signerOrProvider)
+    const vault = await Vault.getInstance(chainId, key, signerOrProvider)
+
     const amount = getApprovalAmount(args)
 
-    const assuranceToken = await AssuranceToken.getInstance(chainId, key, signerOrProvider)
-
-    const result = await assuranceToken.approve(COVER_ASSURANCE, amount)
+    const result = await stablecoin.approve(vault.address, amount)
 
     return {
       status: Status.SUCCESS,
@@ -34,11 +35,8 @@ const approve = async (chainId: ChainId, key: string, args: IApproveTransactionA
 
 const add = async (chainId: ChainId, key: string, amount: number, signerOrProvider: ethers.providers.Provider | ethers.Signer): Promise<IWrappedResult> => {
   try {
-    const signer = await getAddress(signerOrProvider)
-
-    const contract = Assurance.getInstance(chainId, signerOrProvider)
-
-    const result = await contract.addAssurance(key, signer, amount)
+    const vault = await Vault.getInstance(chainId, key, signerOrProvider)
+    const result = await vault.addLiquidity(key, amount)
 
     return {
       status: Status.SUCCESS,
@@ -55,16 +53,19 @@ const add = async (chainId: ChainId, key: string, amount: number, signerOrProvid
   }
 }
 
-const get = async (chainId: ChainId, key: string, signerOrProvider: ethers.providers.Provider | ethers.Signer | undefined): Promise<IWrappedResult> => {
+const getBalance = async (chainId: ChainId, key: string, signerOrProvider: ethers.providers.Provider | ethers.Signer): Promise<IWrappedResult> => {
   try {
-    const contract = Assurance.getInstance(chainId, signerOrProvider)
-    const result = await contract.getAssurance(key)
+    const vault = await Vault.getInstance(chainId, key, signerOrProvider)
+    const sender = await getAddress(signerOrProvider)
+    const result = await vault.balanceOf(sender)
 
     return {
       status: Status.SUCCESS,
       result
     }
   } catch (error) {
+    console.error(error.message)
+
     return {
       status: Status.EXCEPTION,
       result: null,
@@ -73,4 +74,8 @@ const get = async (chainId: ChainId, key: string, signerOrProvider: ethers.provi
   }
 }
 
-export { get, approve, add }
+export {
+  getBalance,
+  approve,
+  add
+}

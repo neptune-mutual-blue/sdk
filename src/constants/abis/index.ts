@@ -4,6 +4,7 @@ import ICoverAssurance from './ICoverAssurance.json'
 import ICoverProvision from './ICoverProvision.json'
 import ICoverStake from './ICoverStake.json'
 import IVault from './IVault.json'
+import IPolicy from './IPolicy.json'
 import IStore from './IStore.json'
 
 export {
@@ -13,5 +14,6 @@ export {
   ICoverProvision,
   ICoverStake,
   IVault,
+  IPolicy,
   IStore
 }

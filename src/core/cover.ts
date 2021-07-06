@@ -1,14 +1,16 @@
-import { ethers, Signer } from 'ethers'
+import { ethers } from 'ethers'
 import { getProtocolContracts, getChainConfig } from '../constants/contracts'
 import { Cover, IERC20 } from '../registry'
 import { ChainId, ICoverInfo, ICoverInfoStorage } from '../types'
-import { IApproveTransactionArgs } from '../types/IApproveTransaction'
+import { IApproveTransactionArgs } from '../types/IApproveTransactionArgs'
 import * as ipfs from '../utils/ipfs'
 import { ZERO_ADDRESS } from '../constants/values'
 import { DuplicateCoverError } from '../types/Exceptions/DuplicateCoverError'
 import { Status } from '../types/Status'
 import { getApprovalAmount } from '../utils/erc20-utils'
 import { IWrappedResult } from '../types/IWrappedResult'
+import { getAddress } from '../utils/singer'
+import { InvalidSignerError } from '../types/Exceptions/InvalidSignerError'
 
 const approveAssurance = async (chainId: ChainId, tokenAddress: string, args: IApproveTransactionArgs, signerOrProvider: ethers.providers.Provider | ethers.Signer): Promise<IWrappedResult> => {
   try {
@@ -106,7 +108,17 @@ const createCover = async (chainId: ChainId, info: ICoverInfo, signerOrProvider:
 
     const storage = info as ICoverInfoStorage
 
-    storage.createdBy = await (signerOrProvider as Signer).getAddress()
+    const signer = await getAddress(signerOrProvider)
+
+    if (signer == null) {
+      return {
+        status: Status.FAILURE,
+        result: null,
+        error: new InvalidSignerError('The provider is not a valid signer')
+      }
+    }
+
+    storage.createdBy = signer
     storage.permalink = `https://app.neptunemutual.com/covers/view/${key}`
 
     const [hash, hashBytes32] = await ipfs.write(storage)
