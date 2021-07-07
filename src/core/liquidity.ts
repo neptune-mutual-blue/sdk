@@ -1,7 +1,6 @@
 import { ethers } from 'ethers'
 import { ChainId } from '..'
-import { getChainConfig } from '../constants/contracts'
-import { IERC20, Vault } from '../registry'
+import { LiquidityToken, Vault } from '../registry'
 import { IApproveTransactionArgs } from '../types/IApproveTransactionArgs'
 import { Status } from '../types/Status'
 import { getApprovalAmount } from '../utils/erc20-utils'
@@ -10,8 +9,7 @@ import { getAddress } from '../utils/singer'
 
 const approve = async (chainId: ChainId, key: string, args: IApproveTransactionArgs, signerOrProvider: ethers.providers.Provider | ethers.Signer): Promise<IWrappedResult> => {
   try {
-    const { at } = getChainConfig(chainId).tokens.STABLECOIN
-    const stablecoin = IERC20.getInstance(chainId, at, signerOrProvider)
+    const stablecoin = await LiquidityToken.getInstance(chainId, signerOrProvider)
     const vault = await Vault.getInstance(chainId, key, signerOrProvider)
 
     const amount = getApprovalAmount(args)

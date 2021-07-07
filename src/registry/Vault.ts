@@ -1,16 +1,14 @@
 import { ethers } from 'ethers'
 import { ChainId } from '../types'
 import * as abis from '../constants/abis'
-import { encodeKeys, toBytes32 } from '../utils/key'
-import * as Store from './Store'
+import { encodeKeys } from '../utils/key'
 import { getContract } from '../utils/contract'
+import { NS_KEYS } from '../constants/values'
+import { getOrFetch } from './CachedStoreAddress'
 
 const getInstance = async (chainId: ChainId, coverKey: string, signerOrProvider: ethers.providers.Provider | ethers.Signer | undefined): Promise<ethers.Contract> => {
-  const NS_CONTRACTS = toBytes32('proto:contracts')
-  const NS_VAULT = toBytes32('proto:cover:vault')
-
-  const key = encodeKeys(['bytes32', 'bytes32', 'bytes32'], [NS_CONTRACTS, NS_VAULT, coverKey])
-  const vault = await Store.getInstance(chainId, signerOrProvider).getAddress(key)
+  const key = encodeKeys(['bytes32', 'bytes32', 'bytes32'], [NS_KEYS.CONTRACTS, NS_KEYS.COVER_VAULT, coverKey])
+  const vault = await getOrFetch(chainId, key, signerOrProvider)
 
   return getContract(chainId, vault, abis.IVault, signerOrProvider)
 }

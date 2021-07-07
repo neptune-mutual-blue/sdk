@@ -1,6 +1,5 @@
 import { ethers } from 'ethers'
-import { getProtocolContracts, getChainConfig } from '../constants/contracts'
-import { Cover, IERC20 } from '../registry'
+import { Assurance, Cover, IERC20, LiquidityToken, NepToken, Staking } from '../registry'
 import { ChainId, ICoverInfo, ICoverInfoStorage } from '../types'
 import { IApproveTransactionArgs } from '../types/IApproveTransactionArgs'
 import * as ipfs from '../utils/ipfs'
@@ -16,16 +15,18 @@ const approveAssurance = async (chainId: ChainId, tokenAddress: string, args: IA
   try {
     const assuranceToken = IERC20.getInstance(chainId, tokenAddress, signerOrProvider)
 
-    const { COVER_ASSURANCE } = getProtocolContracts(chainId)
+    const contract = await Assurance.getInstance(chainId, signerOrProvider)
     const amount = getApprovalAmount(args)
 
-    const result = await assuranceToken.approve(COVER_ASSURANCE, amount)
+    const result = await assuranceToken.approve(contract.address, amount)
 
     return {
       status: Status.SUCCESS,
       result
     }
   } catch (error) {
+    console.error(error.message)
+
     return {
       status: Status.EXCEPTION,
       result: null,
@@ -36,18 +37,18 @@ const approveAssurance = async (chainId: ChainId, tokenAddress: string, args: IA
 
 const approveStakeAndFees = async (chainId: ChainId, args: IApproveTransactionArgs, signerOrProvider: ethers.providers.Provider | ethers.Signer): Promise<IWrappedResult> => {
   try {
-    const { tokens: { NEP }, contracts: { COVER_STAKE } } = getChainConfig(chainId)
-
-    const nep = IERC20.getInstance(chainId, NEP.at, signerOrProvider)
+    const nep = await NepToken.getInstance(chainId, signerOrProvider)
     const amount = getApprovalAmount(args)
-
-    const result = await nep.approve(COVER_STAKE, amount)
+    const staking = await Staking.getInstance(chainId, signerOrProvider)
+    const result = await nep.approve(staking.address, amount)
 
     return {
       status: Status.SUCCESS,
       result
     }
   } catch (error) {
+    console.error(error.message)
+
     return {
       status: Status.EXCEPTION,
       result: null,
@@ -58,18 +59,19 @@ const approveStakeAndFees = async (chainId: ChainId, args: IApproveTransactionAr
 
 const approveInitialLiquidity = async (chainId: ChainId, args: IApproveTransactionArgs, signerOrProvider: ethers.providers.Provider | ethers.Signer): Promise<IWrappedResult> => {
   try {
-    const { tokens: { STABLECOIN }, contracts: { COVER } } = getChainConfig(chainId)
-
-    const nep = IERC20.getInstance(chainId, STABLECOIN.at, signerOrProvider)
+    const liquidity = await LiquidityToken.getInstance(chainId, signerOrProvider)
     const amount = getApprovalAmount(args)
+    const cover = await Cover.getInstance(chainId, signerOrProvider)
 
-    const result = await nep.approve(COVER, amount)
+    const result = await liquidity.approve(cover.address, amount)
 
     return {
       status: Status.SUCCESS,
       result
     }
   } catch (error) {
+    console.error(error.message)
+
     return {
       status: Status.EXCEPTION,
       result: null,
@@ -79,7 +81,7 @@ const approveInitialLiquidity = async (chainId: ChainId, args: IApproveTransacti
 }
 
 const getCoverInfo = async (chainId: ChainId, key: string, signerOrProvider: ethers.providers.Provider | ethers.Signer): Promise<ICoverInfoStorage> => {
-  const coverContract = Cover.getInstance(chainId, signerOrProvider)
+  const coverContract = await Cover.getInstance(chainId, signerOrProvider)
   const cover = await coverContract.getCover(key)
   const { info } = cover
 
@@ -123,7 +125,7 @@ const createCover = async (chainId: ChainId, info: ICoverInfo, signerOrProvider:
 
     const [hash, hashBytes32] = await ipfs.write(storage)
 
-    const coverContract = Cover.getInstance(chainId, signerOrProvider)
+    const coverContract = await Cover.getInstance(chainId, signerOrProvider)
     const cover = await coverContract.getCover(key)
 
     if (cover.coverOwner !== ZERO_ADDRESS) {
@@ -154,6 +156,8 @@ const createCover = async (chainId: ChainId, info: ICoverInfo, signerOrProvider:
       }
     }
   } catch (error) {
+    console.error(error.message)
+
     return {
       status: Status.EXCEPTION,
       result: null,

@@ -1,5 +1,5 @@
 {
-  "version": "0.0.5-alpha",
+  "version": "0.0.6-alpha",
   "license": "MIT",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
@@ -42,6 +42,7 @@
   "devDependencies": {
     "@size-limit/preset-small-lib": "^5.0.1",
     "@types/bs58": "^4.0.1",
+    "@types/lru-cache": "^5.1.1",
     "husky": "^6.0.0",
     "size-limit": "^5.0.1",
     "ts-standard": "^10.0.0",
@@ -54,7 +55,8 @@
   "dependencies": {
     "bs58": "^4.0.1",
     "ethers": "^5.4.1",
-    "ipfs-mini": "^1.1.5"
+    "ipfs-mini": "^1.1.5",
+    "lru-cache": "^6.0.0"
   },
   "description": "Neptune Mutual SDK",
   "directories": {

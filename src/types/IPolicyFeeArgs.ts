@@ -1,7 +1,7 @@
-type duration = 1|2|3
+import { PolicyDuration } from './PolicyDuration'
 
 interface IPolicyFeeArgs {
-  duration: duration
+  duration: PolicyDuration
   amount: string
 }
 

@@ -9,6 +9,8 @@ const getAddress = async (signerOrProvider: ethers.providers.Provider | ethers.S
     const signer = (signerOrProvider as ethers.Signer)
     return await signer.getAddress()
   } catch (error) {
+    console.error(error.message)
+
     console.error('The provider is not a signer')
   }
 
