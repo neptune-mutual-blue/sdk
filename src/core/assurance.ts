@@ -1,11 +1,9 @@
 import { ethers } from 'ethers'
 import { AssuranceToken, Assurance } from '../registry'
-import { ChainId } from '../types'
-import { IApproveTransactionArgs } from '../types/IApproveTransactionArgs'
-import { IWrappedResult } from '../types/IWrappedResult'
-import { Status } from '../types/Status'
+import { ChainId, IApproveTransactionArgs, IWrappedResult, Status } from '../types'
 import { getApprovalAmount } from '../utils/erc20-utils'
-import { getAddress } from '../utils/singer'
+import { logError } from '../utils/logger'
+import { getAddress } from '../utils/signer'
 
 const approve = async (chainId: ChainId, key: string, args: IApproveTransactionArgs, signerOrProvider: ethers.providers.Provider | ethers.Signer): Promise<IWrappedResult> => {
   try {
@@ -21,7 +19,7 @@ const approve = async (chainId: ChainId, key: string, args: IApproveTransactionA
       result
     }
   } catch (error) {
-    console.error(error.message)
+    logError(error.message)
 
     return {
       status: Status.EXCEPTION,
@@ -42,7 +40,7 @@ const add = async (chainId: ChainId, key: string, amount: number, signerOrProvid
       result
     }
   } catch (error) {
-    console.error(error.message)
+    logError(error.message)
 
     return {
       status: Status.EXCEPTION,
@@ -62,7 +60,7 @@ const get = async (chainId: ChainId, key: string, signerOrProvider: ethers.provi
       result
     }
   } catch (error) {
-    console.error(error.message)
+    logError(error.message)
 
     return {
       status: Status.EXCEPTION,

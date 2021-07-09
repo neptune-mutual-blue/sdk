@@ -1,9 +1,8 @@
 import { ethers } from 'ethers'
-import { ChainId } from '..'
 import { LiquidityToken, PolicyContract } from '../registry'
-import { IApproveTransactionArgs, IPolicyFeeArgs, Status } from '../types'
-import { IWrappedResult } from '../types/IWrappedResult'
-import { getApprovalAmount } from '../utils/erc20-utils'
+import { ChainId, IApproveTransactionArgs, IPolicyFeeArgs, Status, IWrappedResult } from '../types'
+import { erc20Utils } from '../utils'
+import { logError } from '../utils/logger'
 
 const getCoverFee = async (chainId: ChainId, key: string, args: IPolicyFeeArgs, signerOrProvider: ethers.providers.Provider | ethers.Signer): Promise<IWrappedResult> => {
   try {
@@ -17,7 +16,7 @@ const getCoverFee = async (chainId: ChainId, key: string, args: IPolicyFeeArgs, 
       result
     }
   } catch (error) {
-    console.error(error.message)
+    logError(error.message)
 
     return {
       status: Status.EXCEPTION,
@@ -32,7 +31,7 @@ const approve = async (chainId: ChainId, args: IApproveTransactionArgs, signerOr
     const stablecoin = await LiquidityToken.getInstance(chainId, signerOrProvider)
     const policy = await PolicyContract.getInstance(chainId, signerOrProvider)
 
-    const amount = getApprovalAmount(args)
+    const amount = erc20Utils.getApprovalAmount(args)
 
     const result = await stablecoin.approve(policy.address, amount)
 
@@ -41,7 +40,7 @@ const approve = async (chainId: ChainId, args: IApproveTransactionArgs, signerOr
       result
     }
   } catch (error) {
-    console.error(error.message)
+    logError(error.message)
 
     return {
       status: Status.EXCEPTION,
@@ -63,7 +62,7 @@ const purchaseCover = async (chainId: ChainId, key: string, args: IPolicyFeeArgs
       result
     }
   } catch (error) {
-    console.error(error.message)
+    logError(error.message)
 
     return {
       status: Status.EXCEPTION,

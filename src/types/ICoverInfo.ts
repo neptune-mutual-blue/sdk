@@ -23,7 +23,6 @@ interface ICoverInfo {
     slack: string
   }
   reportingPeriod: number
-  selfCoveragePeriod: number
   resolutionSources: string[]
   assuranceToken: {
     at: string

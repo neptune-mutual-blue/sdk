@@ -1,18 +1,15 @@
 import { ethers } from 'ethers'
-import { ChainId } from '..'
 import { LiquidityToken, Vault } from '../registry'
-import { IApproveTransactionArgs } from '../types/IApproveTransactionArgs'
-import { Status } from '../types/Status'
-import { getApprovalAmount } from '../utils/erc20-utils'
-import { IWrappedResult } from '../types/IWrappedResult'
-import { getAddress } from '../utils/singer'
+import { IApproveTransactionArgs, ChainId, Status, IWrappedResult } from '../types'
+import { erc20Utils, signer } from '../utils'
+import { logError } from '../utils/logger'
 
 const approve = async (chainId: ChainId, key: string, args: IApproveTransactionArgs, signerOrProvider: ethers.providers.Provider | ethers.Signer): Promise<IWrappedResult> => {
   try {
     const stablecoin = await LiquidityToken.getInstance(chainId, signerOrProvider)
     const vault = await Vault.getInstance(chainId, key, signerOrProvider)
 
-    const amount = getApprovalAmount(args)
+    const amount = erc20Utils.getApprovalAmount(args)
 
     const result = await stablecoin.approve(vault.address, amount)
 
@@ -21,7 +18,7 @@ const approve = async (chainId: ChainId, key: string, args: IApproveTransactionA
       result
     }
   } catch (error) {
-    console.error(error.message)
+    logError(error.message)
 
     return {
       status: Status.EXCEPTION,
@@ -41,7 +38,7 @@ const add = async (chainId: ChainId, key: string, amount: number, signerOrProvid
       result
     }
   } catch (error) {
-    console.error(error.message)
+    logError(error.message)
 
     return {
       status: Status.EXCEPTION,
@@ -54,7 +51,7 @@ const add = async (chainId: ChainId, key: string, amount: number, signerOrProvid
 const getBalance = async (chainId: ChainId, key: string, signerOrProvider: ethers.providers.Provider | ethers.Signer): Promise<IWrappedResult> => {
   try {
     const vault = await Vault.getInstance(chainId, key, signerOrProvider)
-    const sender = await getAddress(signerOrProvider)
+    const sender = await signer.getAddress(signerOrProvider)
     const result = await vault.balanceOf(sender)
 
     return {
@@ -62,7 +59,7 @@ const getBalance = async (chainId: ChainId, key: string, signerOrProvider: ether
       result
     }
   } catch (error) {
-    console.error(error.message)
+    logError(error.message)
 
     return {
       status: Status.EXCEPTION,

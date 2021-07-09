@@ -7,6 +7,8 @@ import { IPolicyFeeArgs } from './IPolicyFeeArgs'
 import { IToken } from './IToken'
 import { IWrappedResult } from './IWrappedResult'
 import { Status } from './Status'
+import { PolicyDuration } from './PolicyDuration'
+import * as exceptions from './Exceptions'
 
 export {
   ChainId,
@@ -17,5 +19,7 @@ export {
   IPolicyFeeArgs,
   IToken,
   IWrappedResult,
-  Status
+  Status,
+  PolicyDuration,
+  exceptions
 }

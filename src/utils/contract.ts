@@ -1,5 +1,5 @@
 import { ethers } from 'ethers'
-import { ChainId } from '..'
+import { ChainId } from '../types'
 import { getReadOnlyProvider } from '../core/provider'
 
 const getContract = (chainId: ChainId, address: string, abi: any[], signerOrProvider: ethers.providers.Provider | ethers.Signer | undefined): ethers.Contract => {

@@ -1,9 +1,7 @@
 import { ethers } from 'ethers'
-import { ChainId } from '..'
+import { ChainId, Status, IWrappedResult, PolicyDuration } from '../types'
 import { IERC20, PolicyContract } from '../registry'
-import { Status } from '../types'
-import { IWrappedResult } from '../types/IWrappedResult'
-import { PolicyDuration } from '../types/PolicyDuration'
+import { logError } from '../utils/logger'
 
 const getCToken = async (chainId: ChainId, key: string, duration: PolicyDuration, signerOrProvider: ethers.providers.Provider | ethers.Signer): Promise<IWrappedResult> => {
   try {
@@ -21,7 +19,7 @@ const getCToken = async (chainId: ChainId, key: string, duration: PolicyDuration
       }
     }
   } catch (error) {
-    console.error(error.message)
+    logError(error.message)
 
     return {
       status: Status.EXCEPTION,
@@ -43,7 +41,7 @@ const getCTokenByExpiryDate = async (chainId: ChainId, key: string, expiryDate: 
       result
     }
   } catch (error) {
-    console.error(error.message)
+    logError(error.message)
 
     return {
       status: Status.EXCEPTION,

@@ -1,9 +1,14 @@
-import { ChainId, ICoverInfo, ICoverInfoStorage } from './types'
 import * as types from './types'
-import { assurance, cover, policy, cToken, provision, liquidity } from './core'
+import * as core from './core'
 import * as registry from './registry'
+import * as entities from './entities'
+import * as config from './config'
 
-export {
+const { ChainId } = types
+const { assurance, cover, policy, cToken, provision, liquidity } = core
+
+const sdk = {
+  ChainId,
   assurance,
   cover,
   policy,
@@ -11,8 +16,10 @@ export {
   provision,
   liquidity,
   registry,
-  ChainId,
-  ICoverInfo,
-  ICoverInfoStorage,
-  types
+  types,
+  entities,
+  config
 }
+
+export default sdk
+export { sdk }

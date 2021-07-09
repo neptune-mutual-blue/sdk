@@ -1,7 +1,7 @@
 import { ethers } from 'ethers'
+import LRU from 'lru-cache'
 import { ChainId } from '../types'
 import * as Store from './Store'
-import LRU from 'lru-cache'
 
 const cache = new LRU({
   max: 500,

@@ -1,15 +1,13 @@
 import { ethers } from 'ethers'
-import { ChainId } from '..'
+import { ChainId, IApproveTransactionArgs, IWrappedResult, Status } from '../types'
 import { NepToken, ProvisionContract } from '../registry'
-import { IApproveTransactionArgs } from '../types/IApproveTransactionArgs'
-import { IWrappedResult } from '../types/IWrappedResult'
-import { Status } from '../types/Status'
-import { getApprovalAmount } from '../utils/erc20-utils'
+import { erc20Utils } from '../utils'
+import { logError } from '../utils/logger'
 
 const approve = async (chainId: ChainId, args: IApproveTransactionArgs, signerOrProvider: ethers.providers.Provider | ethers.Signer): Promise<IWrappedResult> => {
   try {
     const nep = await NepToken.getInstance(chainId, signerOrProvider)
-    const amount = getApprovalAmount(args)
+    const amount = erc20Utils.getApprovalAmount(args)
     const provision = await ProvisionContract.getInstance(chainId, signerOrProvider)
 
     const result = await nep.approve(provision.address, amount)
@@ -19,7 +17,7 @@ const approve = async (chainId: ChainId, args: IApproveTransactionArgs, signerOr
       result
     }
   } catch (error) {
-    console.error(error.message)
+    logError(error.message)
 
     return {
       status: Status.EXCEPTION,
@@ -39,7 +37,7 @@ const increase = async (chainId: ChainId, key: string, amount: number, signerOrP
       result
     }
   } catch (error) {
-    console.error(error.message)
+    logError(error.message)
 
     return {
       status: Status.EXCEPTION,
@@ -58,7 +56,7 @@ const decrease = async (chainId: ChainId, key: string, amount: number, signerOrP
       result
     }
   } catch (error) {
-    console.error(error.message)
+    logError(error.message)
 
     return {
       status: Status.EXCEPTION,
@@ -78,7 +76,7 @@ const get = async (chainId: ChainId, key: string, signerOrProvider: ethers.provi
       result
     }
   } catch (error) {
-    console.error(error.message)
+    logError(error.message)
 
     return {
       status: Status.EXCEPTION,

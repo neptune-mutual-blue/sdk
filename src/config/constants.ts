@@ -1,4 +1,4 @@
-import { toBytes32 } from '../utils/key'
+import { toBytes32 } from '../utils/key-util'
 
 const ZERO_ADDRESS = '0x0000000000000000000000000000000000000000'
 const ZERO_BYTES32 = '0x0000000000000000000000000000000000000000000000000000000000000000'
@@ -35,6 +35,7 @@ const NS_KEYS = {
   SETUP_NEP: toBytes32('proto:setup:nep'),
   SETUP_COVER_FEE: toBytes32('proto:setup:cover:fee'),
   SETUP_MIN_STAKE: toBytes32('proto:setup:min:stake'),
+  SETUP_REPORTING_STAKE: toBytes32('proto:setup:reporting:stake'),
   SETUP_MIN_LIQ_PERIOD: toBytes32('proto:setup:min:liq:period'),
   PRICE_DISCOVERY: toBytes32('proto:core:price:discovery'),
   COVER_CTOKEN_FACTORY: toBytes32('proto:cover:ctoken:factory'),
