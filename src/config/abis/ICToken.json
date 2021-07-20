@@ -52,13 +52,6 @@
     "type": "function"
   },
   {
-    "inputs": [],
-    "name": "finalize",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
     "inputs": [
       {
         "internalType": "bytes32",

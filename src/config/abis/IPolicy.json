@@ -5,6 +5,59 @@
         "internalType": "bytes32",
         "name": "key",
         "type": "bytes32"
+      },
+      {
+        "internalType": "uint256",
+        "name": "coverDuration",
+        "type": "uint256"
+      }
+    ],
+    "name": "getCToken",
+    "outputs": [
+      {
+        "internalType": "address",
+        "name": "cToken",
+        "type": "address"
+      },
+      {
+        "internalType": "uint256",
+        "name": "expiryDate",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "bytes32",
+        "name": "key",
+        "type": "bytes32"
+      },
+      {
+        "internalType": "uint256",
+        "name": "expiryDate",
+        "type": "uint256"
+      }
+    ],
+    "name": "getCTokenByExpiryDate",
+    "outputs": [
+      {
+        "internalType": "address",
+        "name": "cToken",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "bytes32",
+        "name": "key",
+        "type": "bytes32"
       }
     ],
     "name": "getCommitment",

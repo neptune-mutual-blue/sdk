@@ -9,6 +9,7 @@ import * as LiquidityToken from './LiquidityToken'
 import * as Staking from './Staking'
 import * as Store from './Store'
 import * as Vault from './Vault'
+import * as Governance from './Governance'
 
 export {
   Assurance,
@@ -21,5 +22,6 @@ export {
   LiquidityToken,
   Staking,
   Store,
-  Vault
+  Vault,
+  Governance
 }

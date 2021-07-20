@@ -5,7 +5,7 @@ import * as entities from './entities'
 import * as config from './config'
 
 const { ChainId } = types
-const { assurance, cover, policy, cToken, provision, liquidity } = core
+const { assurance, cover, policy, cToken, provision, liquidity, governance } = core
 
 const sdk = {
   ChainId,
@@ -16,10 +16,25 @@ const sdk = {
   provision,
   liquidity,
   registry,
+  governance,
+  types,
+  entities,
+  config
+}
+
+export {
+  ChainId,
+  assurance,
+  cover,
+  policy,
+  cToken,
+  provision,
+  liquidity,
+  registry,
+  governance,
   types,
   entities,
   config
 }
 
 export default sdk
-export { sdk }

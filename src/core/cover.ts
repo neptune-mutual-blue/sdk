@@ -3,163 +3,113 @@ import { Assurance, Cover, IERC20, LiquidityToken, NepToken, Staking } from '../
 import { ChainId, ICoverInfo, ICoverInfoStorage, IApproveTransactionArgs, Status, IWrappedResult, exceptions } from '../types'
 import { ipfs, erc20Utils, signer } from '../utils'
 import { constants } from '../config'
-import { logError } from '../utils/logger'
+import { ZERO_BYTES32 } from '../config/constants'
 
-const { DuplicateCoverError, InvalidSignerError } = exceptions
+const { DuplicateCoverError, InvalidSignerError, InvalidCoverKeyError } = exceptions
 
 const approveAssurance = async (chainId: ChainId, tokenAddress: string, args: IApproveTransactionArgs, signerOrProvider: ethers.providers.Provider | ethers.Signer): Promise<IWrappedResult> => {
-  try {
-    const assuranceToken = IERC20.getInstance(chainId, tokenAddress, signerOrProvider)
+  const assuranceToken = IERC20.getInstance(chainId, tokenAddress, signerOrProvider)
 
-    const contract = await Assurance.getInstance(chainId, signerOrProvider)
-    const amount = erc20Utils.getApprovalAmount(args)
+  const contract = await Assurance.getInstance(chainId, signerOrProvider)
+  const amount = erc20Utils.getApprovalAmount(args)
 
-    const result = await assuranceToken.approve(contract.address, amount)
+  const result = await assuranceToken.approve(contract.address, amount)
 
-    return {
-      status: Status.SUCCESS,
-      result
-    }
-  } catch (error) {
-    logError(error.message)
-
-    return {
-      status: Status.EXCEPTION,
-      result: null,
-      error
-    }
+  return {
+    status: Status.SUCCESS,
+    result
   }
 }
 
 const approveStakeAndFees = async (chainId: ChainId, args: IApproveTransactionArgs, signerOrProvider: ethers.providers.Provider | ethers.Signer): Promise<IWrappedResult> => {
-  try {
-    const nep = await NepToken.getInstance(chainId, signerOrProvider)
-    const amount = erc20Utils.getApprovalAmount(args)
-    const staking = await Staking.getInstance(chainId, signerOrProvider)
-    const result = await nep.approve(staking.address, amount)
+  const nep = await NepToken.getInstance(chainId, signerOrProvider)
+  const amount = erc20Utils.getApprovalAmount(args)
+  const staking = await Staking.getInstance(chainId, signerOrProvider)
+  const result = await nep.approve(staking.address, amount)
 
-    return {
-      status: Status.SUCCESS,
-      result
-    }
-  } catch (error) {
-    logError(error.message)
-
-    return {
-      status: Status.EXCEPTION,
-      result: null,
-      error
-    }
+  return {
+    status: Status.SUCCESS,
+    result
   }
 }
 
 const approveInitialLiquidity = async (chainId: ChainId, args: IApproveTransactionArgs, signerOrProvider: ethers.providers.Provider | ethers.Signer): Promise<IWrappedResult> => {
-  try {
-    const liquidity = await LiquidityToken.getInstance(chainId, signerOrProvider)
-    const amount = erc20Utils.getApprovalAmount(args)
-    const cover = await Cover.getInstance(chainId, signerOrProvider)
+  const liquidity = await LiquidityToken.getInstance(chainId, signerOrProvider)
+  const amount = erc20Utils.getApprovalAmount(args)
+  const cover = await Cover.getInstance(chainId, signerOrProvider)
 
-    const result = await liquidity.approve(cover.address, amount)
+  const result = await liquidity.approve(cover.address, amount)
 
-    return {
-      status: Status.SUCCESS,
-      result
-    }
-  } catch (error) {
-    logError(error.message)
-
-    return {
-      status: Status.EXCEPTION,
-      result: null,
-      error
-    }
+  return {
+    status: Status.SUCCESS,
+    result
   }
 }
 
 const getCoverInfo = async (chainId: ChainId, key: string, signerOrProvider: ethers.providers.Provider | ethers.Signer): Promise<ICoverInfoStorage> => {
   const coverContract = await Cover.getInstance(chainId, signerOrProvider)
   const cover = await coverContract.getCover(key)
+
   const { info } = cover
+
+  if (info === ZERO_BYTES32) {
+    throw new InvalidCoverKeyError(`Invalid cover key ${key}`)
+  }
 
   return await ipfs.readBytes32(info) as ICoverInfoStorage
 }
 
 const createCover = async (chainId: ChainId, info: ICoverInfo, signerOrProvider: ethers.providers.Provider | ethers.Signer): Promise<IWrappedResult> => {
-  try {
-    const { ZERO_ADDRESS } = constants
-    const { key, stakeWithFees, assuranceToken, initialLiquidity } = info
+  const { ZERO_ADDRESS } = constants
+  const { key, stakeWithFees, assuranceToken, initialLiquidity } = info
 
-    if (!key) { // eslint-disable-line
-      return {
-        status: Status.FAILURE,
-        result: null,
-        error: new DuplicateCoverError('Invalid or empty cover key')
-      }
-    }
+  if (!key) { // eslint-disable-line
+    throw new DuplicateCoverError('Invalid or empty cover key')
+  }
 
-    if (!stakeWithFees) { // eslint-disable-line
-      return {
-        status: Status.FAILURE,
-        result: null,
-        error: new DuplicateCoverError('Invalid or empty cover fee')
-      }
-    }
+  if (!stakeWithFees) { // eslint-disable-line
+    throw new DuplicateCoverError('Invalid or empty cover fee')
+  }
 
-    const storage = info as ICoverInfoStorage
+  const storage = info as ICoverInfoStorage
 
-    const account = await signer.getAddress(signerOrProvider)
+  const account = await signer.getAddress(signerOrProvider)
 
-    if (account == null) {
-      return {
-        status: Status.FAILURE,
-        result: null,
-        error: new InvalidSignerError('The provider is not a valid signer')
-      }
-    }
+  if (account == null) {
+    throw new InvalidSignerError('The provider is not a valid signer')
+  }
 
-    storage.createdBy = account
-    storage.permalink = `https://app.neptunemutual.com/covers/view/${key}`
+  storage.createdBy = account
+  storage.permalink = `https://app.neptunemutual.com/covers/view/${key}`
 
-    const [hash, hashBytes32] = await ipfs.write(storage)
+  const [hash, hashBytes32] = await ipfs.write(storage)
 
-    const coverContract = await Cover.getInstance(chainId, signerOrProvider)
-    const cover = await coverContract.getCover(key)
+  const coverContract = await Cover.getInstance(chainId, signerOrProvider)
+  const cover = await coverContract.getCover(key)
 
-    if (cover.coverOwner !== ZERO_ADDRESS) {
-      return {
-        status: Status.FAILURE,
-        result: null,
-        error: new DuplicateCoverError(`The namespace "${key}" already exists`)
-      }
-    }
+  if (cover.coverOwner !== ZERO_ADDRESS) {
+    throw new DuplicateCoverError(`The namespace "${key}" already exists`)
+  }
 
-    const tx = await coverContract.addCover(
-      key,
-      hashBytes32,
-      info.reportingPeriod,
-      stakeWithFees,
-      assuranceToken.at,
-      assuranceToken.initialAmount,
-      initialLiquidity)
+  const tx = await coverContract.addCover(
+    key,
+    hashBytes32,
+    info.reportingPeriod,
+    stakeWithFees,
+    assuranceToken.at,
+    assuranceToken.initialAmount,
+    initialLiquidity
+  )
 
-    return {
-      status: Status.SUCCESS,
-      result: {
-        storage: {
-          hashBytes32,
-          hash,
-          permalink: `https://ipfs.infura.io/ipfs/${hash}`
-        },
-        tx
-      }
-    }
-  } catch (error) {
-    logError(error.message)
-
-    return {
-      status: Status.EXCEPTION,
-      result: null,
-      error
+  return {
+    status: Status.SUCCESS,
+    result: {
+      storage: {
+        hashBytes32,
+        hash,
+        permalink: `https://ipfs.infura.io/ipfs/${hash}`
+      },
+      tx
     }
   }
 }

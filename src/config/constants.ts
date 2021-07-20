@@ -27,6 +27,7 @@ const NS_KEYS = {
   COVER_POLICY_RATE_CEILING: toBytes32('proto:cover:policy:rate:ceiling'),
   COVER_PROVISION: toBytes32('proto:cover:provision'),
   COVER_STAKE: toBytes32('proto:cover:stake'),
+  GOVERNANCE: toBytes32('proto:governance'),
   COVER_STAKE_OWNED: toBytes32('proto:cover:stake:owned'),
   COVER_STATUS: toBytes32('proto:cover:status'),
   COVER_VAULT: toBytes32('proto:cover:vault'),

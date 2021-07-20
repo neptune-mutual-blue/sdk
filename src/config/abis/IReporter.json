@@ -3,10 +3,22 @@
     "anonymous": false,
     "inputs": [
       {
-        "indexed": false,
+        "indexed": true,
         "internalType": "bytes32",
         "name": "key",
         "type": "bytes32"
+      },
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "reporter",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "incidentDate",
+        "type": "uint256"
       },
       {
         "indexed": false,
@@ -17,36 +29,48 @@
       {
         "indexed": false,
         "internalType": "uint256",
-        "name": "stakeWithFee",
-        "type": "uint256"
-      },
-      {
-        "indexed": false,
-        "internalType": "uint256",
-        "name": "liquidity",
+        "name": "initialStake",
         "type": "uint256"
       }
     ],
-    "name": "CoverCreated",
+    "name": "Disputed",
     "type": "event"
   },
   {
     "anonymous": false,
     "inputs": [
       {
-        "indexed": false,
+        "indexed": true,
         "internalType": "bytes32",
         "name": "key",
         "type": "bytes32"
+      },
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "reporter",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "incidentDate",
+        "type": "uint256"
       },
       {
         "indexed": false,
         "internalType": "bytes32",
         "name": "info",
         "type": "bytes32"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "initialStake",
+        "type": "uint256"
       }
     ],
-    "name": "CoverUpdated",
+    "name": "Reported",
     "type": "event"
   },
   {
@@ -57,37 +81,22 @@
         "type": "bytes32"
       },
       {
+        "internalType": "uint256",
+        "name": "incidentDate",
+        "type": "uint256"
+      },
+      {
         "internalType": "bytes32",
         "name": "info",
         "type": "bytes32"
       },
       {
         "internalType": "uint256",
-        "name": "reportingPeriod",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint256",
-        "name": "stakeWithFee",
-        "type": "uint256"
-      },
-      {
-        "internalType": "address",
-        "name": "assuranceToken",
-        "type": "address"
-      },
-      {
-        "internalType": "uint256",
-        "name": "initialAssuranceAmount",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint256",
-        "name": "initialLiquidity",
+        "name": "stake",
         "type": "uint256"
       }
     ],
-    "name": "addCover",
+    "name": "dispute",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
@@ -100,22 +109,12 @@
         "type": "bytes32"
       }
     ],
-    "name": "getCover",
+    "name": "getActiveIncidentDate",
     "outputs": [
       {
-        "internalType": "address",
-        "name": "coverOwner",
-        "type": "address"
-      },
-      {
-        "internalType": "bytes32",
-        "name": "info",
-        "type": "bytes32"
-      },
-      {
-        "internalType": "uint256[]",
-        "name": "values",
-        "type": "uint256[]"
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
       }
     ],
     "stateMutability": "view",
@@ -123,33 +122,58 @@
   },
   {
     "inputs": [],
-    "name": "getName",
+    "name": "getMinStake",
     "outputs": [
       {
-        "internalType": "bytes32",
+        "internalType": "uint256",
         "name": "",
-        "type": "bytes32"
+        "type": "uint256"
       }
     ],
-    "stateMutability": "pure",
+    "stateMutability": "view",
     "type": "function"
   },
   {
     "inputs": [
       {
-        "internalType": "address",
-        "name": "liquidityToken",
-        "type": "address"
+        "internalType": "bytes32",
+        "name": "key",
+        "type": "bytes32"
       },
       {
+        "internalType": "uint256",
+        "name": "incidentDate",
+        "type": "uint256"
+      }
+    ],
+    "name": "getReporter",
+    "outputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
         "internalType": "bytes32",
-        "name": "liquidityName",
+        "name": "key",
         "type": "bytes32"
       }
     ],
-    "name": "initialize",
-    "outputs": [],
-    "stateMutability": "nonpayable",
+    "name": "getResolutionDate",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
     "type": "function"
   },
   {
@@ -163,24 +187,16 @@
         "internalType": "bytes32",
         "name": "info",
         "type": "bytes32"
+      },
+      {
+        "internalType": "uint256",
+        "name": "stake",
+        "type": "uint256"
       }
     ],
-    "name": "updateCover",
+    "name": "report",
     "outputs": [],
     "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "version",
-    "outputs": [
-      {
-        "internalType": "bytes32",
-        "name": "",
-        "type": "bytes32"
-      }
-    ],
-    "stateMutability": "pure",
     "type": "function"
   }
 ]

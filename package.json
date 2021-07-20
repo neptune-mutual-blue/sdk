@@ -1,5 +1,5 @@
 {
-  "version": "0.0.7-alpha",
+  "version": "0.0.8-alpha",
   "license": "MIT",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
@@ -13,6 +13,7 @@
   "scripts": {
     "start": "tsdx watch",
     "build": "tsdx build",
+    "compile": "tsdx build",
     "fix": "ts-standard --fix",
     "test": "tsdx test",
     "lint": "tsdx lint",
