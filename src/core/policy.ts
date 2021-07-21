@@ -17,11 +17,11 @@ const getCoverFee = async (chainId: ChainId, key: string, args: IPolicyFeeArgs, 
 
 const approve = async (chainId: ChainId, args: IApproveTransactionArgs, signerOrProvider: ethers.providers.Provider | ethers.Signer): Promise<IWrappedResult> => {
   const stablecoin = await LiquidityToken.getInstance(chainId, signerOrProvider)
-  const policy = await PolicyContract.getInstance(chainId, signerOrProvider)
+  const policy = await PolicyContract.getAddress(chainId, signerOrProvider)
 
   const amount = erc20Utils.getApprovalAmount(args)
 
-  const result = await stablecoin.approve(policy.address, amount)
+  const result = await stablecoin.approve(policy, amount)
 
   return {
     status: Status.SUCCESS,

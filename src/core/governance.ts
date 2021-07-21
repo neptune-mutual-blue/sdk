@@ -8,8 +8,8 @@ import { erc20Utils, ipfs, signer } from '../utils'
 const approveStake = async (chainId: ChainId, args: IApproveTransactionArgs, signerOrProvider: ethers.providers.Provider | ethers.Signer): Promise<IWrappedResult> => {
   const nep = await NepToken.getInstance(chainId, signerOrProvider)
   const amount = erc20Utils.getApprovalAmount(args)
-  const governance = await Governance.getInstance(chainId, signerOrProvider)
-  const result = await nep.approve(governance.address, amount)
+  const governance = await Governance.getAddress(chainId, signerOrProvider)
+  const result = await nep.approve(governance, amount)
 
   return {
     status: Status.SUCCESS,

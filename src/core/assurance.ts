@@ -5,12 +5,12 @@ import { getApprovalAmount } from '../utils/erc20-utils'
 import { getAddress } from '../utils/signer'
 
 const approve = async (chainId: ChainId, key: string, args: IApproveTransactionArgs, signerOrProvider: ethers.providers.Provider | ethers.Signer): Promise<IWrappedResult> => {
-  const contract = await Assurance.getInstance(chainId, signerOrProvider)
+  const contract = await Assurance.getAddress(chainId, signerOrProvider)
   const amount = getApprovalAmount(args)
 
   const assuranceToken = await AssuranceToken.getInstance(chainId, key, signerOrProvider)
 
-  const result = await assuranceToken.approve(contract.address, amount)
+  const result = await assuranceToken.approve(contract, amount)
 
   return {
     status: Status.SUCCESS,

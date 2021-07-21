@@ -10,10 +10,10 @@ const { DuplicateCoverError, InvalidSignerError, InvalidCoverKeyError } = except
 const approveAssurance = async (chainId: ChainId, tokenAddress: string, args: IApproveTransactionArgs, signerOrProvider: ethers.providers.Provider | ethers.Signer): Promise<IWrappedResult> => {
   const assuranceToken = IERC20.getInstance(chainId, tokenAddress, signerOrProvider)
 
-  const contract = await Assurance.getInstance(chainId, signerOrProvider)
+  const contract = await Assurance.getAddress(chainId, signerOrProvider)
   const amount = erc20Utils.getApprovalAmount(args)
 
-  const result = await assuranceToken.approve(contract.address, amount)
+  const result = await assuranceToken.approve(contract, amount)
 
   return {
     status: Status.SUCCESS,
@@ -24,8 +24,8 @@ const approveAssurance = async (chainId: ChainId, tokenAddress: string, args: IA
 const approveStakeAndFees = async (chainId: ChainId, args: IApproveTransactionArgs, signerOrProvider: ethers.providers.Provider | ethers.Signer): Promise<IWrappedResult> => {
   const nep = await NepToken.getInstance(chainId, signerOrProvider)
   const amount = erc20Utils.getApprovalAmount(args)
-  const staking = await Staking.getInstance(chainId, signerOrProvider)
-  const result = await nep.approve(staking.address, amount)
+  const staking = await Staking.getAddress(chainId, signerOrProvider)
+  const result = await nep.approve(staking, amount)
 
   return {
     status: Status.SUCCESS,
@@ -36,9 +36,9 @@ const approveStakeAndFees = async (chainId: ChainId, args: IApproveTransactionAr
 const approveInitialLiquidity = async (chainId: ChainId, args: IApproveTransactionArgs, signerOrProvider: ethers.providers.Provider | ethers.Signer): Promise<IWrappedResult> => {
   const liquidity = await LiquidityToken.getInstance(chainId, signerOrProvider)
   const amount = erc20Utils.getApprovalAmount(args)
-  const cover = await Cover.getInstance(chainId, signerOrProvider)
+  const cover = await Cover.getAddress(chainId, signerOrProvider)
 
-  const result = await liquidity.approve(cover.address, amount)
+  const result = await liquidity.approve(cover, amount)
 
   return {
     status: Status.SUCCESS,

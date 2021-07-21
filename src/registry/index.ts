@@ -10,6 +10,7 @@ import * as Staking from './Staking'
 import * as Store from './Store'
 import * as Vault from './Vault'
 import * as Governance from './Governance'
+import * as ClaimsProcessor from './ClaimsProcessor'
 
 export {
   Assurance,
@@ -23,5 +24,6 @@ export {
   Staking,
   Store,
   Vault,
-  Governance
+  Governance,
+  ClaimsProcessor
 }

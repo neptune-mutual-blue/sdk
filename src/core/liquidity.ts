@@ -5,11 +5,11 @@ import { erc20Utils, signer } from '../utils'
 
 const approve = async (chainId: ChainId, key: string, args: IApproveTransactionArgs, signerOrProvider: ethers.providers.Provider | ethers.Signer): Promise<IWrappedResult> => {
   const stablecoin = await LiquidityToken.getInstance(chainId, signerOrProvider)
-  const vault = await Vault.getInstance(chainId, key, signerOrProvider)
+  const vault = await Vault.getAddress(chainId, key, signerOrProvider)
 
   const amount = erc20Utils.getApprovalAmount(args)
 
-  const result = await stablecoin.approve(vault.address, amount)
+  const result = await stablecoin.approve(vault, amount)
 
   return {
     status: Status.SUCCESS,

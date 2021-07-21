@@ -12,6 +12,7 @@ const NS_KEYS = {
   COVER: toBytes32('proto:cover'),
   COVER_ASSURANCE: toBytes32('proto:cover:assurance'),
   COVER_ASSURANCE_TOKEN: toBytes32('proto:cover:assurance:token'),
+  CLAIMS_PROCESSOR: toBytes32('proto:claims:processor'),
   COVER_CLAIMABLE: toBytes32('proto:cover:claimable'),
   COVER_FEE: toBytes32('proto:cover:fee'),
   COVER_INFO: toBytes32('proto:cover:info'),

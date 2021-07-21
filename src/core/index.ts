@@ -5,6 +5,7 @@ import * as policy from './policy'
 import * as cToken from './cToken'
 import * as provision from './provision'
 import * as governance from './governance'
+import * as claimsProcessor from './claimsProcessor'
 
 export {
   cover,
@@ -13,5 +14,6 @@ export {
   policy,
   cToken,
   provision,
-  governance
+  governance,
+  claimsProcessor
 }

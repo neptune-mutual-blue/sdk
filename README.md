@@ -82,4 +82,4 @@ const readCoverInfo = async () => {
 readCoverInfo()
 ```
 
-[Read the Full Documentation](https://app.gitbook.com/@neptunemutual/s/docs/neptune-mutual-sdk/quickstart)
+[Read the Full Documentation](https://app.gitbook.com/@neptunemutual/s/docs/sdk/quickstart)
