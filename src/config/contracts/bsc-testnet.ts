@@ -1,9 +1,9 @@
 import { IContractDefinition, IToken, ChainId } from '../../types'
 import { Token } from '../../entities/Token'
 
-const wbnb = new Token(ChainId.BinanceSmartChain, '0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c', 'Wrapped BNB', 'WBNB')
+const wbnb = new Token(ChainId.BinanceSmartChainTestnet, '0x094616F0BdFB0b526bD735Bf66Eca0Ad254ca81F', 'Wrapped BNB', 'WBNB')
 
-class BinanceSmartChain implements IContractDefinition {
+class BinanceSmartChainTestnet implements IContractDefinition {
   chain: string
   chainId: ChainId
   rpcProvider: string
@@ -14,10 +14,10 @@ class BinanceSmartChain implements IContractDefinition {
   }
 
   constructor () {
-    this.chainId = ChainId.BinanceSmartChain
+    this.chainId = ChainId.BinanceSmartChainTestnet
     this.chain = 'Binance Smart Chain Main Network'
     this.rpcProvider = 'https://bsc-dataseed.binance.org/'
-    this.store = ''
+    this.store = '0x6e6b8163Ce003821925d706a181f09F22795B6E7'
 
     this.tokens = {
       WETH: wbnb
@@ -25,4 +25,4 @@ class BinanceSmartChain implements IContractDefinition {
   }
 }
 
-export { BinanceSmartChain }
+export { BinanceSmartChainTestnet }
