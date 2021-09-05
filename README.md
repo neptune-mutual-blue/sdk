@@ -22,18 +22,10 @@ Supported Chains {
   '1': 'Ethereum',
   '3': 'Ropsten',
   '56': 'BinanceSmartChain',
-  '100': 'xDaiChain',
-  '137': 'Polygon',
-  '250': 'Fantom',
-  '1284': 'MoonBeam',
   '80001': 'Mumbai',
   Ethereum: 1,
   Ropsten: 3,
   BinanceSmartChain: 56,
-  xDaiChain: 100,
-  Polygon: 137,
-  Fantom: 250,
-  MoonBeam: 1284,
   Mumbai: 80001
 }
 ********************************************/
