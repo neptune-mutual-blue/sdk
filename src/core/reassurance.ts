@@ -1,16 +1,16 @@
 import { ethers } from 'ethers'
-import { AssuranceToken, Assurance } from '../registry'
+import { ReassuranceToken, Reassurance } from '../registry'
 import { ChainId, IApproveTransactionArgs, IWrappedResult, Status } from '../types'
 import { getApprovalAmount } from '../utils/erc20-utils'
 import { getAddress } from '../utils/signer'
 
 const approve = async (chainId: ChainId, key: string, args: IApproveTransactionArgs, signerOrProvider: ethers.providers.Provider | ethers.Signer): Promise<IWrappedResult> => {
-  const contract = await Assurance.getAddress(chainId, signerOrProvider)
+  const contract = await Reassurance.getAddress(chainId, signerOrProvider)
   const amount = getApprovalAmount(args)
 
-  const assuranceToken = await AssuranceToken.getInstance(chainId, key, signerOrProvider)
+  const reassuranceToken = await ReassuranceToken.getInstance(chainId, key, signerOrProvider)
 
-  const result = await assuranceToken.approve(contract, amount)
+  const result = await reassuranceToken.approve(contract, amount)
 
   return {
     status: Status.SUCCESS,
@@ -20,8 +20,8 @@ const approve = async (chainId: ChainId, key: string, args: IApproveTransactionA
 
 const add = async (chainId: ChainId, key: string, amount: number, signerOrProvider: ethers.providers.Provider | ethers.Signer): Promise<IWrappedResult> => {
   const signer = await getAddress(signerOrProvider)
-  const contract = await Assurance.getInstance(chainId, signerOrProvider)
-  const result = await contract.addAssurance(key, signer, amount)
+  const contract = await Reassurance.getInstance(chainId, signerOrProvider)
+  const result = await contract.addReassurance(key, signer, amount)
 
   return {
     status: Status.SUCCESS,
@@ -30,8 +30,8 @@ const add = async (chainId: ChainId, key: string, amount: number, signerOrProvid
 }
 
 const get = async (chainId: ChainId, key: string, signerOrProvider: ethers.providers.Provider | ethers.Signer | undefined): Promise<IWrappedResult> => {
-  const contract = await Assurance.getInstance(chainId, signerOrProvider)
-  const result = await contract.getAssurance(key)
+  const contract = await Reassurance.getInstance(chainId, signerOrProvider)
+  const result = await contract.getReassurance(key)
 
   return {
     status: Status.SUCCESS,

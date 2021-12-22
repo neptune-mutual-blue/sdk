@@ -24,7 +24,7 @@ interface ICoverInfo {
   }
   reportingPeriod: number
   resolutionSources: string[]
-  assuranceToken: {
+  reassuranceToken: {
     at: string
     name: string
     symbol: string

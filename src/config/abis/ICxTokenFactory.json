@@ -11,7 +11,7 @@
       {
         "indexed": false,
         "internalType": "address",
-        "name": "cToken",
+        "name": "cxToken",
         "type": "address"
       },
       {
@@ -21,7 +21,7 @@
         "type": "uint256"
       }
     ],
-    "name": "CTokenDeployed",
+    "name": "CxTokenDeployed",
     "type": "event"
   },
   {

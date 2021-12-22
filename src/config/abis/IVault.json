@@ -28,13 +28,7 @@
     "anonymous": false,
     "inputs": [
       {
-        "indexed": false,
-        "internalType": "bytes32",
-        "name": "key",
-        "type": "bytes32"
-      },
-      {
-        "indexed": false,
+        "indexed": true,
         "internalType": "address",
         "name": "to",
         "type": "address"
@@ -53,38 +47,25 @@
     "anonymous": false,
     "inputs": [
       {
-        "indexed": false,
-        "internalType": "bytes32",
-        "name": "key",
-        "type": "bytes32"
+        "indexed": true,
+        "internalType": "address",
+        "name": "account",
+        "type": "address"
       },
       {
         "indexed": false,
         "internalType": "uint256",
-        "name": "amount",
+        "name": "issued",
         "type": "uint256"
-      }
-    ],
-    "name": "LiquidityAdded",
-    "type": "event"
-  },
-  {
-    "anonymous": false,
-    "inputs": [
-      {
-        "indexed": false,
-        "internalType": "bytes32",
-        "name": "key",
-        "type": "bytes32"
       },
       {
         "indexed": false,
         "internalType": "uint256",
-        "name": "amount",
+        "name": "liquidityAdded",
         "type": "uint256"
       }
     ],
-    "name": "LiquidityRemoved",
+    "name": "PodsIssued",
     "type": "event"
   },
   {
@@ -99,23 +80,17 @@
       {
         "indexed": false,
         "internalType": "uint256",
-        "name": "podsMinted",
+        "name": "redeemed",
         "type": "uint256"
-      },
-      {
-        "indexed": true,
-        "internalType": "address",
-        "name": "vault",
-        "type": "address"
       },
       {
         "indexed": false,
         "internalType": "uint256",
-        "name": "liquidityAdded",
+        "name": "liquidityReleased",
         "type": "uint256"
       }
     ],
-    "name": "PodsMinted",
+    "name": "PodsRedeemed",
     "type": "event"
   },
   {

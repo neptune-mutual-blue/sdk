@@ -7,27 +7,27 @@ import { contract } from '../utils'
 const getCToken = async (chainId: ChainId, key: string, duration: PolicyDuration, signerOrProvider: ethers.providers.Provider | ethers.Signer): Promise<IWrappedResult> => {
   const policy = await PolicyContract.getInstance(chainId, signerOrProvider)
   const values = await policy.getCToken(key, duration)
-  const { cToken, expiryDate } = values
+  const { cxToken, expiryDate } = values
 
-  const instance = contract.getContract(chainId, cToken, abis.ICToken, signerOrProvider)
+  const instance = contract.getContract(chainId, cxToken, abis.ICxToken, signerOrProvider)
 
   return {
     status: Status.SUCCESS,
     result: {
-      cToken: instance,
+      cxToken: instance,
       expiryDate
     }
   }
 }
 
 const getCTokenByAddress = async (chainId: ChainId, address: string, signerOrProvider: ethers.providers.Provider | ethers.Signer): Promise<IWrappedResult> => {
-  const instance = contract.getContract(chainId, address, abis.ICToken, signerOrProvider)
+  const instance = contract.getContract(chainId, address, abis.ICxToken, signerOrProvider)
   const expiryDate = await instance.expiresOn()
 
   return {
     status: Status.SUCCESS,
     result: {
-      cToken: instance,
+      cxToken: instance,
       expiryDate
     }
   }
@@ -35,9 +35,9 @@ const getCTokenByAddress = async (chainId: ChainId, address: string, signerOrPro
 
 const getCTokenByExpiryDate = async (chainId: ChainId, key: string, expiryDate: number, signerOrProvider: ethers.providers.Provider | ethers.Signer): Promise<IWrappedResult> => {
   const policy = await PolicyContract.getInstance(chainId, signerOrProvider)
-  const cToken = await policy.getCTokenByExpiryDate(key, expiryDate)
+  const cxToken = await policy.getCTokenByExpiryDate(key, expiryDate)
 
-  const result = contract.getContract(chainId, cToken, abis.ICToken, signerOrProvider)
+  const result = contract.getContract(chainId, cxToken, abis.ICxToken, signerOrProvider)
 
   return {
     status: Status.SUCCESS,

@@ -1,5 +1,5 @@
 import { ethers } from 'ethers'
-import { Assurance, Cover, IERC20, LiquidityToken, NepToken, Staking } from '../registry'
+import { Reassurance, Cover, IERC20, LiquidityToken, NPMToken, Staking } from '../registry'
 import { ChainId, ICoverInfo, ICoverInfoStorage, IApproveTransactionArgs, Status, IWrappedResult, exceptions } from '../types'
 import { ipfs, erc20Utils, signer } from '../utils'
 import { constants } from '../config'
@@ -7,13 +7,13 @@ import { ZERO_BYTES32 } from '../config/constants'
 
 const { DuplicateCoverError, InvalidSignerError, InvalidCoverKeyError } = exceptions
 
-const approveAssurance = async (chainId: ChainId, tokenAddress: string, args: IApproveTransactionArgs, signerOrProvider: ethers.providers.Provider | ethers.Signer): Promise<IWrappedResult> => {
-  const assuranceToken = IERC20.getInstance(chainId, tokenAddress, signerOrProvider)
+const approveReassurance = async (chainId: ChainId, tokenAddress: string, args: IApproveTransactionArgs, signerOrProvider: ethers.providers.Provider | ethers.Signer): Promise<IWrappedResult> => {
+  const reassuranceToken = IERC20.getInstance(chainId, tokenAddress, signerOrProvider)
 
-  const contract = await Assurance.getAddress(chainId, signerOrProvider)
+  const contract = await Reassurance.getAddress(chainId, signerOrProvider)
   const amount = erc20Utils.getApprovalAmount(args)
 
-  const result = await assuranceToken.approve(contract, amount)
+  const result = await reassuranceToken.approve(contract, amount)
 
   return {
     status: Status.SUCCESS,
@@ -22,10 +22,10 @@ const approveAssurance = async (chainId: ChainId, tokenAddress: string, args: IA
 }
 
 const approveStakeAndFees = async (chainId: ChainId, args: IApproveTransactionArgs, signerOrProvider: ethers.providers.Provider | ethers.Signer): Promise<IWrappedResult> => {
-  const nep = await NepToken.getInstance(chainId, signerOrProvider)
+  const npm = await NPMToken.getInstance(chainId, signerOrProvider)
   const amount = erc20Utils.getApprovalAmount(args)
   const staking = await Staking.getAddress(chainId, signerOrProvider)
-  const result = await nep.approve(staking, amount)
+  const result = await npm.approve(staking, amount)
 
   return {
     status: Status.SUCCESS,
@@ -61,7 +61,7 @@ const getCoverInfo = async (chainId: ChainId, key: string, signerOrProvider: eth
 
 const createCover = async (chainId: ChainId, info: ICoverInfo, signerOrProvider: ethers.providers.Provider | ethers.Signer): Promise<IWrappedResult> => {
   const { ZERO_ADDRESS } = constants
-  const { key, stakeWithFees, assuranceToken, initialLiquidity } = info
+  const { key, stakeWithFees, reassuranceToken, initialLiquidity } = info
 
   if (!key) { // eslint-disable-line
     throw new DuplicateCoverError('Invalid or empty cover key')
@@ -96,8 +96,8 @@ const createCover = async (chainId: ChainId, info: ICoverInfo, signerOrProvider:
     hashBytes32,
     info.reportingPeriod,
     stakeWithFees,
-    assuranceToken.at,
-    assuranceToken.initialAmount,
+    reassuranceToken.at,
+    reassuranceToken.initialAmount,
     initialLiquidity
   )
 
@@ -114,4 +114,4 @@ const createCover = async (chainId: ChainId, info: ICoverInfo, signerOrProvider:
   }
 }
 
-export { getCoverInfo, approveAssurance, approveStakeAndFees, approveInitialLiquidity, createCover }
+export { getCoverInfo, approveReassurance, approveStakeAndFees, approveInitialLiquidity, createCover }

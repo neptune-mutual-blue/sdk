@@ -6,14 +6,14 @@ import * as config from './config'
 import * as utils from './utils'
 
 const { ChainId } = types
-const { assurance, cover, policy, cToken, provision, liquidity, governance, claimsProcessor } = core
+const { reassurance, cover, policy, cxToken, provision, liquidity, governance, claimsProcessor } = core
 
 const sdk = {
   ChainId,
-  assurance,
+  reassurance,
   cover,
   policy,
-  cToken,
+  cxToken,
   provision,
   liquidity,
   registry,
@@ -27,10 +27,10 @@ const sdk = {
 
 export {
   ChainId,
-  assurance,
+  reassurance,
   cover,
   policy,
-  cToken,
+  cxToken,
   provision,
   liquidity,
   registry,

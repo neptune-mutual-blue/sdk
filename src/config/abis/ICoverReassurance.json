@@ -15,7 +15,7 @@
         "type": "uint256"
       }
     ],
-    "name": "AssuranceAdded",
+    "name": "ReassuranceAdded",
     "type": "event"
   },
   {
@@ -36,28 +36,9 @@
         "type": "uint256"
       }
     ],
-    "name": "addAssurance",
+    "name": "addReassurance",
     "outputs": [],
     "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "bytes32",
-        "name": "key",
-        "type": "bytes32"
-      }
-    ],
-    "name": "getAssurance",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "stateMutability": "view",
     "type": "function"
   },
   {
@@ -71,6 +52,25 @@
       }
     ],
     "stateMutability": "pure",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "bytes32",
+        "name": "key",
+        "type": "bytes32"
+      }
+    ],
+    "name": "getReassurance",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
     "type": "function"
   },
   {

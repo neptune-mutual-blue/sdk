@@ -35,7 +35,6 @@ const getOrFetch = async (chainId: ChainId, key: string, signerOrProvider: ether
 
   const store = Store.getInstance(chainId, signerOrProvider)
   const address = await store.getAddress(key)
-
   cache.set(key, address)
 
   return address
