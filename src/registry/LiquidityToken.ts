@@ -6,8 +6,7 @@ import { getOrFetch } from './CachedStoreAddress'
 
 const getAddress = async (chainId: ChainId, signerOrProvider: ethers.providers.Provider | ethers.Signer | undefined): Promise<string> => {
   const { NS_KEYS } = constants
-  const address = await getOrFetch(chainId, NS_KEYS.COVER_LIQUIDITY_TOKEN, signerOrProvider)
-  return address
+  return getOrFetch(chainId, NS_KEYS.COVER_LIQUIDITY_TOKEN, signerOrProvider)
 }
 
 const getInstance = async (chainId: ChainId, signerOrProvider: ethers.providers.Provider | ethers.Signer | undefined): Promise<ethers.Contract> => {
