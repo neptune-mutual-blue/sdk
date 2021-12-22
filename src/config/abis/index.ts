@@ -1,7 +1,7 @@
 import IERC20 from './IERC20.json'
-import ICToken from './ICToken.json'
+import ICxToken from './ICxToken.json'
 import ICover from './ICover.json'
-import ICoverAssurance from './ICoverAssurance.json'
+import ICoverReassurance from './ICoverReassurance.json'
 import ICoverProvision from './ICoverProvision.json'
 import ICoverStake from './ICoverStake.json'
 import IVault from './IVault.json'
@@ -14,9 +14,9 @@ import IClaimsProcessor from './IClaimsProcessor.json'
 
 export {
   IERC20,
-  ICToken,
+  ICxToken,
   ICover,
-  ICoverAssurance,
+  ICoverReassurance,
   ICoverProvision,
   ICoverStake,
   IVault,

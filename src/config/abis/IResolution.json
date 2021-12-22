@@ -11,23 +11,17 @@
       {
         "indexed": true,
         "internalType": "address",
-        "name": "witness",
+        "name": "finalizer",
         "type": "address"
       },
       {
-        "indexed": false,
+        "indexed": true,
         "internalType": "uint256",
         "name": "incidentDate",
         "type": "uint256"
-      },
-      {
-        "indexed": false,
-        "internalType": "uint256",
-        "name": "stake",
-        "type": "uint256"
       }
     ],
-    "name": "Attested",
+    "name": "Finalized",
     "type": "event"
   },
   {
@@ -35,9 +29,40 @@
     "inputs": [
       {
         "indexed": true,
-        "internalType": "bytes32",
-        "name": "key",
-        "type": "bytes32"
+        "internalType": "address",
+        "name": "caller",
+        "type": "address"
+      },
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "burner",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "originalReward",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "burnedAmount",
+        "type": "uint256"
+      }
+    ],
+    "name": "GovernanceBurned",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "caller",
+        "type": "address"
       },
       {
         "indexed": true,
@@ -48,23 +73,48 @@
       {
         "indexed": false,
         "internalType": "uint256",
-        "name": "incidentDate",
+        "name": "originalReward",
         "type": "uint256"
       },
       {
         "indexed": false,
+        "internalType": "uint256",
+        "name": "reporterReward",
+        "type": "uint256"
+      }
+    ],
+    "name": "ReporterRewardDistributed",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
         "internalType": "bytes32",
-        "name": "info",
+        "name": "key",
         "type": "bytes32"
       },
       {
         "indexed": false,
         "internalType": "uint256",
-        "name": "initialStake",
+        "name": "incidentDate",
         "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "bool",
+        "name": "decision",
+        "type": "bool"
+      },
+      {
+        "indexed": false,
+        "internalType": "bool",
+        "name": "emergency",
+        "type": "bool"
       }
     ],
-    "name": "Disputed",
+    "name": "Resolved",
     "type": "event"
   },
   {
@@ -72,67 +122,24 @@
     "inputs": [
       {
         "indexed": true,
-        "internalType": "bytes32",
-        "name": "key",
-        "type": "bytes32"
-      },
-      {
-        "indexed": true,
         "internalType": "address",
-        "name": "witness",
+        "name": "caller",
         "type": "address"
       },
       {
         "indexed": false,
         "internalType": "uint256",
-        "name": "incidentDate",
+        "name": "originalStake",
         "type": "uint256"
       },
       {
         "indexed": false,
         "internalType": "uint256",
-        "name": "stake",
+        "name": "reward",
         "type": "uint256"
       }
     ],
-    "name": "Refuted",
-    "type": "event"
-  },
-  {
-    "anonymous": false,
-    "inputs": [
-      {
-        "indexed": true,
-        "internalType": "bytes32",
-        "name": "key",
-        "type": "bytes32"
-      },
-      {
-        "indexed": true,
-        "internalType": "address",
-        "name": "reporter",
-        "type": "address"
-      },
-      {
-        "indexed": false,
-        "internalType": "uint256",
-        "name": "incidentDate",
-        "type": "uint256"
-      },
-      {
-        "indexed": false,
-        "internalType": "bytes32",
-        "name": "info",
-        "type": "bytes32"
-      },
-      {
-        "indexed": false,
-        "internalType": "uint256",
-        "name": "initialStake",
-        "type": "uint256"
-      }
-    ],
-    "name": "Reported",
+    "name": "Unstaken",
     "type": "event"
   },
   {
@@ -148,12 +155,12 @@
         "type": "uint256"
       },
       {
-        "internalType": "uint256",
-        "name": "stake",
-        "type": "uint256"
+        "internalType": "bool",
+        "name": "decision",
+        "type": "bool"
       }
     ],
-    "name": "attest",
+    "name": "emergencyResolve",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
@@ -169,53 +176,11 @@
         "internalType": "uint256",
         "name": "incidentDate",
         "type": "uint256"
-      },
-      {
-        "internalType": "bytes32",
-        "name": "info",
-        "type": "bytes32"
-      },
-      {
-        "internalType": "uint256",
-        "name": "stake",
-        "type": "uint256"
       }
     ],
-    "name": "dispute",
+    "name": "finalize",
     "outputs": [],
     "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "bytes32",
-        "name": "key",
-        "type": "bytes32"
-      }
-    ],
-    "name": "getActiveIncidentDate",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "getMinStake",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "stateMutability": "view",
     "type": "function"
   },
   {
@@ -234,122 +199,56 @@
   {
     "inputs": [
       {
-        "internalType": "bytes32",
-        "name": "key",
-        "type": "bytes32"
-      },
-      {
-        "internalType": "uint256",
-        "name": "incidentDate",
-        "type": "uint256"
-      }
-    ],
-    "name": "getReporter",
-    "outputs": [
-      {
-        "internalType": "address",
-        "name": "",
+        "internalType": "contract IStore",
+        "name": "s",
         "type": "address"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "bytes32",
-        "name": "key",
-        "type": "bytes32"
-      }
-    ],
-    "name": "getResolutionDate",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "bytes32",
-        "name": "key",
-        "type": "bytes32"
-      },
-      {
-        "internalType": "uint256",
-        "name": "incidentDate",
-        "type": "uint256"
-      }
-    ],
-    "name": "getStakes",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "bytes32",
-        "name": "key",
-        "type": "bytes32"
-      },
-      {
-        "internalType": "uint256",
-        "name": "incidentDate",
-        "type": "uint256"
       },
       {
         "internalType": "address",
         "name": "account",
         "type": "address"
-      }
-    ],
-    "name": "getStakesOf",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
       },
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
       {
         "internalType": "bytes32",
         "name": "key",
         "type": "bytes32"
+      },
+      {
+        "internalType": "uint256",
+        "name": "incidentDate",
+        "type": "uint256"
       }
     ],
-    "name": "getStatus",
+    "name": "getUnstakeInfoFor",
     "outputs": [
       {
         "internalType": "uint256",
-        "name": "",
+        "name": "totalStakeInWinningCamp",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "totalStakeInLosingCamp",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "myStakeInWinningCamp",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "toBurn",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "toReporter",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "myReward",
         "type": "uint256"
       }
     ],
@@ -367,14 +266,9 @@
         "internalType": "uint256",
         "name": "incidentDate",
         "type": "uint256"
-      },
-      {
-        "internalType": "uint256",
-        "name": "stake",
-        "type": "uint256"
       }
     ],
-    "name": "refute",
+    "name": "resolve",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
@@ -387,17 +281,12 @@
         "type": "bytes32"
       },
       {
-        "internalType": "bytes32",
-        "name": "info",
-        "type": "bytes32"
-      },
-      {
         "internalType": "uint256",
-        "name": "stake",
+        "name": "incidentDate",
         "type": "uint256"
       }
     ],
-    "name": "report",
+    "name": "unstake",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"

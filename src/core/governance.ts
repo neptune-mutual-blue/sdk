@@ -1,15 +1,15 @@
 import { ethers } from 'ethers'
 import { ZERO_BYTES32 } from '../config/constants'
-import { NepToken, Governance } from '../registry'
+import { NPMToken, Governance } from '../registry'
 import { ChainId, IApproveTransactionArgs, Status, IWrappedResult, IReportingInfo, IReportingInfoStorage, CoverStatus } from '../types'
 import { InvalidReportError, InvalidSignerError } from '../types/Exceptions'
 import { erc20Utils, ipfs, signer } from '../utils'
 
 const approveStake = async (chainId: ChainId, args: IApproveTransactionArgs, signerOrProvider: ethers.providers.Provider | ethers.Signer): Promise<IWrappedResult> => {
-  const nep = await NepToken.getInstance(chainId, signerOrProvider)
+  const npm = await NPMToken.getInstance(chainId, signerOrProvider)
   const amount = erc20Utils.getApprovalAmount(args)
   const governance = await Governance.getAddress(chainId, signerOrProvider)
-  const result = await nep.approve(governance, amount)
+  const result = await npm.approve(governance, amount)
 
   return {
     status: Status.SUCCESS,

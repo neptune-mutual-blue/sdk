@@ -5,7 +5,7 @@
       {
         "indexed": true,
         "internalType": "address",
-        "name": "cToken",
+        "name": "cxToken",
         "type": "address"
       },
       {
@@ -40,7 +40,7 @@
     "inputs": [
       {
         "internalType": "address",
-        "name": "cToken",
+        "name": "cxToken",
         "type": "address"
       },
       {
@@ -100,7 +100,7 @@
     "inputs": [
       {
         "internalType": "address",
-        "name": "cToken",
+        "name": "cxToken",
         "type": "address"
       },
       {

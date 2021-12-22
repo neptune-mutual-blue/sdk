@@ -50,6 +50,25 @@
     "type": "event"
   },
   {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "address",
+        "name": "account",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "bool",
+        "name": "status",
+        "type": "bool"
+      }
+    ],
+    "name": "WhitelistUpdated",
+    "type": "event"
+  },
+  {
     "inputs": [
       {
         "internalType": "bytes32",
@@ -73,12 +92,12 @@
       },
       {
         "internalType": "address",
-        "name": "assuranceToken",
+        "name": "reassuranceToken",
         "type": "address"
       },
       {
         "internalType": "uint256",
-        "name": "initialAssuranceAmount",
+        "name": "initialReassuranceAmount",
         "type": "uint256"
       },
       {
@@ -90,6 +109,25 @@
     "name": "addCover",
     "outputs": [],
     "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "account",
+        "type": "address"
+      }
+    ],
+    "name": "checkIfWhitelisted",
+    "outputs": [
+      {
+        "internalType": "bool",
+        "name": "",
+        "type": "bool"
+      }
+    ],
+    "stateMutability": "view",
     "type": "function"
   },
   {
@@ -166,6 +204,24 @@
       }
     ],
     "name": "updateCover",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "account",
+        "type": "address"
+      },
+      {
+        "internalType": "bool",
+        "name": "whitelisted",
+        "type": "bool"
+      }
+    ],
+    "name": "updateWhitelist",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"

@@ -13,7 +13,7 @@ const write = async (contents: Object): Promise<string[]> => {
 }
 
 const readBytes32 = async (key: string): Promise<Object> => {
-  return await read(toIPFShash(key))
+  return read(toIPFShash(key))
 }
 
 const read = async (key: string): Promise<Object> => {

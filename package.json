@@ -1,5 +1,5 @@
 {
-  "version": "0.1.1-beta",
+  "version": "0.1.2-beta",
   "license": "MIT",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
@@ -41,12 +41,12 @@
     }
   ],
   "devDependencies": {
-    "@size-limit/preset-small-lib": "^5.0.1",
+    "@size-limit/preset-small-lib": "^7.0.4",
     "@types/bs58": "^4.0.1",
     "@types/lru-cache": "^5.1.1",
-    "husky": "^6.0.0",
-    "size-limit": "^5.0.1",
-    "ts-standard": "^10.0.0",
+    "husky": "^7.0.4",
+    "size-limit": "^7.0.4",
+    "ts-standard": "^11.0.0",
     "tsdx": "^0.14.1",
     "tslib": "^2.3.0",
     "tslint": "^6.1.3",

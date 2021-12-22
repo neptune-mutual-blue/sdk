@@ -1,14 +1,14 @@
 import { ethers } from 'ethers'
 import { ChainId, IApproveTransactionArgs, IWrappedResult, Status } from '../types'
-import { NepToken, ProvisionContract } from '../registry'
+import { NPMToken, ProvisionContract } from '../registry'
 import { erc20Utils } from '../utils'
 
 const approve = async (chainId: ChainId, args: IApproveTransactionArgs, signerOrProvider: ethers.providers.Provider | ethers.Signer): Promise<IWrappedResult> => {
-  const nep = await NepToken.getInstance(chainId, signerOrProvider)
+  const npm = await NPMToken.getInstance(chainId, signerOrProvider)
   const amount = erc20Utils.getApprovalAmount(args)
   const provision = await ProvisionContract.getAddress(chainId, signerOrProvider)
 
-  const result = await nep.approve(provision, amount)
+  const result = await npm.approve(provision, amount)
 
   return {
     status: Status.SUCCESS,

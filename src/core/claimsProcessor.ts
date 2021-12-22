@@ -4,12 +4,12 @@ import { ChainId, IApproveTransactionArgs, Status, IWrappedResult } from '../typ
 import { erc20Utils } from '../utils'
 
 const approve = async (chainId: ChainId, cTokenAddress: string, args: IApproveTransactionArgs, signerOrProvider: ethers.providers.Provider | ethers.Signer): Promise<IWrappedResult> => {
-  const cToken = IERC20.getInstance(chainId, cTokenAddress, signerOrProvider)
+  const cxToken = IERC20.getInstance(chainId, cTokenAddress, signerOrProvider)
 
   const processor = await ClaimsProcessor.getAddress(chainId, signerOrProvider)
   const amount = erc20Utils.getApprovalAmount(args)
 
-  const result = await cToken.approve(processor, amount)
+  const result = await cxToken.approve(processor, amount)
 
   return {
     status: Status.SUCCESS,
