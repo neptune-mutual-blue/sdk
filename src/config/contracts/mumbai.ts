@@ -16,7 +16,7 @@ class Mumbai implements IContractDefinition {
     this.chainId = ChainId.Mumbai
     this.chain = 'Mumbai Test Network (Polygon)'
     this.rpcProvider = 'https://rpc-mumbai.maticvigil.com'
-    this.store = '0x47074Fb6D9B78D3c6BC1C6704984463D7C7f9d13'
+    this.store = '0x22a7944c93f84C9e3B2621a3B02182C1F16548E0'
 
     this.tokens = {
       WETH: wmatic
