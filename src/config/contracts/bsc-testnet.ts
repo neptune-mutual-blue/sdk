@@ -17,7 +17,7 @@ class BinanceSmartChainTestnet implements IContractDefinition {
     this.chainId = ChainId.BinanceSmartChainTestnet
     this.chain = 'Binance Smart Chain Test Network'
     this.rpcProvider = 'https://data-seed-prebsc-1-s1.binance.org:8545/'
-    this.store = '0x22a7944c93f84C9e3B2621a3B02182C1F16548E0'
+    this.store = '0x4C12AF706A3831Fa23A03733faffED4159842c63'
     this.tokens = {
       WETH: wbnb
     }

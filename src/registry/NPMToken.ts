@@ -1,12 +1,12 @@
 import { ethers } from 'ethers'
 import { ChainId } from '../types'
-import { abis, constants} from '../config'
+import { abis, constants } from '../config'
 import { contract } from '../utils'
 import { getOrFetch } from './CachedStoreAddress'
 
 const getAddress = async (chainId: ChainId, signerOrProvider: ethers.providers.Provider | ethers.Signer | undefined): Promise<string> => {
-  const { NS_KEYS } = constants
-  return getOrFetch(chainId, NS_KEYS.SETUP_NPM, signerOrProvider)
+  const { CNS_KEYS } = constants
+  return await getOrFetch(chainId, CNS_KEYS.NPM, signerOrProvider)
 }
 
 const getInstance = async (chainId: ChainId, signerOrProvider: ethers.providers.Provider | ethers.Signer | undefined): Promise<ethers.Contract> => {

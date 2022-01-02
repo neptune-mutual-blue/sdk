@@ -11,6 +11,8 @@ import IGovernance from './IGovernance.json'
 import IReporter from './IReporter.json'
 import IWitness from './IWitness.json'
 import IClaimsProcessor from './IClaimsProcessor.json'
+import IBondPool from './IBondPool.json'
+import IStakingPools from './IStakingPools.json'
 
 export {
   IERC20,
@@ -25,5 +27,7 @@ export {
   IGovernance,
   IReporter,
   IWitness,
-  IClaimsProcessor
+  IClaimsProcessor,
+  IBondPool,
+  IStakingPools
 }

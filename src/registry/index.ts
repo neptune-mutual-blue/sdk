@@ -1,3 +1,4 @@
+import * as Protocol from './Protocol'
 import * as Reassurance from './Reassurance'
 import * as ReassuranceToken from './ReassuranceToken'
 import * as ProvisionContract from './ProvisionContract'
@@ -11,8 +12,11 @@ import * as Store from './Store'
 import * as Vault from './Vault'
 import * as Governance from './Governance'
 import * as ClaimsProcessor from './ClaimsProcessor'
+import * as BondPool from './BondPool'
+import * as StakingPools from './StakingPools'
 
 export {
+  Protocol,
   Reassurance,
   ReassuranceToken,
   ProvisionContract,
@@ -25,5 +29,7 @@ export {
   Store,
   Vault,
   Governance,
-  ClaimsProcessor
+  ClaimsProcessor,
+  BondPool,
+  StakingPools
 }

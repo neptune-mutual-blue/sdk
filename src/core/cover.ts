@@ -5,7 +5,45 @@ import { ipfs, erc20Utils, signer } from '../utils'
 import { constants } from '../config'
 import { ZERO_BYTES32 } from '../config/constants'
 
-const { DuplicateCoverError, InvalidSignerError, InvalidCoverKeyError } = exceptions
+const { DuplicateCoverError, InvalidAccountError, InvalidSignerError, InvalidCoverKeyError } = exceptions
+
+const addToWhitelist = async (chainId: ChainId, whitelisted: string, signerOrProvider: ethers.providers.Provider | ethers.Signer): Promise<IWrappedResult> => {
+  const { ZERO_ADDRESS } = constants
+
+  if (whitelisted === ZERO_ADDRESS) {
+    throw new InvalidAccountError('Invalid account to whitelist')
+  }
+
+  const coverContract = await Cover.getInstance(chainId, signerOrProvider)
+
+  const tx = await coverContract.updateWhitelist(whitelisted, true)
+
+  return {
+    status: Status.SUCCESS,
+    result: {
+      tx
+    }
+  }
+}
+
+const removeFromWhitelist = async (chainId: ChainId, whitelisted: string, signerOrProvider: ethers.providers.Provider | ethers.Signer): Promise<IWrappedResult> => {
+  const { ZERO_ADDRESS } = constants
+
+  if (whitelisted === ZERO_ADDRESS) {
+    throw new InvalidAccountError('Invalid account to whitelist')
+  }
+
+  const coverContract = await Cover.getInstance(chainId, signerOrProvider)
+
+  const tx = await coverContract.updateWhitelist(whitelisted, false)
+
+  return {
+    status: Status.SUCCESS,
+    result: {
+      tx
+    }
+  }
+}
 
 const approveReassurance = async (chainId: ChainId, tokenAddress: string, args: IApproveTransactionArgs, signerOrProvider: ethers.providers.Provider | ethers.Signer): Promise<IWrappedResult> => {
   const reassuranceToken = IERC20.getInstance(chainId, tokenAddress, signerOrProvider)
@@ -94,6 +132,7 @@ const createCover = async (chainId: ChainId, info: ICoverInfo, signerOrProvider:
   const tx = await coverContract.addCover(
     key,
     hashBytes32,
+    info.minReportingStake,
     info.reportingPeriod,
     stakeWithFees,
     reassuranceToken.at,
@@ -114,4 +153,4 @@ const createCover = async (chainId: ChainId, info: ICoverInfo, signerOrProvider:
   }
 }
 
-export { getCoverInfo, approveReassurance, approveStakeAndFees, approveInitialLiquidity, createCover }
+export { addToWhitelist, removeFromWhitelist, getCoverInfo, approveReassurance, approveStakeAndFees, approveInitialLiquidity, createCover }

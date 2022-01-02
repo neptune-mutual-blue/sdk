@@ -6,7 +6,7 @@ const getAddress = async (signerOrProvider: ethers.providers.Provider | ethers.S
   }
 
   const signer = (signerOrProvider as ethers.Signer)
-  return signer.getAddress()
+  return await signer.getAddress()
 }
 
 export {
