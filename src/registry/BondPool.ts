@@ -6,12 +6,12 @@ import { findAddress } from './MemberResolver'
 
 const getAddress = async (chainId: ChainId, signerOrProvider: ethers.providers.Provider | ethers.Signer | undefined): Promise<string> => {
   const { CNS_KEYS } = constants
-  return await findAddress(chainId, CNS_KEYS.CLAIM_PROCESSOR, signerOrProvider)
+  return await findAddress(chainId, CNS_KEYS.BOND_POOL, signerOrProvider)
 }
 
 const getInstance = async (chainId: ChainId, signerOrProvider: ethers.providers.Provider | ethers.Signer | undefined): Promise<ethers.Contract> => {
   const address = await getAddress(chainId, signerOrProvider)
-  return contract.getContract(chainId, address, abis.IClaimsProcessor, signerOrProvider)
+  return contract.getContract(chainId, address, abis.IBondPool, signerOrProvider)
 }
 
 export {

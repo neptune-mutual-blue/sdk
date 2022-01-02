@@ -35,6 +35,44 @@
     "inputs": [
       {
         "indexed": false,
+        "internalType": "uint256",
+        "name": "previous",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "current",
+        "type": "uint256"
+      }
+    ],
+    "name": "CoverFeeSet",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "stablecoin",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "bytes32",
+        "name": "withName",
+        "type": "bytes32"
+      }
+    ],
+    "name": "CoverInitialized",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
         "internalType": "bytes32",
         "name": "key",
         "type": "bytes32"
@@ -47,6 +85,25 @@
       }
     ],
     "name": "CoverUpdated",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "previous",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "current",
+        "type": "uint256"
+      }
+    ],
+    "name": "MinCoverCreationStakeSet",
     "type": "event"
   },
   {
@@ -79,6 +136,11 @@
         "internalType": "bytes32",
         "name": "info",
         "type": "bytes32"
+      },
+      {
+        "internalType": "uint256",
+        "name": "minStakeToReport",
+        "type": "uint256"
       },
       {
         "internalType": "uint256",
@@ -186,6 +248,32 @@
       }
     ],
     "name": "initialize",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "value",
+        "type": "uint256"
+      }
+    ],
+    "name": "setCoverFees",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "value",
+        "type": "uint256"
+      }
+    ],
+    "name": "setMinCoverCreationStake",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"

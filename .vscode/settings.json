@@ -14,5 +14,10 @@
   "standard.engine": "ts-standard",
   "standard.validate": [
     "typescript"
+  ],
+  "cSpell.words": [
+    "cxtoken",
+    "IERC",
+    "ipfs"
   ]
 }

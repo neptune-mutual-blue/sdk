@@ -32,6 +32,7 @@ interface ICoverInfo {
   }
   stakeWithFees: string
   initialLiquidity: string
+  minReportingStake: string
 }
 
 export { ICoverInfo }

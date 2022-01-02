@@ -3,6 +3,25 @@
     "anonymous": false,
     "inputs": [
       {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "previous",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "current",
+        "type": "uint256"
+      }
+    ],
+    "name": "ClaimPeriodSet",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
         "indexed": true,
         "internalType": "address",
         "name": "cxToken",
@@ -15,6 +34,12 @@
         "type": "bytes32"
       },
       {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "incidentDate",
+        "type": "uint256"
+      },
+      {
         "indexed": true,
         "internalType": "address",
         "name": "account",
@@ -22,14 +47,32 @@
       },
       {
         "indexed": false,
-        "internalType": "uint256",
-        "name": "incidentDate",
-        "type": "uint256"
+        "internalType": "address",
+        "name": "reporter",
+        "type": "address"
       },
       {
         "indexed": false,
         "internalType": "uint256",
         "name": "amount",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "reporterFee",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "platformFee",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "claimed",
         "type": "uint256"
       }
     ],
@@ -94,6 +137,19 @@
       }
     ],
     "stateMutability": "pure",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "value",
+        "type": "uint256"
+      }
+    ],
+    "name": "setClaimPeriod",
+    "outputs": [],
+    "stateMutability": "nonpayable",
     "type": "function"
   },
   {
