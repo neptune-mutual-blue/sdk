@@ -6,7 +6,9 @@ import { findAddress } from './MemberResolver'
 
 const getAddress = async (chainId: ChainId, signerOrProvider: ethers.providers.Provider | ethers.Signer | undefined): Promise<string> => {
   const { NS_KEYS } = constants
-  return await findAddress(chainId, NS_KEYS.COVER_PROVISION, signerOrProvider)
+
+  // eslint-disable-next-line @typescript-eslint/return-await
+  return findAddress(chainId, NS_KEYS.COVER_PROVISION, signerOrProvider)
 }
 
 const getInstance = async (chainId: ChainId, signerOrProvider: ethers.providers.Provider | ethers.Signer | undefined): Promise<ethers.Contract> => {

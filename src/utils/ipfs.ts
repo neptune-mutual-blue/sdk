@@ -13,7 +13,8 @@ const write = async (contents: Object): Promise<string[]> => {
 }
 
 const readBytes32 = async (key: string): Promise<Object> => {
-  return await read(toIPFShash(key))
+  // eslint-disable-next-line @typescript-eslint/return-await
+  return read(toIPFShash(key))
 }
 
 const read = async (key: string): Promise<Object> => {

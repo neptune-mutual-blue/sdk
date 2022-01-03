@@ -94,7 +94,7 @@ const getCoverInfo = async (chainId: ChainId, key: string, signerOrProvider: eth
     throw new InvalidCoverKeyError(`Invalid cover key ${key}`)
   }
 
-  return await ipfs.readBytes32(info) as ICoverInfoStorage
+  return (await ipfs.readBytes32(info)) as ICoverInfoStorage
 }
 
 const createCover = async (chainId: ChainId, info: ICoverInfo, signerOrProvider: ethers.providers.Provider | ethers.Signer): Promise<IWrappedResult> => {
