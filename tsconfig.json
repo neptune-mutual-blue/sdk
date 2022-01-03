@@ -1,12 +1,15 @@
 {
   // see https://www.typescriptlang.org/tsconfig to better understand tsconfigs
-  "include": ["src", "types"],
+  "include": [
+    "src",
+    "types"
+  ],
   "compilerOptions": {
     "target": "esnext",
     "module": "esnext",
     "lib": [
-        "es2018",
-        "dom",
+      "es2018",
+      "dom",
     ],
     "importHelpers": true,
     "declaration": true,

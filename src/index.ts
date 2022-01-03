@@ -8,6 +8,23 @@ import * as utils from './utils'
 const { ChainId } = types
 const { reassurance, cover, policy, cxToken, provision, liquidity, governance, claimsProcessor } = core
 
+const sdk = {
+  ChainId,
+  reassurance,
+  cover,
+  policy,
+  cxToken,
+  provision,
+  liquidity,
+  registry,
+  governance,
+  claimsProcessor,
+  types,
+  entities,
+  config,
+  utils
+}
+
 export {
   ChainId,
   reassurance,
@@ -24,3 +41,5 @@ export {
   config,
   utils
 }
+
+export default sdk

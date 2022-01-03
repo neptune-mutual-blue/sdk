@@ -1,5 +1,5 @@
 {
-  "version": "0.1.5-beta",
+  "version": "0.1.6-beta",
   "name": "@neptunemutual/sdk",
   "author": "Neptune Mutual Team",
   "description": "Neptune Mutual SDK",
@@ -13,28 +13,16 @@
   },
   "source": "src/index.ts",
   "exports": {
-    "require": "./dist/index.cjs",
-    "default": "./dist/index.modern.js"
+    "default": "./dist/index.js"
   },
-  "main": "./dist/index.cjs",
-  "module": "./dist/index.esm.js",
-  "unpkg": "./dist/index.umd.js",
+  "type": "module",
+  "module": "./dist/index.js",
   "scripts": {
-    "build": "microbundle",
+    "build": "rm -rf ./dist && microbundle -i ./src/index.ts -o ./dist/index.js --target web -f esm --generateTypes true",
     "dev": "microbundle watch",
     "standard": "ts-standard",
     "fix": "ts-standard --fix"
   },
-  "size-limit": [
-    {
-      "path": "dist/sdk.cjs.production.min.js",
-      "limit": "10 KB"
-    },
-    {
-      "path": "dist/sdk.esm.js",
-      "limit": "10 KB"
-    }
-  ],
   "dependencies": {
     "bs58": "4.0.1",
     "ethers": "5.4.1",
