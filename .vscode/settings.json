@@ -7,17 +7,21 @@
   "editor.autoIndent": "none",
   "editor.formatOnSaveMode": "file",
   "editor.padding.top": 24,
+  "editor.formatOnSave": true,
+  "[typescript]": {
+    "editor.formatOnSave": false,
+    "editor.defaultFormatter": "vscode.typescript-language-features"
+  },
   "javascript.format.semicolons": "remove",
   "typescript.format.enable": true,
   "typescript.format.insertSpaceBeforeFunctionParenthesis": true,
   "standard.autoFixOnSave": true,
   "standard.engine": "ts-standard",
-  "standard.validate": [
-    "typescript"
-  ],
   "cSpell.words": [
     "cxtoken",
     "IERC",
-    "ipfs"
+    "ipfs",
+    "microbundle",
+    "neptunemutual"
   ]
 }

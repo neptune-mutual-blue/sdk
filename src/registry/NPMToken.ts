@@ -6,7 +6,9 @@ import { getOrFetch } from './CachedStoreAddress'
 
 const getAddress = async (chainId: ChainId, signerOrProvider: ethers.providers.Provider | ethers.Signer | undefined): Promise<string> => {
   const { CNS_KEYS } = constants
-  return await getOrFetch(chainId, CNS_KEYS.NPM, signerOrProvider)
+
+  // eslint-disable-next-line @typescript-eslint/return-await
+  return getOrFetch(chainId, CNS_KEYS.NPM, signerOrProvider)
 }
 
 const getInstance = async (chainId: ChainId, signerOrProvider: ethers.providers.Provider | ethers.Signer | undefined): Promise<ethers.Contract> => {

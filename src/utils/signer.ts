@@ -6,7 +6,9 @@ const getAddress = async (signerOrProvider: ethers.providers.Provider | ethers.S
   }
 
   const signer = (signerOrProvider as ethers.Signer)
-  return await signer.getAddress()
+
+  // eslint-disable-next-line @typescript-eslint/return-await
+  return signer.getAddress()
 }
 
 export {
