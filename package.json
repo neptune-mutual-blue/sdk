@@ -1,9 +1,10 @@
 {
-  "version": "0.1.6-beta",
+  "version": "0.1.7-beta",
   "name": "@neptunemutual/sdk",
   "author": "Neptune Mutual Team",
   "description": "Neptune Mutual SDK",
   "license": "MIT",
+  "types": "dist/index.d.ts",
   "files": [
     "dist",
     "src"
