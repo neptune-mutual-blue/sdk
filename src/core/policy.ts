@@ -15,6 +15,18 @@ const getCoverFee = async (chainId: ChainId, key: string, args: IPolicyFeeArgs, 
   }
 }
 
+const getAllowance = async (chainId: ChainId, owner: string, signerOrProvider: ethers.providers.Provider | ethers.Signer): Promise<IWrappedResult> => {
+  const stablecoin = await LiquidityToken.getInstance(chainId, signerOrProvider)
+  const policy = await PolicyContract.getAddress(chainId, signerOrProvider)
+
+  const result = await stablecoin.allowance(owner, policy)
+
+  return {
+    status: Status.SUCCESS,
+    result
+  }
+}
+
 const approve = async (chainId: ChainId, args: IApproveTransactionArgs, signerOrProvider: ethers.providers.Provider | ethers.Signer): Promise<IWrappedResult> => {
   const stablecoin = await LiquidityToken.getInstance(chainId, signerOrProvider)
   const policy = await PolicyContract.getAddress(chainId, signerOrProvider)
@@ -42,6 +54,7 @@ const purchaseCover = async (chainId: ChainId, key: string, args: IPolicyFeeArgs
 }
 
 export {
+  getAllowance,
   getCoverFee,
   approve,
   purchaseCover

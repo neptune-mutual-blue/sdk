@@ -4,6 +4,18 @@ import { ChainId, IApproveTransactionArgs, IWrappedResult, Status } from '../typ
 import { getApprovalAmount } from '../utils/erc20-utils'
 import { getAddress } from '../utils/signer'
 
+const getAllowance = async (chainId: ChainId, key: string, owner: string, signerOrProvider: ethers.providers.Provider | ethers.Signer): Promise<IWrappedResult> => {
+  const contract = await Reassurance.getAddress(chainId, signerOrProvider)
+  const reassuranceToken = await ReassuranceToken.getInstance(chainId, key, signerOrProvider)
+
+  const result = await reassuranceToken.allowance(owner, contract)
+
+  return {
+    status: Status.SUCCESS,
+    result
+  }
+}
+
 const approve = async (chainId: ChainId, key: string, args: IApproveTransactionArgs, signerOrProvider: ethers.providers.Provider | ethers.Signer): Promise<IWrappedResult> => {
   const contract = await Reassurance.getAddress(chainId, signerOrProvider)
   const amount = getApprovalAmount(args)
@@ -39,4 +51,9 @@ const get = async (chainId: ChainId, key: string, signerOrProvider: ethers.provi
   }
 }
 
-export { get, approve, add }
+export {
+  getAllowance,
+  get,
+  approve,
+  add
+}
