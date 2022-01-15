@@ -113,7 +113,13 @@
     "type": "function"
   },
   {
-    "inputs": [],
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "forAccount",
+        "type": "address"
+      }
+    ],
     "name": "getInfo",
     "outputs": [
       {

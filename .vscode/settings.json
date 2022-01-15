@@ -19,9 +19,13 @@
   "standard.engine": "ts-standard",
   "cSpell.words": [
     "cxtoken",
-    "IERC",
+    "distrib",
+    "ierc",
     "ipfs",
+    "keccak",
     "microbundle",
-    "neptunemutual"
+    "neptunemutual",
+    "unstake",
+    "unstaken"
   ]
 }

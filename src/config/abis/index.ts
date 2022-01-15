@@ -6,6 +6,7 @@ import ICoverProvision from './ICoverProvision.json'
 import ICoverStake from './ICoverStake.json'
 import IVault from './IVault.json'
 import IPolicy from './IPolicy.json'
+import IProtocol from './IProtocol.json'
 import IStore from './IStore.json'
 import IGovernance from './IGovernance.json'
 import IReporter from './IReporter.json'
@@ -23,6 +24,7 @@ export {
   ICoverStake,
   IVault,
   IPolicy,
+  IProtocol,
   IStore,
   IGovernance,
   IReporter,
