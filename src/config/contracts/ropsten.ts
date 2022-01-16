@@ -16,7 +16,7 @@ class Ropsten implements IContractDefinition {
     this.chainId = ChainId.Ropsten
     this.chain = 'Ropsten Test Network'
     this.rpcProvider = 'https://ropsten.infura.io/v3/04f673a8619b4e3f89a49232d453f6f2'
-    this.store = '0x58631a179d1B53B6DF322e5F35E5D31bB51Dfe3f'
+    this.store = '0xAaebfeab5718F0Aece3d67249b511693491FBC49'
 
     this.tokens = {
       WETH: weth
