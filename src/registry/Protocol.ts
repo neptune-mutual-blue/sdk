@@ -13,7 +13,7 @@ const getAddress = async (chainId: ChainId, signerOrProvider: ethers.providers.P
 
 const getInstance = async (chainId: ChainId, signerOrProvider: ethers.providers.Provider | ethers.Signer | undefined): Promise<ethers.Contract> => {
   const address = await getAddress(chainId, signerOrProvider)
-  return contract.getContract(chainId, address, abis.IPolicy, signerOrProvider)
+  return contract.getContract(chainId, address, abis.IProtocol, signerOrProvider)
 }
 
 export {

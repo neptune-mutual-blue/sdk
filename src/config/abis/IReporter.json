@@ -87,6 +87,12 @@
         "internalType": "uint256",
         "name": "initialStake",
         "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "resolutionTimestamp",
+        "type": "uint256"
       }
     ],
     "name": "Reported",
@@ -167,6 +173,19 @@
       }
     ],
     "name": "getActiveIncidentDate",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "getFirstReportingStake",
     "outputs": [
       {
         "internalType": "uint256",
