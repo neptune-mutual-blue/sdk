@@ -73,6 +73,7 @@ const approveStakeAndFees = async (chainId: ChainId, args: IApproveTransactionAr
 
 const approveInitialLiquidity = async (chainId: ChainId, args: IApproveTransactionArgs, signerOrProvider: ethers.providers.Provider | ethers.Signer): Promise<IWrappedResult> => {
   const liquidity = await LiquidityToken.getInstance(chainId, signerOrProvider)
+
   const amount = erc20Utils.getApprovalAmount(args)
   const cover = await Cover.getAddress(chainId, signerOrProvider)
 

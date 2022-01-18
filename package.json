@@ -1,5 +1,5 @@
 {
-  "version": "0.2.1-beta",
+  "version": "0.2.2-beta",
   "name": "@neptunemutual/sdk",
   "author": "Neptune Mutual Team",
   "description": "Neptune Mutual SDK",
@@ -24,7 +24,7 @@
     "dev": "microbundle watch",
     "standard": "ts-standard",
     "fix": "ts-standard --fix",
-    "publish": "npm run build && echo 'foo'"
+    "publish": "npm run build && npm publish"
   },
   "dependencies": {
     "bs58": "4.0.1",

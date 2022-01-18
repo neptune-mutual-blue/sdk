@@ -1,14 +1,12 @@
 import { ethers } from 'ethers'
 import { ChainId } from '../types'
-import { abis, constants } from '../config'
-import { contract } from '../utils'
+import { abis } from '../config'
+import { contract, keyUtil } from '../utils'
 import { getOrFetch } from './CachedStoreAddress'
 
 const getAddress = async (chainId: ChainId, signerOrProvider: ethers.providers.Provider | ethers.Signer | undefined): Promise<string> => {
-  const { CNS_KEYS } = constants
-
   // eslint-disable-next-line @typescript-eslint/return-await
-  return getOrFetch(chainId, CNS_KEYS.COVER_STABLECOIN, signerOrProvider)
+  return getOrFetch(chainId, keyUtil.PROTOCOL.CNS.COVER_STABLECOIN, signerOrProvider)
 }
 
 const getInstance = async (chainId: ChainId, signerOrProvider: ethers.providers.Provider | ethers.Signer | undefined): Promise<ethers.Contract> => {
