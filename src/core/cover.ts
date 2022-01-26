@@ -133,12 +133,12 @@ const createCover = async (chainId: ChainId, info: ICoverInfo, signerOrProvider:
   const tx = await coverContract.addCover(
     key,
     hashBytes32,
-    info.minReportingStake,
-    info.reportingPeriod,
-    stakeWithFees,
     reassuranceToken.at,
-    reassuranceToken.initialAmount,
-    initialLiquidity
+    [info.minReportingStake.toString(),
+      info.reportingPeriod.toString(),
+      stakeWithFees.toString(),
+      reassuranceToken.initialAmount.toString(),
+      initialLiquidity.toString()]
   )
 
   return {

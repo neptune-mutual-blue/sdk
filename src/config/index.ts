@@ -1,9 +1,9 @@
 import * as abis from './abis'
-import * as contracts from './contracts'
+import * as networks from './networks'
 import * as constants from './constants'
 
 export {
   abis,
-  contracts,
+  networks,
   constants
 }
