@@ -1,14 +1,17 @@
-import { ChainId, IContractDefinition } from '../../types'
+import { ChainId, INetwork } from '../../types'
 import { UnsupportedBlockchainError } from '../../types/Exceptions/UnsupportedBlockchainError'
 
 import { Mumbai } from './mumbai'
 import { BinanceSmartChainTestnet } from './bsc-testnet'
 import { Ropsten } from './ropsten'
+import { Kovan } from './kovan'
 
-const getChainConfig = (chainId: ChainId): IContractDefinition => {
+const getChainConfig = (chainId: ChainId): INetwork => {
   switch (chainId) {
     case ChainId.Ropsten:
       return new Ropsten()
+    case ChainId.Kovan:
+      return new Kovan()
     case ChainId.Mumbai:
       return new Mumbai()
     case ChainId.BinanceSmartChainTestnet:

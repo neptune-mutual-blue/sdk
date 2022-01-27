@@ -25,7 +25,10 @@
     "keccak",
     "microbundle",
     "neptunemutual",
+    "Pausable",
+    "Unstakable",
     "unstake",
-    "unstaken"
+    "unstaken",
+    "wmatic"
   ]
 }

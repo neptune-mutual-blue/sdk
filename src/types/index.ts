@@ -1,7 +1,7 @@
 import { ChainId } from './ChainId'
 import { CoverStatus } from './CoverStatus'
 import { IApproveTransactionArgs } from './IApproveTransactionArgs'
-import { IContractDefinition } from './IContractDefinition'
+import { INetwork } from './INetwork'
 import { ICoverInfo } from './ICoverInfo'
 import { ICoverInfoStorage } from './ICoverInfoStorage'
 import { IPolicyFeeArgs } from './IPolicyFeeArgs'
@@ -17,7 +17,7 @@ export {
   ChainId,
   CoverStatus,
   IApproveTransactionArgs,
-  IContractDefinition,
+  INetwork,
   ICoverInfo,
   ICoverInfoStorage,
   IPolicyFeeArgs,

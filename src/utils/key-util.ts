@@ -54,6 +54,8 @@ const PROTOCOL = {
     COVER_VAULT_FACTORY: toBytes32('cns:cover:vault:factory'),
     BOND_POOL: toBytes32('cns:pools:bond'),
     STAKING_POOL: toBytes32('cns:pools:staking'),
+    LIQUIDITY_ENGINE: toBytes32('cns:liquidity:engine'),
+    STRATEGY_AAVE: toBytes32('cns:strategy:aave'),
     GOVERNANCE: toBytes32('cns:gov'),
     GOVERNANCE_RESOLUTION: toBytes32('cns:gov:resolution'),
     CLAIM_PROCESSOR: toBytes32('cns:claim:processor'),
@@ -110,7 +112,13 @@ const PROTOCOL = {
     CLAIM_BEGIN_TS: toBytes32('ns:claim:begin:ts'),
     CLAIM_EXPIRY_TS: toBytes32('ns:claim:expiry:ts'),
     CLAIM_PLATFORM_FEE: toBytes32('ns:claim:platform:fee'),
-    CLAIM_REPORTER_COMMISSION: toBytes32('ns:claim:reporter:commission')
+    CLAIM_REPORTER_COMMISSION: toBytes32('ns:claim:reporter:commission'),
+    LP_RESERVE0: toBytes32('ns:uni:lp:reserve0'),
+    LP_RESERVE1: toBytes32('ns:uni:lp:reserve1'),
+    LP_TOTAL_SUPPLY: toBytes32('ns:uni:lp:totalSupply'),
+    TOKEN_PRICE_LAST_UPDATE: toBytes32('ns:token:price:last:update'),
+    LENDING_STRATEGY_ACTIVE: toBytes32('ns:lending:strategy:active'),
+    LENDING_STRATEGY_DISABLED: toBytes32('ns:lending:strategy:disabled')
   },
   CNAME: {
     PROTOCOL: toBytes32('Neptune Mutual Protocol'),
@@ -138,7 +146,7 @@ const PROTOCOL = {
 const STAKING = {
   NAME: toBytes32('ns:pool:staking:name'),
   LOCKED: toBytes32('ns:pool:staking:locked'),
-  LOCKUP_PERIOD: toBytes32('ns:pool:staking:lockup:period'),
+  LOCKUP_PERIOD_IN_BLOCKS: toBytes32('ns:pool:staking:lockup:period'),
   STAKING_TARGET: toBytes32('ns:pool:staking:target'),
   CUMULATIVE_STAKING_AMOUNT: toBytes32('ns:pool:staking:cum:amount'),
   STAKING_TOKEN: toBytes32('ns:pool:staking:token'),
