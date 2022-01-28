@@ -165,10 +165,10 @@ const finalize = async (chainId: ChainId, key: string, incidentDate: number, sig
   }
 }
 
-const getMinStake = async (chainId: ChainId, signerOrProvider: ethers.providers.Provider | ethers.Signer): Promise<IWrappedResult> => {
+const getMinStake = async (chainId: ChainId, key: string, signerOrProvider: ethers.providers.Provider | ethers.Signer): Promise<IWrappedResult> => {
   const governanceContract = await Governance.getInstance(chainId, signerOrProvider)
 
-  const result = await governanceContract.getFirstReportingStake()
+  const result = await governanceContract.getFirstReportingStake(key)
 
   return {
     status: Status.SUCCESS,
