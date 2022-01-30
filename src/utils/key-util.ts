@@ -75,6 +75,8 @@ const PROTOCOL = {
     COVER_INFO: toBytes32('ns:cover:info'),
     COVER_OWNER: toBytes32('ns:cover:owner'),
     COVER_LIQUIDITY: toBytes32('ns:cover:liquidity'),
+    COVER_LIQUIDITY_MIN_STAKE: toBytes32('ns:cover:liquidity:min:stake'),
+    COVER_LIQUIDITY_STAKE: toBytes32('ns:cover:liquidity:stake'),
     COVER_LIQUIDITY_ADDED: toBytes32('ns:cover:liquidity:add'),
     COVER_LIQUIDITY_REMOVED: toBytes32('ns:cover:liquidity:rem'),
     COVER_LIQUIDITY_MIN_PERIOD: toBytes32('ns:cover:liquidity:min:period'),

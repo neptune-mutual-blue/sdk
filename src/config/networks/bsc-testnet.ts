@@ -19,12 +19,34 @@ class BinanceSmartChainTestnet implements INetwork {
     WETH: IToken
   }
 
+  getNetworkUrl (): string {
+    const rpc = process.env.NPM_RPC_URL
+
+    if (rpc === null || rpc === undefined) {
+      return 'https://data-seed-prebsc-1-s1.binance.org:8545'
+    }
+
+    return rpc
+  }
+
+  getStore (): string {
+    const store = process.env.NPM_STORE
+
+    if (store === null || store === undefined) {
+      return '0x4C12AF706A3831Fa23A03733faffED4159842c63'
+    }
+
+    return store
+  }
+
   constructor () {
     this.chainId = ChainId.BinanceSmartChainTestnet
     this.chain = 'Binance Smart Chain Test Network'
     this.approximateBlockTime = 3
-    this.rpcProvider = 'https://data-seed-prebsc-1-s1.binance.org:8545/'
-    this.store = '0x4C12AF706A3831Fa23A03733faffED4159842c63'
+
+    this.rpcProvider = this.getNetworkUrl()
+    this.store = this.getStore()
+
     this.tokens = {
       WETH: wbnb
     }

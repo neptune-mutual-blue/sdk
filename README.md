@@ -74,4 +74,14 @@ const readCoverInfo = async () => {
 readCoverInfo()
 ```
 
+## Override
+
+Certain functionality of the SDK can be overridden by specifying environment variables:
+
+| Key  | Description |
+| ------------- | ------------- |
+| NPM_RPC_URL  | Set this variable to customize the RPC URL  |
+| NPM_STORE | Set this variable to use a different store address |
+
+
 [Read the Full Documentation](https://app.gitbook.com/@neptunemutual/s/docs/sdk/quickstart)
