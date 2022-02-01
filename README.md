@@ -78,10 +78,22 @@ readCoverInfo()
 
 Certain functionality of the SDK can be overridden by specifying environment variables:
 
-| Key  | Description |
-| ------------- | ------------- |
-| NPM_RPC_URL  | Set this variable to customize the RPC URL  |
-| NPM_STORE | Set this variable to use a different store address |
+```
+Override RPC:
 
+NPM_ETHEREUM_RPC or NEXT_PUBLIC_ETHEREUM_RPC
+NPM_ROPSTEN_RPC or NEXT_PUBLIC_ROPSTEN_RPC
+NPM_KOVAN_RPC or NEXT_PUBLIC_KOVAN_RPC
+NPM_BSC_TESTNET_RPC or NEXT_PUBLIC_BSC_TESTNET_RPC
+NPM_MUMBAI_RPC or NEXT_PUBLIC_MUMBAI_RPC
+
+Override Store:
+
+NPM_ETHEREUM_STORE or NEXT_PUBLIC_ETHEREUM_STORE
+NPM_ROPSTEN_STORE or NEXT_PUBLIC_ROPSTEN_STORE
+NPM_KOVAN_STORE or NEXT_PUBLIC_KOVAN_STORE
+NPM_BSC_TESTNET_STORE or NEXT_PUBLIC_BSC_TESTNET_STORE
+NPM_MUMBAI_STORE or NEXT_PUBLIC_MUMBAI_STORE
+```
 
 [Read the Full Documentation](https://app.gitbook.com/@neptunemutual/s/docs/sdk/quickstart)
