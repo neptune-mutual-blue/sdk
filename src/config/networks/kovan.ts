@@ -1,5 +1,7 @@
 import { INetwork, IToken, ChainId } from '../../types'
 import { Token } from '../../entities/Token'
+import { getNetworkUrlFromEnvironment } from '../rpc'
+import { getStoreAddressFromEnvironment } from '../store'
 
 const weth = new Token(ChainId.Kovan, '0xd0a1e359811322d97991e03f863a0c30c2cf029c', 'Wrapped ETH', 'WETH')
 
@@ -19,22 +21,13 @@ class Kovan implements INetwork {
     WETH: IToken
   }
 
-  getNetworkUrl (): string {
-    const rpc = process.env.RPC_URL // || process.env.NEXT_PUBLIC_RPC_URL
-
-    if (rpc === null || rpc === undefined) {
-      return 'https://kovan.infura.io/v3/04f673a8619b4e3f89a49232d453f6f2'
-    }
-
-    return rpc
-  }
-
   constructor () {
     this.chainId = ChainId.Kovan
     this.chain = 'Kovan Test Network'
     this.approximateBlockTime = 4
-    this.rpcProvider = this.getNetworkUrl()
-    this.store = '0x18EB9D028B569619F2D54388630E4aDf46bF3ddf'
+
+    this.rpcProvider = getNetworkUrlFromEnvironment(ChainId.Kovan)
+    this.store = getStoreAddressFromEnvironment(ChainId.Kovan)
 
     this.tokens = {
       WETH: weth

@@ -1,5 +1,7 @@
 import { INetwork, IToken, ChainId } from '../../types'
 import { Token } from '../../entities/Token'
+import { getNetworkUrlFromEnvironment } from '../rpc'
+import { getStoreAddressFromEnvironment } from '../store'
 
 const weth = new Token(ChainId.Ropsten, '0xc778417E063141139Fce010982780140Aa0cD5Ab', 'Wrapped ETH', 'WETH')
 
@@ -19,22 +21,13 @@ class Ropsten implements INetwork {
     WETH: IToken
   }
 
-  getNetworkUrl (): string {
-    const rpc = process.env.RPC_URL
-
-    if (rpc === null || rpc === undefined) {
-      return 'https://ropsten.infura.io/v3/04f673a8619b4e3f89a49232d453f6f2'
-    }
-
-    return rpc
-  }
-
   constructor () {
     this.chainId = ChainId.Ropsten
     this.chain = 'Ropsten Test Network'
     this.approximateBlockTime = 12
-    this.rpcProvider = this.getNetworkUrl()
-    this.store = '0x18EB9D028B569619F2D54388630E4aDf46bF3ddf'
+
+    this.rpcProvider = getNetworkUrlFromEnvironment(ChainId.Ropsten)
+    this.store = getStoreAddressFromEnvironment(ChainId.Ropsten)
 
     this.tokens = {
       WETH: weth
