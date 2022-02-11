@@ -16,7 +16,7 @@ const getProvider = (): ICacheProvider => {
 
 const genKey = (chainId: ChainId, nsKey: string): string => {
   const store = getStoreAddressFromEnvironment(chainId)
-  return ethers.utils.solidityKeccak256(['address', 'bytes32'], [store, nsKey])
+  return ethers.utils.solidityKeccak256(['uint256', 'address', 'bytes32'], [chainId.toString(), store, nsKey])
 }
 
 const get = (key: string): string | null => {
