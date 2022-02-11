@@ -1,5 +1,5 @@
 {
-  "version": "0.2.5-beta",
+  "version": "0.2.7-beta",
   "name": "@neptunemutual/sdk",
   "author": "Neptune Mutual Team",
   "description": "Neptune Mutual SDK",
@@ -35,7 +35,7 @@
   "devDependencies": {
     "@types/bs58": "4.0.1",
     "@types/lru-cache": "5.1.1",
-    "microbundle": "0.14.2",
+    "microbundle": "^0.14.2",
     "ts-standard": "11.0.0"
   },
   "directories": {
