@@ -154,32 +154,10 @@ const refute = async (chainId: ChainId, key: string, stake: string, signerOrProv
   }
 }
 
-const finalize = async (chainId: ChainId, key: string, incidentDate: number, signerOrProvider: ethers.providers.Provider | ethers.Signer): Promise<IWrappedResult> => {
-  const governanceContract = await Governance.getInstance(chainId, signerOrProvider)
-
-  const result = await governanceContract.finalize(key, incidentDate)
-
-  return {
-    status: Status.SUCCESS,
-    result
-  }
-}
-
 const getMinStake = async (chainId: ChainId, key: string, signerOrProvider: ethers.providers.Provider | ethers.Signer): Promise<IWrappedResult> => {
   const governanceContract = await Governance.getInstance(chainId, signerOrProvider)
 
   const result = await governanceContract['getFirstReportingStake(bytes32)'](key)
-
-  return {
-    status: Status.SUCCESS,
-    result
-  }
-}
-
-const getResolutionDate = async (chainId: ChainId, key: string, signerOrProvider: ethers.providers.Provider | ethers.Signer): Promise<IWrappedResult> => {
-  const governanceContract = await Governance.getInstance(chainId, signerOrProvider)
-
-  const result = await governanceContract.getResolutionDate(key)
 
   return {
     status: Status.SUCCESS,
@@ -259,10 +237,8 @@ export {
   attest,
   dispute,
   refute,
-  finalize,
   getMinStake,
   getReporter,
-  getResolutionDate,
   getIncidentDate,
   getStatus,
   getStakes,

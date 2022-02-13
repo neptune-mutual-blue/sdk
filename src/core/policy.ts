@@ -7,7 +7,7 @@ const getCoverFee = async (chainId: ChainId, key: string, args: IPolicyFeeArgs, 
   const policy = await PolicyContract.getInstance(chainId, signerOrProvider)
 
   const { duration, amount } = args
-  const result = await policy.getCoverFee(key, duration, amount)
+  const result = await policy.getCoverFeeInfo(key, duration, amount)
 
   return {
     status: Status.SUCCESS,
