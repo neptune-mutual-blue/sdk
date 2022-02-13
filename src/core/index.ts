@@ -5,6 +5,7 @@ import * as policy from './policy'
 import * as cxToken from './cxToken'
 import * as provision from './provision'
 import * as governance from './governance'
+import * as resolution from './resolution'
 import * as claimsProcessor from './claimsProcessor'
 
 export {
@@ -15,5 +16,6 @@ export {
   cxToken,
   provision,
   governance,
+  resolution,
   claimsProcessor
 }

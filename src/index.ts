@@ -6,7 +6,7 @@ import * as config from './config'
 import * as utils from './utils'
 
 const { ChainId } = types
-const { reassurance, cover, policy, cxToken, provision, liquidity, governance, claimsProcessor } = core
+const { reassurance, cover, policy, cxToken, provision, liquidity, governance, resolution, claimsProcessor } = core
 
 const sdk = {
   ChainId,
@@ -18,6 +18,7 @@ const sdk = {
   liquidity,
   registry,
   governance,
+  resolution,
   claimsProcessor,
   types,
   entities,
@@ -35,6 +36,7 @@ export {
   liquidity,
   registry,
   governance,
+  resolution,
   claimsProcessor,
   types,
   entities,
