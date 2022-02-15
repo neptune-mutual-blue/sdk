@@ -28,7 +28,7 @@
   },
   "dependencies": {
     "bs58": "4.0.1",
-    "ethers": "5.4.1",
+    "ethers": "5.4.7",
     "ipfs-mini": "1.1.5",
     "lru-cache": "6.0.0"
   },
