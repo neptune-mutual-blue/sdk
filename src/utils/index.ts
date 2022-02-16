@@ -4,6 +4,7 @@ import * as ipfs from './ipfs'
 import * as keyUtil from './key-util'
 import * as signer from './signer'
 import * as date from './date'
+import * as store from './store'
 
 export {
   contract,
@@ -11,5 +12,6 @@ export {
   ipfs,
   keyUtil,
   signer,
-  date
+  date,
+  store
 }
