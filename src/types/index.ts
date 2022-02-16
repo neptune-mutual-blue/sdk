@@ -11,6 +11,7 @@ import { IToken } from './IToken'
 import { IWrappedResult } from './IWrappedResult'
 import { Status } from './Status'
 import { PolicyDuration } from './PolicyDuration'
+import { IStoreCandidate } from './IStoreCandidate'
 import * as exceptions from './Exceptions'
 
 export {
@@ -27,5 +28,6 @@ export {
   IWrappedResult,
   Status,
   PolicyDuration,
+  IStoreCandidate,
   exceptions
 }
