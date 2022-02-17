@@ -1,5 +1,5 @@
 {
-  "version": "0.2.9-beta",
+  "version": "0.3.0-beta",
   "name": "@neptunemutual/sdk",
   "author": "Neptune Mutual Team",
   "description": "Neptune Mutual SDK",
@@ -28,10 +28,10 @@
   },
   "dependencies": {
     "bs58": "4.0.1",
-    "ethers": "5.4.1",
+    "ethers": "5.4.7",
     "ethers-multicall": "^0.2.2",
-    "ipfs-mini": "1.1.5",
-    "lru-cache": "6.0.0"
+    "lru-cache": "6.0.0",
+    "xmlhttprequest": "^1.8.0"
   },
   "devDependencies": {
     "@types/bs58": "4.0.1",
@@ -44,10 +44,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/neptune-mutual/sdk.git"
+    "url": "git+https://github.com/neptune-mutual-blue/sdk.git"
   },
   "bugs": {
-    "url": "https://github.com/neptune-mutual/sdk/issues"
+    "url": "https://github.com/neptune-mutual-blue/sdk/issues"
   },
-  "homepage": "https://github.com/neptune-mutual/sdk#readme"
+  "homepage": "https://github.com/neptune-mutual-blue/sdk#readme"
 }

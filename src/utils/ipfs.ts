@@ -1,25 +1,42 @@
 import bs58 from 'bs58'
-import IPFS from 'ipfs-mini'
+import { IPFSClient } from '../net'
 
-const node = new IPFS({ host: 'ipfs.infura.io', port: 5001, protocol: 'https' })
+const fallbackNodes = ['https://ipfs.infura.io:5001', 'https://api.thegraph.com/ipfs']
 
 const toBytes32 = (ipfsListing: string): string => `0x${bs58.decode(ipfsListing).slice(2).toString('hex')}`
 const toIPFShash = (bytes32Hex: string): string => bs58.encode(Buffer.from(`1220${bytes32Hex.slice(2)}`, 'hex'))
 
-const write = async (contents: Object): Promise<string[]> => {
+const write = async (contents: Object, nodeUrls?: string[]): Promise<string[] | undefined> => {
   const formatted = JSON.stringify(contents, null, 2)
-  const ipfsHash = await node.add(formatted)
-  return [ipfsHash, toBytes32(ipfsHash)]
+
+  const nodes = nodeUrls !== undefined ? nodeUrls : fallbackNodes
+  const client = new IPFSClient(nodes)
+
+  const hash = await client.addString(formatted)
+
+  if (hash === undefined) {
+    return undefined
+  }
+
+  return [hash, toBytes32(hash)]
 }
 
-const readBytes32 = async (key: string): Promise<Object> => {
+const read = async (key: string, nodeUrls?: string[]): Promise<Object|undefined> => {
+  const nodes = nodeUrls !== undefined ? nodeUrls : fallbackNodes
+  const client = new IPFSClient(nodes)
+
+  const raw = await client.getString(key)
+
+  if (raw !== undefined) {
+    return JSON.parse(raw)
+  }
+
+  return raw // which is undefined
+}
+
+const readBytes32 = async (key: string): Promise<Object | undefined> => {
   // eslint-disable-next-line @typescript-eslint/return-await
   return read(toIPFShash(key))
-}
-
-const read = async (key: string): Promise<Object> => {
-  const raw = await node.cat(key)
-  return JSON.parse(raw)
 }
 
 export { toBytes32, toIPFShash, write, read, readBytes32 }

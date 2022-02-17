@@ -43,7 +43,6 @@ const approve = async (chainId: ChainId, key: string, args: IApproveTransactionA
 
 const add = async (chainId: ChainId, key: string, amount: number, stake: number, signerOrProvider: ethers.providers.Provider | ethers.Signer): Promise<IWrappedResult> => {
   const vault = await Vault.getInstance(chainId, key, signerOrProvider)
-  console.info('Adding Liquidity')
   const result = await vault.addLiquidity(key, amount, stake)
 
   return {
