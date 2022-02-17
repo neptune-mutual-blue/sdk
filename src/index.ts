@@ -4,6 +4,7 @@ import * as registry from './registry'
 import * as entities from './entities'
 import * as config from './config'
 import * as utils from './utils'
+import * as net from './net'
 
 const { ChainId } = types
 const { reassurance, cover, policy, cxToken, provision, liquidity, governance, resolution, claimsProcessor } = core
@@ -23,7 +24,8 @@ const sdk = {
   types,
   entities,
   config,
-  utils
+  utils,
+  net
 }
 
 export {
@@ -41,7 +43,8 @@ export {
   types,
   entities,
   config,
-  utils
+  utils,
+  net
 }
 
 export default sdk

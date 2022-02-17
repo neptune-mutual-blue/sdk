@@ -2,7 +2,7 @@ import { ethers } from 'ethers'
 import { ZERO_BYTES32 } from '../config/constants'
 import { NPMToken, Governance } from '../registry'
 import { ChainId, IApproveTransactionArgs, Status, IWrappedResult, IReportingInfo, IReportingInfoStorage, CoverStatus } from '../types'
-import { InvalidReportError, InvalidSignerError } from '../types/Exceptions'
+import { GenericError, InvalidReportError, InvalidSignerError } from '../types/Exceptions'
 import { erc20Utils, ipfs, signer } from '../utils'
 
 const approveStake = async (chainId: ChainId, args: IApproveTransactionArgs, signerOrProvider: ethers.providers.Provider | ethers.Signer): Promise<IWrappedResult> => {
@@ -47,7 +47,13 @@ const report = async (chainId: ChainId, key: string, info: IReportingInfo, signe
   storage.createdBy = account
   storage.permalink = `https://app.neptunemutual.com/covers/view/${key}/reporting/${observed.getTime()}`
 
-  const [hash, hashBytes32] = await ipfs.write(storage)
+  const payload = await ipfs.write(storage)
+
+  if (payload === undefined) {
+    throw new GenericError('Could not save cover to an IPFS network')
+  }
+
+  const [hash, hashBytes32] = payload
 
   const governanceContract = await Governance.getInstance(chainId, signerOrProvider)
   const incidentDate = await governanceContract.getActiveIncidentDate(key)

@@ -5,7 +5,7 @@ import { ipfs, erc20Utils, signer } from '../utils'
 import { constants } from '../config'
 import { ZERO_BYTES32 } from '../config/constants'
 
-const { DuplicateCoverError, InvalidAccountError, InvalidSignerError, InvalidCoverKeyError } = exceptions
+const { DuplicateCoverError, GenericError, InvalidAccountError, InvalidSignerError, InvalidCoverKeyError } = exceptions
 
 const addToWhitelist = async (chainId: ChainId, whitelisted: string, signerOrProvider: ethers.providers.Provider | ethers.Signer): Promise<IWrappedResult> => {
   const { ZERO_ADDRESS } = constants
@@ -121,7 +121,13 @@ const createCover = async (chainId: ChainId, info: ICoverInfo, signerOrProvider:
   storage.createdBy = account
   storage.permalink = `https://app.neptunemutual.com/covers/view/${key}`
 
-  const [hash, hashBytes32] = await ipfs.write(storage)
+  const payload = await ipfs.write(storage)
+
+  if (payload === undefined) {
+    throw new GenericError('Could not save cover to an IPFS network')
+  }
+
+  const [hash, hashBytes32] = payload
 
   const coverContract = await Cover.getInstance(chainId, signerOrProvider)
   const cover = await coverContract.getCover(key)
