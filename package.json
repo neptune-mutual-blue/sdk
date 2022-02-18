@@ -1,5 +1,5 @@
 {
-  "version": "0.3.0-beta",
+  "version": "0.3.1-beta",
   "name": "@neptunemutual/sdk",
   "author": "Neptune Mutual Team",
   "description": "Neptune Mutual SDK",
@@ -27,11 +27,11 @@
     "publish": "npm run build && npm publish"
   },
   "dependencies": {
+    "axios": "0.26.0",
     "bs58": "4.0.1",
     "ethers": "5.4.7",
-    "ethers-multicall": "^0.2.2",
-    "lru-cache": "6.0.0",
-    "xmlhttprequest": "^1.8.0"
+    "ethers-multicall": "0.2.2",
+    "lru-cache": "6.0.0"
   },
   "devDependencies": {
     "@types/bs58": "4.0.1",

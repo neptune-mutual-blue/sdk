@@ -12,7 +12,7 @@ import { IWrappedResult } from './IWrappedResult'
 import { Status } from './Status'
 import { PolicyDuration } from './PolicyDuration'
 import { IStoreCandidate } from './IStoreCandidate'
-import { XMLHttpRequestReadyState } from './XMLHttpRequestReadyState'
+
 import * as exceptions from './Exceptions'
 
 export {
@@ -30,6 +30,5 @@ export {
   Status,
   PolicyDuration,
   IStoreCandidate,
-  XMLHttpRequestReadyState,
   exceptions
 }
