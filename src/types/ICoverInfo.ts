@@ -1,38 +1,36 @@
 interface ICoverInfo {
   key: string
   coverName: string
-  projectName: string
-  about: string
+  projectName?: string
   tags: string[]
-  blockchain: {
-    chainId: number
+  about: string
+  blockchains: [{
+    chainId?: number
     name: string
-  }
-  smartContracts: string[]
+  }]
   rules: string
   links: {
     website: string
-    documentation: string
-    telegram: string
-    twitter: string
-    github: string
-    facebook: string
-    blog: string
-    discord: string
-    linkedin: string
-    slack: string
+    documentation?: string
+    telegram?: string
+    twitter?: string
+    github?: string
+    facebook?: string
+    blog?: string
+    discord?: string
+    linkedin?: string
+    slack?: string
   }
-  reportingPeriod: number
-  resolutionSources: string[]
-  reassuranceToken: {
-    at: string
-    name: string
-    symbol: string
-    initialAmount: string
-  }
-  stakeWithFees: string
-  initialLiquidity: string
+  pricingFloor: string
+  pricingCeiling: string
+  reportingPeriod: string
+  cooldownPeriod: string
+  claimPeriod: string
   minReportingStake: string
+  resolutionSources: string[]
+  stakeWithFees: string
+  reassurance: string
+  initialLiquidity: string
 }
 
 export { ICoverInfo }

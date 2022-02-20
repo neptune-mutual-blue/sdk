@@ -6,6 +6,7 @@ import * as PolicyContract from './PolicyContract'
 import * as Cover from './Cover'
 import * as IERC20 from './IERC20'
 import * as NPMToken from './NPMToken'
+import * as Stablecoin from './Stablecoin'
 import * as LiquidityToken from './LiquidityToken'
 import * as Staking from './Staking'
 import * as Store from './Store'
@@ -15,6 +16,9 @@ import * as Resolution from './Resolution'
 import * as ClaimsProcessor from './ClaimsProcessor'
 import * as BondPool from './BondPool'
 import * as StakingPools from './StakingPools'
+import * as IUniswapV2FactoryLike from './IUniswapV2FactoryLike'
+import * as IUniswapV2PairLike from './IUniswapV2PairLike'
+import * as IUniswapV2RouterLike from './IUniswapV2RouterLike'
 
 export {
   Protocol,
@@ -25,6 +29,7 @@ export {
   Cover,
   IERC20,
   NPMToken,
+  Stablecoin,
   LiquidityToken,
   Staking,
   Store,
@@ -33,5 +38,8 @@ export {
   Resolution,
   ClaimsProcessor,
   BondPool,
-  StakingPools
+  StakingPools,
+  IUniswapV2FactoryLike,
+  IUniswapV2PairLike,
+  IUniswapV2RouterLike
 }

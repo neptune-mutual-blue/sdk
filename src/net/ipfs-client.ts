@@ -38,15 +38,14 @@ class IPFSClient {
         }
 
         result = await this.call(options)
-
-        if (result !== undefined) {
-          const { Hash } = JSON.parse(result)
-          // console.log('This is the result', Hash)
-          return Hash
-        }
       } catch (error) {
         console.error(error)
       }
+    }
+
+    if (result !== undefined) {
+      const { Hash } = JSON.parse(result)
+      return Hash
     }
 
     return undefined
