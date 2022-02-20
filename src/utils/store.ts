@@ -7,6 +7,10 @@ import { ZERO_BYTES32 } from '../config/constants'
 const getKey = (signature: string[]|undefined, ...items: string[]): string => {
   let types = signature
 
+  if (items.length === 1) {
+    return items[0]
+  }
+
   if (types === undefined) {
     types = items.map(() => 'bytes32')
   }
@@ -47,6 +51,7 @@ const readStorage = async (chainId: ChainId, candidates: IStoreCandidate[], prov
       k = getKey(signature, ...key)
     }
 
+    console.info('key', k)
     const func = getFunc(returns)
     calls.push(storeContract[func](k))
   }
