@@ -7,12 +7,12 @@ const definitions = {
   3: {
     env: process.env.NPM_ROPSTEN_STORE,
     next: process.env.NEXT_PUBLIC_ROPSTEN_STORE,
-    fallback: '0xA013722fD9244B50c844c65CC55BFAb57a55993B'
+    fallback: '0x7f312EFA723c4bC1A9B14FB23E2AEb32ed5DDB32'
   },
   42: {
     env: process.env.NPM_KOVAN_STORE,
     next: process.env.NEXT_PUBLIC_KOVAN_STORE,
-    fallback: '0xA013722fD9244B50c844c65CC55BFAb57a55993B'
+    fallback: '0x7f312EFA723c4bC1A9B14FB23E2AEb32ed5DDB32'
   },
   97: {
     env: process.env.NPM_BSC_TESTNET_STORE,
