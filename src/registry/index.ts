@@ -7,7 +7,6 @@ import * as Cover from './Cover'
 import * as IERC20 from './IERC20'
 import * as NPMToken from './NPMToken'
 import * as Stablecoin from './Stablecoin'
-import * as LiquidityToken from './LiquidityToken'
 import * as Staking from './Staking'
 import * as Store from './Store'
 import * as Vault from './Vault'
@@ -30,7 +29,6 @@ export {
   IERC20,
   NPMToken,
   Stablecoin,
-  LiquidityToken,
   Staking,
   Store,
   Vault,
