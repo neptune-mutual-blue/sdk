@@ -7,6 +7,7 @@ import * as date from './date'
 import * as store from './store'
 import * as pricing from './pricing'
 import * as uniswapV2 from './uniswap-v2'
+import * as numbers from './numbers'
 
 export {
   contract,
@@ -17,5 +18,6 @@ export {
   date,
   store,
   pricing,
-  uniswapV2
+  uniswapV2,
+  numbers
 }
