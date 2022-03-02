@@ -16,7 +16,12 @@ const getInstance = async (chainId: ChainId, coverKey: string, signerOrProvider:
   return contract.getContract(chainId, address, abis.IVault, signerOrProvider)
 }
 
+const getInstanceByAddress = async (chainId: ChainId, address: string, signerOrProvider: ethers.providers.Provider | ethers.Signer | undefined): Promise<ethers.Contract> => {
+  return contract.getContract(chainId, address, abis.IVault, signerOrProvider)
+}
+
 export {
   getAddress,
-  getInstance
+  getInstance,
+  getInstanceByAddress
 }

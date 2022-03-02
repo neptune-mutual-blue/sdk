@@ -1,12 +1,20 @@
 import { ethers } from 'ethers'
 import { ChainId } from '../types'
 import { abis } from '../config'
-import { contract } from '../utils'
+import { contract, keyUtil } from '../utils'
+import { getOrFetch } from './CachedStoreAddress'
 
-const getInstance = async (chainId: ChainId, fromAddress: string, signerOrProvider: ethers.providers.Provider | ethers.Signer | undefined): Promise<ethers.Contract> => {
-  return contract.getContract(chainId, fromAddress, abis.IUniswapV2FactoryLike, signerOrProvider)
+const getAddress = async (chainId: ChainId, signerOrProvider: ethers.providers.Provider | ethers.Signer | undefined): Promise<string> => {
+  // eslint-disable-next-line @typescript-eslint/return-await
+  return getOrFetch(chainId, keyUtil.PROTOCOL.CNS.UNISWAP_V2_FACTORY, signerOrProvider)
+}
+
+const getInstance = async (chainId: ChainId, signerOrProvider: ethers.providers.Provider | ethers.Signer | undefined): Promise<ethers.Contract> => {
+  const address = await getAddress(chainId, signerOrProvider)
+  return contract.getContract(chainId, address, abis.IUniswapV2FactoryLike, signerOrProvider)
 }
 
 export {
+  getAddress,
   getInstance
 }

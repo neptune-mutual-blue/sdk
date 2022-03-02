@@ -1,5 +1,5 @@
 import { ethers } from 'ethers'
-import { LiquidityToken, PolicyContract } from '../registry'
+import { Stablecoin, PolicyContract } from '../registry'
 import { ChainId, IApproveTransactionArgs, IPolicyFeeArgs, Status, IWrappedResult } from '../types'
 import { erc20Utils } from '../utils'
 
@@ -16,7 +16,7 @@ const getCoverFee = async (chainId: ChainId, key: string, args: IPolicyFeeArgs, 
 }
 
 const getAllowance = async (chainId: ChainId, owner: string, signerOrProvider: ethers.providers.Provider | ethers.Signer): Promise<IWrappedResult> => {
-  const stablecoin = await LiquidityToken.getInstance(chainId, signerOrProvider)
+  const stablecoin = await Stablecoin.getInstance(chainId, signerOrProvider)
   const policy = await PolicyContract.getAddress(chainId, signerOrProvider)
 
   const result = await stablecoin.allowance(owner, policy)
@@ -28,7 +28,7 @@ const getAllowance = async (chainId: ChainId, owner: string, signerOrProvider: e
 }
 
 const approve = async (chainId: ChainId, args: IApproveTransactionArgs, signerOrProvider: ethers.providers.Provider | ethers.Signer): Promise<IWrappedResult> => {
-  const stablecoin = await LiquidityToken.getInstance(chainId, signerOrProvider)
+  const stablecoin = await Stablecoin.getInstance(chainId, signerOrProvider)
   const policy = await PolicyContract.getAddress(chainId, signerOrProvider)
 
   const amount = erc20Utils.getApprovalAmount(args)

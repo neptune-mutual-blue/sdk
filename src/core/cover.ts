@@ -1,9 +1,10 @@
 import { ethers } from 'ethers'
-import { Reassurance, Cover, IERC20, LiquidityToken, NPMToken, Staking } from '../registry'
+import { Reassurance, Cover, IERC20, NPMToken, Staking } from '../registry'
 import { ChainId, ICoverInfo, ICoverInfoStorage, IApproveTransactionArgs, Status, IWrappedResult, exceptions } from '../types'
 import { ipfs, erc20Utils, signer } from '../utils'
 import { constants } from '../config'
 import { ZERO_BYTES32 } from '../config/constants'
+import { registry } from '..'
 
 const { DuplicateCoverError, GenericError, InvalidAccountError, InvalidSignerError, InvalidCoverKeyError } = exceptions
 
@@ -71,20 +72,6 @@ const approveStakeAndFees = async (chainId: ChainId, args: IApproveTransactionAr
   }
 }
 
-const approveInitialLiquidity = async (chainId: ChainId, args: IApproveTransactionArgs, signerOrProvider: ethers.providers.Provider | ethers.Signer): Promise<IWrappedResult> => {
-  const liquidity = await LiquidityToken.getInstance(chainId, signerOrProvider)
-
-  const amount = erc20Utils.getApprovalAmount(args)
-  const cover = await Cover.getAddress(chainId, signerOrProvider)
-
-  const result = await liquidity.approve(cover, amount)
-
-  return {
-    status: Status.SUCCESS,
-    result
-  }
-}
-
 const getCoverInfo = async (chainId: ChainId, key: string, signerOrProvider: ethers.providers.Provider | ethers.Signer): Promise<ICoverInfoStorage> => {
   const coverContract = await Cover.getInstance(chainId, signerOrProvider)
   const cover = await coverContract.getCover(key)
@@ -100,13 +87,13 @@ const getCoverInfo = async (chainId: ChainId, key: string, signerOrProvider: eth
 
 const createCover = async (chainId: ChainId, info: ICoverInfo, signerOrProvider: ethers.providers.Provider | ethers.Signer): Promise<IWrappedResult> => {
   const { ZERO_ADDRESS } = constants
-  const { key, stakeWithFees, reassuranceToken, initialLiquidity } = info
+  const { key } = info
 
   if (!key) { // eslint-disable-line
     throw new DuplicateCoverError('Invalid or empty cover key')
   }
 
-  if (!stakeWithFees) { // eslint-disable-line
+  if (!info.stakeWithFees) { // eslint-disable-line
     throw new DuplicateCoverError('Invalid or empty cover fee')
   }
 
@@ -136,15 +123,22 @@ const createCover = async (chainId: ChainId, info: ICoverInfo, signerOrProvider:
     throw new DuplicateCoverError(`The namespace "${key}" already exists`)
   }
 
+  const stablecoin = await registry.Stablecoin.getAddress(chainId, signerOrProvider)
+
   const tx = await coverContract.addCover(
     key,
     hashBytes32,
-    reassuranceToken.at,
-    [info.minReportingStake.toString(),
+    stablecoin,
+    [
+      info.stakeWithFees.toString(),
+      info.reassurance.toString(),
+      info.minReportingStake.toString(),
       info.reportingPeriod.toString(),
-      stakeWithFees.toString(),
-      reassuranceToken.initialAmount.toString(),
-      initialLiquidity.toString()]
+      info.cooldownPeriod.toString(),
+      info.claimPeriod.toString(),
+      info.pricingFloor.toString(),
+      info.pricingCeiling.toString()
+    ]
   )
 
   return {
@@ -160,4 +154,4 @@ const createCover = async (chainId: ChainId, info: ICoverInfo, signerOrProvider:
   }
 }
 
-export { addToWhitelist, removeFromWhitelist, getCoverInfo, approveReassurance, approveStakeAndFees, approveInitialLiquidity, createCover }
+export { addToWhitelist, removeFromWhitelist, getCoverInfo, approveReassurance, approveStakeAndFees, createCover }

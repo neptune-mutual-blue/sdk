@@ -5,6 +5,8 @@ import * as keyUtil from './key-util'
 import * as signer from './signer'
 import * as date from './date'
 import * as store from './store'
+import * as pricing from './pricing'
+import * as uniswapV2 from './uniswap-v2'
 
 export {
   contract,
@@ -13,5 +15,7 @@ export {
   keyUtil,
   signer,
   date,
-  store
+  store,
+  pricing,
+  uniswapV2
 }
