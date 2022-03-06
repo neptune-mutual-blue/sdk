@@ -19,9 +19,10 @@ const getPrice = async (chainId: ChainId, token: string, amount: number, signerO
 
 const getPriceUsingPair = async (chainId: ChainId, token: string, amount: number, signerOrProvider: ethers.providers.Provider | ethers.Signer | undefined): Promise<string> => {
   const stablecoin = await registry.Stablecoin.getAddress(chainId, signerOrProvider)
+  const value = stringify(amount)
 
   if (token.toLowerCase() === stablecoin.toLowerCase()) {
-    return stringify(amount)
+    return value
   }
 
   const pair = await getPairFromFactory(chainId, token, stablecoin, signerOrProvider)
@@ -29,8 +30,7 @@ const getPriceUsingPair = async (chainId: ChainId, token: string, amount: number
 
   const token1 = await pair.token1()
 
-  const ratio = token1 === stablecoin ? reserve1.div(reserve0) : reserve0.div(reserve1)
-  return ratio.mul(stringify(amount)).toString()
+  return token1.toLowerCase() === stablecoin.toLowerCase() ? reserve1.mul(value).div(reserve0) : reserve0.mul(value).div(reserve1)
 }
 
 export { getPrice, getPriceUsingPair }
