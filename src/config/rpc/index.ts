@@ -1,9 +1,9 @@
 import { ChainId } from '../../types'
 import { UnsupportedBlockchainError } from '../../types/Exceptions'
-import { definitions } from './definition'
+import { getDefinition } from './definition'
 
 const getNetworkUrlFromEnvironment = (chainId: ChainId): string => {
-  const { env, next, fallback } = definitions[chainId]
+  const { env, next, fallback } = getDefinition()[chainId]
 
   if (env !== undefined) {
     return env

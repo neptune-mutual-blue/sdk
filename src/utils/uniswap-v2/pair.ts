@@ -15,7 +15,7 @@ const getPairFromFactory = async (chainId: ChainId, token0: string, token1: stri
   return getPairFromAddress(chainId, pairAddress, signerOrProvider)
 }
 
-const getPairInfo = async (pair: ethers.Contract): Promise<number[]> => {
+const getPairInfo = async (pair: ethers.Contract): Promise<any[]> => {
   const { reserve0, reserve1 } = await pair.getReserves()
   const supply = await pair.totalSupply()
 
