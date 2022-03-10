@@ -51,7 +51,6 @@ const readStorage = async (chainId: ChainId, candidates: IStoreCandidate[], prov
       k = getKey(signature, ...key)
     }
 
-    console.info('key', k)
     const func = getFunc(returns)
     calls.push(storeContract[func](k))
   }
