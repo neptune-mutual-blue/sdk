@@ -41,7 +41,7 @@ const add = async (chainId: ChainId, key: string, amount: number, signerOrProvid
   }
 }
 
-const get = async (chainId: ChainId, key: string, signerOrProvider: ethers.providers.Provider | ethers.Signer | undefined): Promise<IWrappedResult> => {
+const get = async (chainId: ChainId, key: string, signerOrProvider: ethers.providers.Provider | ethers.Signer): Promise<IWrappedResult> => {
   const contract = await Reassurance.getInstance(chainId, signerOrProvider)
   const result = await contract.getReassurance(key)
 

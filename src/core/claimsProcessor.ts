@@ -4,7 +4,7 @@ import { ChainId, IApproveTransactionArgs, Status, IWrappedResult } from '../typ
 import { erc20Utils } from '../utils'
 
 const getAllowance = async (chainId: ChainId, cTokenAddress: string, owner: string, signerOrProvider: ethers.providers.Provider | ethers.Signer): Promise<IWrappedResult> => {
-  const cxToken = IERC20.getInstance(chainId, cTokenAddress, signerOrProvider)
+  const cxToken = IERC20.getInstance(cTokenAddress, signerOrProvider)
   const processor = await ClaimsProcessor.getAddress(chainId, signerOrProvider)
 
   const result = await cxToken.allowance(owner, processor)
@@ -16,7 +16,7 @@ const getAllowance = async (chainId: ChainId, cTokenAddress: string, owner: stri
 }
 
 const approve = async (chainId: ChainId, cTokenAddress: string, args: IApproveTransactionArgs, signerOrProvider: ethers.providers.Provider | ethers.Signer): Promise<IWrappedResult> => {
-  const cxToken = IERC20.getInstance(chainId, cTokenAddress, signerOrProvider)
+  const cxToken = IERC20.getInstance(cTokenAddress, signerOrProvider)
 
   const processor = await ClaimsProcessor.getAddress(chainId, signerOrProvider)
   const amount = erc20Utils.getApprovalAmount(args)

@@ -5,7 +5,6 @@ interface INetwork {
   chainId: ChainId
   chain: string
   approximateBlockTime: number
-  rpcProvider: string
   store: string
   uniswap: {
     factory: string | null

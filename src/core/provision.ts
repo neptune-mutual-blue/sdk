@@ -47,7 +47,7 @@ const decrease = async (chainId: ChainId, key: string, amount: number, signerOrP
   }
 }
 
-const get = async (chainId: ChainId, key: string, signerOrProvider: ethers.providers.Provider | ethers.Signer | undefined): Promise<IWrappedResult> => {
+const get = async (chainId: ChainId, key: string, signerOrProvider: ethers.providers.Provider | ethers.Signer): Promise<IWrappedResult> => {
   const contract = await ProvisionContract.getInstance(chainId, signerOrProvider)
   const result = await contract.getProvision(key)
 

@@ -4,7 +4,7 @@ import { ChainId } from '../../types'
 import { stringify } from '../numbers'
 import { getPairFromFactory } from '../uniswap-v2/pair'
 
-const getPrice = async (chainId: ChainId, token: string, amount: number, signerOrProvider: ethers.providers.Provider | ethers.Signer | undefined): Promise<string> => {
+const getPrice = async (chainId: ChainId, token: string, amount: number, signerOrProvider: ethers.providers.Provider | ethers.Signer): Promise<string> => {
   const stablecoin = await registry.Stablecoin.getAddress(chainId, signerOrProvider)
 
   if (token.toLowerCase() === stablecoin.toLowerCase()) {
@@ -17,7 +17,7 @@ const getPrice = async (chainId: ChainId, token: string, amount: number, signerO
   return stablecoinNeeded
 }
 
-const getPriceUsingPair = async (chainId: ChainId, token: string, amount: number, signerOrProvider: ethers.providers.Provider | ethers.Signer | undefined): Promise<string> => {
+const getPriceUsingPair = async (chainId: ChainId, token: string, amount: number, signerOrProvider: ethers.providers.Provider | ethers.Signer): Promise<string> => {
   const stablecoin = await registry.Stablecoin.getAddress(chainId, signerOrProvider)
   const value = stringify(amount)
 

@@ -9,7 +9,7 @@ const getCToken = async (chainId: ChainId, key: string, duration: PolicyDuration
   const values = await policy.getCToken(key, duration)
   const { cxToken, expiryDate } = values
 
-  const instance = contract.getContract(chainId, cxToken, abis.ICxToken, signerOrProvider)
+  const instance = contract.getContract(cxToken, abis.ICxToken, signerOrProvider)
 
   return {
     status: Status.SUCCESS,
@@ -20,8 +20,8 @@ const getCToken = async (chainId: ChainId, key: string, duration: PolicyDuration
   }
 }
 
-const getCTokenByAddress = async (chainId: ChainId, address: string, signerOrProvider: ethers.providers.Provider | ethers.Signer): Promise<IWrappedResult> => {
-  const instance = contract.getContract(chainId, address, abis.ICxToken, signerOrProvider)
+const getCTokenByAddress = async (address: string, signerOrProvider: ethers.providers.Provider | ethers.Signer): Promise<IWrappedResult> => {
+  const instance = contract.getContract(address, abis.ICxToken, signerOrProvider)
   const expiryDate = await instance.expiresOn()
 
   return {
@@ -37,7 +37,7 @@ const getCTokenByExpiryDate = async (chainId: ChainId, key: string, expiryDate: 
   const policy = await PolicyContract.getInstance(chainId, signerOrProvider)
   const cxToken = await policy.getCTokenByExpiryDate(key, expiryDate)
 
-  const result = contract.getContract(chainId, cxToken, abis.ICxToken, signerOrProvider)
+  const result = contract.getContract(cxToken, abis.ICxToken, signerOrProvider)
 
   return {
     status: Status.SUCCESS,
