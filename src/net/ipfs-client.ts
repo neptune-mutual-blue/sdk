@@ -57,8 +57,8 @@ class IPFSClient {
     // eslint-disable-next-line
     return this.call({
       hash,
-      method: 'GET',
-      url: `${url}/api/v0/cat/${hash}`,
+      method: 'POST',
+      url: `${url}/api/v0/cat?arg=${hash}`,
       headers: {
         Accept: 'application/json'
       }

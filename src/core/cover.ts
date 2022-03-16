@@ -8,7 +8,7 @@ import { registry } from '..'
 
 const { DuplicateCoverError, GenericError, InvalidAccountError, InvalidSignerError, InvalidCoverKeyError } = exceptions
 
-const addToWhitelist = async (chainId: ChainId, whitelisted: string, signerOrProvider: ethers.providers.Provider | ethers.Signer): Promise<IWrappedResult> => {
+const whitelistCoverCreator = async (chainId: ChainId, whitelisted: string, signerOrProvider: ethers.providers.Provider | ethers.Signer): Promise<IWrappedResult> => {
   const { ZERO_ADDRESS } = constants
 
   if (whitelisted === ZERO_ADDRESS) {
@@ -17,7 +17,7 @@ const addToWhitelist = async (chainId: ChainId, whitelisted: string, signerOrPro
 
   const coverContract = await Cover.getInstance(chainId, signerOrProvider)
 
-  const tx = await coverContract.updateWhitelist(whitelisted, true)
+  const tx = await coverContract.updateCoverCreatorWhitelist(whitelisted, true)
 
   return {
     status: Status.SUCCESS,
@@ -27,7 +27,7 @@ const addToWhitelist = async (chainId: ChainId, whitelisted: string, signerOrPro
   }
 }
 
-const removeFromWhitelist = async (chainId: ChainId, whitelisted: string, signerOrProvider: ethers.providers.Provider | ethers.Signer): Promise<IWrappedResult> => {
+const removeCoverCreatorFromWhitelist = async (chainId: ChainId, whitelisted: string, signerOrProvider: ethers.providers.Provider | ethers.Signer): Promise<IWrappedResult> => {
   const { ZERO_ADDRESS } = constants
 
   if (whitelisted === ZERO_ADDRESS) {
@@ -36,7 +36,7 @@ const removeFromWhitelist = async (chainId: ChainId, whitelisted: string, signer
 
   const coverContract = await Cover.getInstance(chainId, signerOrProvider)
 
-  const tx = await coverContract.updateWhitelist(whitelisted, false)
+  const tx = await coverContract.updateCoverCreatorWhitelist(whitelisted, false)
 
   return {
     status: Status.SUCCESS,
@@ -47,7 +47,7 @@ const removeFromWhitelist = async (chainId: ChainId, whitelisted: string, signer
 }
 
 const approveReassurance = async (chainId: ChainId, tokenAddress: string, args: IApproveTransactionArgs, signerOrProvider: ethers.providers.Provider | ethers.Signer): Promise<IWrappedResult> => {
-  const reassuranceToken = IERC20.getInstance(chainId, tokenAddress, signerOrProvider)
+  const reassuranceToken = IERC20.getInstance(tokenAddress, signerOrProvider)
 
   const contract = await Reassurance.getAddress(chainId, signerOrProvider)
   const amount = erc20Utils.getApprovalAmount(args)
@@ -154,4 +154,4 @@ const createCover = async (chainId: ChainId, info: ICoverInfo, signerOrProvider:
   }
 }
 
-export { addToWhitelist, removeFromWhitelist, getCoverInfo, approveReassurance, approveStakeAndFees, createCover }
+export { whitelistCoverCreator, removeCoverCreatorFromWhitelist, getCoverInfo, approveReassurance, approveStakeAndFees, createCover }

@@ -1,6 +1,6 @@
 import { ethers } from 'ethers'
 
-const getAddress = async (signerOrProvider: ethers.providers.Provider | ethers.Signer | undefined): Promise<string | null> => {
+const getAddress = async (signerOrProvider: ethers.providers.Provider | ethers.Signer): Promise<string | null> => {
   if (signerOrProvider === undefined) {
     return null
   }

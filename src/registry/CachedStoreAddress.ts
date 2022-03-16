@@ -3,7 +3,7 @@ import { ChainId } from '../types'
 import * as Store from './Store'
 import * as cache from '../cache/index'
 
-const getOrFetch = async (chainId: ChainId, nsKey: string, signerOrProvider: ethers.providers.Provider | ethers.Signer | undefined): Promise<string> => {
+const getOrFetch = async (chainId: ChainId, nsKey: string, signerOrProvider: ethers.providers.Provider | ethers.Signer): Promise<string> => {
   const cacheKey = cache.genKey(chainId, nsKey)
   const cached = cache.get(cacheKey)
 

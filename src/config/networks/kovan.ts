@@ -1,6 +1,5 @@
 import { INetwork, IToken, ChainId } from '../../types'
 import { Token } from '../../entities/Token'
-import { getNetworkUrlFromEnvironment } from '../rpc'
 import { getStoreAddressFromEnvironment } from '../store'
 
 const weth = new Token(ChainId.Kovan, '0xd0a1e359811322d97991e03f863a0c30c2cf029c', 'Wrapped ETH', 'WETH')
@@ -9,7 +8,6 @@ class Kovan implements INetwork {
   chainId: ChainId
   chain: string
   approximateBlockTime: number
-  rpcProvider: string
   store: string
   uniswap: {
     factory: string
@@ -26,7 +24,6 @@ class Kovan implements INetwork {
     this.chain = 'Kovan Test Network'
     this.approximateBlockTime = 4
 
-    this.rpcProvider = getNetworkUrlFromEnvironment(ChainId.Kovan)
     this.store = getStoreAddressFromEnvironment(ChainId.Kovan)
 
     this.tokens = {
