@@ -20,6 +20,8 @@ const getKey = (signature: string[]|undefined, ...items: string[]): string => {
 
 const getFunc = (type: string): string => {
   switch (type) {
+    case 'bool':
+      return 'getBool'
     case 'string':
       return 'getString'
     case 'bytes32':
