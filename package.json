@@ -36,7 +36,7 @@
   "devDependencies": {
     "@types/bs58": "4.0.1",
     "@types/lru-cache": "5.1.1",
-    "microbundle": "^0.14.2",
+    "microbundle": "0.14.2",
     "ts-standard": "11.0.0"
   },
   "directories": {
