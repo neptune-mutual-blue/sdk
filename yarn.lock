@@ -3806,9 +3806,9 @@ minimatch@^3.0.4, minimatch@^3.1.2:
     brace-expansion "^1.1.7"
 
 minimist@^1.2.0, minimist@^1.2.5:
-  version "1.2.5"
-  resolved "https://registry.yarnpkg.com/minimist/-/minimist-1.2.5.tgz#67d66014b66a6a8aaa0c083c5fd58df4e4e97602"
-  integrity sha512-FM9nNUYrRBAELZQT3xeZQ7fmMOBg6nWNmJKTcgsJeaLstP/UODVpGsr5OhXhhXg6f+qtJ8uiZ+PUxkDWcgIXLw==
+  version "1.2.6"
+  resolved "https://registry.yarnpkg.com/minimist/-/minimist-1.2.6.tgz#8637a5b759ea0d6e98702cfb3a9283323c93af44"
+  integrity sha512-Jsjnk4bw3YJqYzbdyBiNsPWHPfO++UGG749Cxs6peCu5Xg4nrena6OVxOYxrQTqww0Jmwt+Ref8rggumkTLz9Q==
 
 mri@^1.1.0:
   version "1.2.0"
@@ -4915,7 +4915,7 @@ to-regex-range@^5.0.1:
   dependencies:
     is-number "^7.0.0"
 
-ts-standard@^11.0.0:
+ts-standard@11.0.0:
   version "11.0.0"
   resolved "https://registry.yarnpkg.com/ts-standard/-/ts-standard-11.0.0.tgz#2d9908869818f09601af9d57cc224c836d9eb31c"
   integrity sha512-fe+PCOM6JTMIcG1Smr8BQJztUi3dc/SDJMqezxNAL8pe/0+h0shK0+fNPTuF1hMVMYO+O53Wtp9WQHqj0GJtMw==
