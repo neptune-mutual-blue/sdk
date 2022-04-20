@@ -129,6 +129,7 @@ const createCover = async (chainId: ChainId, info: ICoverInfo, signerOrProvider:
     key,
     hashBytes32,
     stablecoin,
+    info.requiresWhitelist,
     [
       info.stakeWithFees.toString(),
       info.reassurance.toString(),
