@@ -46,15 +46,23 @@ const readStorage = async (chainId: ChainId, candidates: IStoreCandidate[], prov
   const calls = []
 
   for (const candidate of candidates) {
-    const { returns, key, signature } = candidate
+    const { returns, key, signature, fn, args } = candidate
     let k = ZERO_BYTES32
+    let func = getFunc(returns)
 
     if (key !== undefined) {
       k = getKey(signature, ...key)
     }
 
-    const func = getFunc(returns)
-    calls.push(storeContract[func](k))
+    if (fn !== undefined) {
+      func = fn
+    }
+
+    if (args !== undefined) {
+      calls.push(storeContract[func](...args))
+    } else {
+      calls.push(storeContract[func](k))
+    }
   }
 
   const members = await ethcallProvider.all(calls)
