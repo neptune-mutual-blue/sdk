@@ -8,7 +8,6 @@ const qualifyBytes32 = (k: string): string => encodeKeys(['bytes32', 'bytes32'],
 const qualify = (k: string): string => encodeKeys(['bytes32', 'address'], [PROTOCOL.NS.CONTRACTS, k])
 const qualifyMember = (k: string): string => encodeKeys(['bytes32', 'address'], [PROTOCOL.NS.MEMBERS, k])
 
-
 const ACCESS_CONTROL = {
   ADMIN: toBytes32(''),
   COVER_MANAGER: toBytes32('role:cover:manager'),
@@ -18,9 +17,8 @@ const ACCESS_CONTROL = {
   UPGRADE_AGENT: toBytes32('role:upgrade:agent'),
   RECOVERY_AGENT: toBytes32('role:recovery:agent'),
   PAUSE_AGENT: toBytes32('role:pause:agent'),
-  UNPAUSE_AGENT: toBytes32('role:unpause:agent'),
+  UNPAUSE_AGENT: toBytes32('role:unpause:agent')
 }
-
 
 const BOND = {
   TO_CLAIM: toBytes32('ns:pool:bond:to:claim'),
@@ -31,9 +29,8 @@ const BOND = {
   VESTING_TERM: toBytes32('ns:pool:bond:vesting:term'),
   UNLOCK_DATE: toBytes32('ns:pool:bond:unlock:date'),
   TOTAL_NPM_ALLOCATED: toBytes32('ns:pool:bond:total:npm:alloc'),
-  TOTAL_NPM_DISTRIBUTED: toBytes32('ns:pool:bond:total:npm:distrib'),
+  TOTAL_NPM_DISTRIBUTED: toBytes32('ns:pool:bond:total:npm:distrib')
 }
-
 
 const PROTOCOL = {
   CNS: {
@@ -64,7 +61,7 @@ const PROTOCOL = {
     GOVERNANCE: toBytes32('cns:gov'),
     GOVERNANCE_RESOLUTION: toBytes32('cns:gov:resolution'),
     CLAIM_PROCESSOR: toBytes32('cns:claim:processor'),
-    BURNER: toBytes32('cns:core:burner'),
+    BURNER: toBytes32('cns:core:burner')
   },
   NS: {
     MEMBERS: toBytes32('ns:members'),
@@ -133,7 +130,7 @@ const PROTOCOL = {
     LENDING_STRATEGY_DISABLED: toBytes32('ns:lending:strategy:disabled'),
     LENDING_STRATEGY_WITHDRAWAL_START: toBytes32('ns:lending:strategy:w:start'),
     ACCRUAL_INVOCATION: toBytes32('ns:accrual:invocation'),
-    LENDING_STRATEGY_WITHDRAWAL_END: toBytes32('ns:lending:strategy:w:end'),
+    LENDING_STRATEGY_WITHDRAWAL_END: toBytes32('ns:lending:strategy:w:end')
   },
   CNAME: {
     PROTOCOL: toBytes32('Neptune Mutual Protocol'),
@@ -158,10 +155,9 @@ const PROTOCOL = {
     VAULT_DELEGATE: toBytes32('VaultDelegate'),
     LIQUIDITY_ENGINE: toBytes32('LiquidityEngine'),
     STRATEGY_AAVE: toBytes32('AaveStrategy'),
-    STRATEGY_COMPOUND: toBytes32('CompoundStrategy'),
-  },
+    STRATEGY_COMPOUND: toBytes32('CompoundStrategy')
+  }
 }
-
 
 const STAKING = {
   NAME: toBytes32('ns:pool:staking:name'),
@@ -182,9 +178,8 @@ const STAKING = {
   REWARD_TOKEN_BALANCE: toBytes32('ns:pool:reward:token:balance'),
   DEPOSIT_HEIGHTS: toBytes32('ns:pool:deposit:heights'),
   REWARD_HEIGHTS: toBytes32('ns:pool:reward:heights'),
-  TOTAL_REWARD_GIVEN: toBytes32('ns:pool:reward:total:given'),
+  TOTAL_REWARD_GIVEN: toBytes32('ns:pool:reward:total:given')
 }
-
 
 export {
   encodeKey,
