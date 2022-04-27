@@ -6,7 +6,7 @@ import { contract } from '../utils'
 
 const getCToken = async (chainId: ChainId, key: string, duration: PolicyDuration, signerOrProvider: ethers.providers.Provider | ethers.Signer): Promise<IWrappedResult> => {
   const policy = await PolicyContract.getInstance(chainId, signerOrProvider)
-  const values = await policy.getCToken(key, duration)
+  const values = await policy.getCxToken(key, duration)
   const { cxToken, expiryDate } = values
 
   const instance = contract.getContract(cxToken, abis.ICxToken, signerOrProvider)
@@ -35,7 +35,7 @@ const getCTokenByAddress = async (address: string, signerOrProvider: ethers.prov
 
 const getCTokenByExpiryDate = async (chainId: ChainId, key: string, expiryDate: number, signerOrProvider: ethers.providers.Provider | ethers.Signer): Promise<IWrappedResult> => {
   const policy = await PolicyContract.getInstance(chainId, signerOrProvider)
-  const cxToken = await policy.getCTokenByExpiryDate(key, expiryDate)
+  const cxToken = await policy.getCxTokenByExpiryDate(key, expiryDate)
 
   const result = contract.getContract(cxToken, abis.ICxToken, signerOrProvider)
 

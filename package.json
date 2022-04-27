@@ -1,5 +1,5 @@
 {
-  "version": "0.4.3-beta",
+  "version": "0.4.4-beta",
   "name": "@neptunemutual/sdk",
   "author": "Neptune Mutual Team",
   "description": "Neptune Mutual SDK",
@@ -21,7 +21,7 @@
   "scripts": {
     "build": "rm -rf ./dist && microbundle -i ./src/index.ts -o ./dist/index.js --target web -f esm --generateTypes true",
     "compile": "yarn build",
-    "dev": "microbundle watch",
+    "dev": "microbundle watch -i ./src/index.ts -o ./dist/index.js --target web -f esm --generateTypes true",
     "standard": "ts-standard",
     "fix": "ts-standard --fix",
     "publish": "npm run build && npm publish"

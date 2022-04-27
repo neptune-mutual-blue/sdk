@@ -9,6 +9,7 @@ interface ICoverInfo {
     name: string
   }]
   rules: string
+  exclusions: string
   links: {
     website: string
     documentation?: string
@@ -30,7 +31,7 @@ interface ICoverInfo {
   resolutionSources: string[]
   stakeWithFees: string
   reassurance: string
-  initialLiquidity: string
+  requiresWhitelist: boolean
 }
 
 export { ICoverInfo }
