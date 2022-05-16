@@ -21,7 +21,7 @@
   "module": "./dist/index.js",
   "main": "./dist/index.cjs",
   "scripts": {
-    "build": "rm -rf ./dist && microbundle -i ./src/index.ts -o ./dist/index.js --target web -f esm --generateTypes true",
+    "build": "rm -rf ./dist && microbundle -i ./src/index.ts -o ./dist/index.js --target web -f esm,cjs --generateTypes true",
     "compile": "yarn build",
     "dev": "microbundle watch -i ./src/index.ts -o ./dist/index.js --target web -f esm --generateTypes true",
     "standard": "ts-standard",
