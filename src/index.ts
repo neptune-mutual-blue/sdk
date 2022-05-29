@@ -7,7 +7,7 @@ import * as utils from './utils'
 import * as net from './net'
 
 const { ChainId } = types
-const { reassurance, cover, policy, cxToken, provision, liquidity, governance, resolution, claimsProcessor } = core
+const { reassurance, cover, policy, cxToken, liquidity, governance, resolution, claimsProcessor } = core
 
 const sdk = {
   ChainId,
@@ -15,7 +15,6 @@ const sdk = {
   cover,
   policy,
   cxToken,
-  provision,
   liquidity,
   registry,
   governance,
@@ -34,7 +33,6 @@ export {
   cover,
   policy,
   cxToken,
-  provision,
   liquidity,
   registry,
   governance,

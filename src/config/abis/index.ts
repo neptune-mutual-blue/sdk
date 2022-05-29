@@ -1,9 +1,7 @@
 import IAaveV2LendingPoolLike from './IAaveV2LendingPoolLike.json'
 import IBondPool from './IBondPool.json'
 import IClaimsProcessor from './IClaimsProcessor.json'
-import ICommission from './ICommission.json'
 import ICover from './ICover.json'
-import ICoverProvision from './ICoverProvision.json'
 import ICoverReassurance from './ICoverReassurance.json'
 import ICoverStake from './ICoverStake.json'
 import ICxToken from './ICxToken.json'
@@ -17,7 +15,6 @@ import IMember from './IMember.json'
 import IPausable from './IPausable.json'
 import IPolicy from './IPolicy.json'
 import IPolicyAdmin from './IPolicyAdmin.json'
-import IPriceDiscovery from './IPriceDiscovery.json'
 import IProtocol from './IProtocol.json'
 import IReporter from './IReporter.json'
 import IResolution from './IResolution.json'
@@ -36,9 +33,7 @@ export {
   IAaveV2LendingPoolLike,
   IBondPool,
   IClaimsProcessor,
-  ICommission,
   ICover,
-  ICoverProvision,
   ICoverReassurance,
   ICoverStake,
   ICxToken,
@@ -52,7 +47,6 @@ export {
   IPausable,
   IPolicy,
   IPolicyAdmin,
-  IPriceDiscovery,
   IProtocol,
   IReporter,
   IResolution,
