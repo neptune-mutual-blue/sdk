@@ -41,11 +41,11 @@ const approve = async (chainId: ChainId, args: IApproveTransactionArgs, signerOr
   }
 }
 
-const purchaseCover = async (chainId: ChainId, key: string, args: IPolicyFeeArgs, signerOrProvider: ethers.providers.Provider | ethers.Signer, referralCode: string): Promise<IWrappedResult> => {
+const purchaseCover = async (chainId: ChainId, key: string, args: IPolicyFeeArgs, signerOrProvider: ethers.providers.Provider | ethers.Signer): Promise<IWrappedResult> => {
   const policy = await PolicyContract.getInstance(chainId, signerOrProvider)
 
-  const { duration, amount } = args
-  const result = await policy.purchaseCover(key, duration, amount, referralCode)
+  const { duration, amount, referralCode, onBehalfOf } = args
+  const result = await policy.purchaseCover(onBehalfOf, key, duration, amount, referralCode)
 
   return {
     status: Status.SUCCESS,
