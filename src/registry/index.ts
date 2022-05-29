@@ -1,7 +1,6 @@
 import * as Protocol from './Protocol'
 import * as Reassurance from './Reassurance'
 import * as ReassuranceToken from './ReassuranceToken'
-import * as ProvisionContract from './ProvisionContract'
 import * as PolicyContract from './PolicyContract'
 import * as Cover from './Cover'
 import * as IERC20 from './IERC20'
@@ -23,7 +22,6 @@ export {
   Protocol,
   Reassurance,
   ReassuranceToken,
-  ProvisionContract,
   PolicyContract,
   Cover,
   IERC20,
