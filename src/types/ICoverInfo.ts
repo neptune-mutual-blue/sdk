@@ -4,10 +4,10 @@ interface ICoverInfo {
   projectName?: string
   tags: string[]
   about: string
-  blockchains: [{
+  blockchains: {
     chainId?: number
     name: string
-  }]
+  }[]
   rules: string
   exclusions: string
   links: {
