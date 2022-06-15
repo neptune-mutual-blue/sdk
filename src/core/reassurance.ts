@@ -1,10 +1,11 @@
-import { ethers } from 'ethers'
+import { Provider } from '@ethersproject/providers'
+import { Signer } from '@ethersproject/abstract-signer'
 import { ReassuranceToken, Reassurance } from '../registry'
 import { ChainId, IApproveTransactionArgs, IWrappedResult, Status } from '../types'
 import { getApprovalAmount } from '../utils/erc20-utils'
 import { getAddress } from '../utils/signer'
 
-const getAllowance = async (chainId: ChainId, key: string, owner: string, signerOrProvider: ethers.providers.Provider | ethers.Signer): Promise<IWrappedResult> => {
+const getAllowance = async (chainId: ChainId, key: string, owner: string, signerOrProvider: Provider | Signer): Promise<IWrappedResult> => {
   const contract = await Reassurance.getAddress(chainId, signerOrProvider)
   const reassuranceToken = await ReassuranceToken.getInstance(chainId, key, signerOrProvider)
 
@@ -16,7 +17,7 @@ const getAllowance = async (chainId: ChainId, key: string, owner: string, signer
   }
 }
 
-const approve = async (chainId: ChainId, key: string, args: IApproveTransactionArgs, signerOrProvider: ethers.providers.Provider | ethers.Signer): Promise<IWrappedResult> => {
+const approve = async (chainId: ChainId, key: string, args: IApproveTransactionArgs, signerOrProvider: Provider | Signer): Promise<IWrappedResult> => {
   const contract = await Reassurance.getAddress(chainId, signerOrProvider)
   const amount = getApprovalAmount(args)
 
@@ -30,7 +31,7 @@ const approve = async (chainId: ChainId, key: string, args: IApproveTransactionA
   }
 }
 
-const add = async (chainId: ChainId, key: string, amount: number, signerOrProvider: ethers.providers.Provider | ethers.Signer): Promise<IWrappedResult> => {
+const add = async (chainId: ChainId, key: string, amount: number, signerOrProvider: Provider | Signer): Promise<IWrappedResult> => {
   const signer = await getAddress(signerOrProvider)
   const contract = await Reassurance.getInstance(chainId, signerOrProvider)
   const result = await contract.addReassurance(key, signer, amount)
@@ -41,7 +42,7 @@ const add = async (chainId: ChainId, key: string, amount: number, signerOrProvid
   }
 }
 
-const get = async (chainId: ChainId, key: string, signerOrProvider: ethers.providers.Provider | ethers.Signer): Promise<IWrappedResult> => {
+const get = async (chainId: ChainId, key: string, signerOrProvider: Provider | Signer): Promise<IWrappedResult> => {
   const contract = await Reassurance.getInstance(chainId, signerOrProvider)
   const result = await contract.getReassurance(key)
 

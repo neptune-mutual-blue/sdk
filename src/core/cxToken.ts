@@ -1,10 +1,11 @@
-import { ethers } from 'ethers'
+import { Provider } from '@ethersproject/providers'
+import { Signer } from '@ethersproject/abstract-signer'
 import { ChainId, Status, IWrappedResult, PolicyDuration } from '../types'
 import { PolicyContract } from '../registry'
 import { abis } from '../config'
 import { contract } from '../utils'
 
-const getCToken = async (chainId: ChainId, coverKey: string, productKey: string, duration: PolicyDuration, signerOrProvider: ethers.providers.Provider | ethers.Signer): Promise<IWrappedResult> => {
+const getCToken = async (chainId: ChainId, coverKey: string, productKey: string, duration: PolicyDuration, signerOrProvider: Provider | Signer): Promise<IWrappedResult> => {
   const policy = await PolicyContract.getInstance(chainId, signerOrProvider)
   const values = await policy.getCxToken(coverKey, productKey, duration)
   const { cxToken, expiryDate } = values
@@ -20,7 +21,7 @@ const getCToken = async (chainId: ChainId, coverKey: string, productKey: string,
   }
 }
 
-const getCTokenByAddress = async (address: string, signerOrProvider: ethers.providers.Provider | ethers.Signer): Promise<IWrappedResult> => {
+const getCTokenByAddress = async (address: string, signerOrProvider: Provider | Signer): Promise<IWrappedResult> => {
   const instance = contract.getContract(address, abis.ICxToken, signerOrProvider)
   const expiryDate = await instance.expiresOn()
 
@@ -33,7 +34,7 @@ const getCTokenByAddress = async (address: string, signerOrProvider: ethers.prov
   }
 }
 
-const getCTokenByExpiryDate = async (chainId: ChainId, coverKey: string, productKey: string, expiryDate: number, signerOrProvider: ethers.providers.Provider | ethers.Signer): Promise<IWrappedResult> => {
+const getCTokenByExpiryDate = async (chainId: ChainId, coverKey: string, productKey: string, expiryDate: number, signerOrProvider: Provider | Signer): Promise<IWrappedResult> => {
   const policy = await PolicyContract.getInstance(chainId, signerOrProvider)
   const cxToken = await policy.getCxTokenByExpiryDate(coverKey, productKey, expiryDate)
 
