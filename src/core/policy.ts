@@ -3,11 +3,11 @@ import { Stablecoin, PolicyContract } from '../registry'
 import { ChainId, IApproveTransactionArgs, IPolicyFeeArgs, Status, IWrappedResult } from '../types'
 import { erc20Utils } from '../utils'
 
-const getCoverFee = async (chainId: ChainId, key: string, args: IPolicyFeeArgs, signerOrProvider: ethers.providers.Provider | ethers.Signer): Promise<IWrappedResult> => {
+const getCoverFee = async (chainId: ChainId, coverKey: string, productKey: string, args: IPolicyFeeArgs, signerOrProvider: ethers.providers.Provider | ethers.Signer): Promise<IWrappedResult> => {
   const policy = await PolicyContract.getInstance(chainId, signerOrProvider)
 
   const { duration, amount } = args
-  const result = await policy.getCoverFeeInfo(key, duration, amount)
+  const result = await policy.getCoverFeeInfo(coverKey, productKey, duration, amount)
 
   return {
     status: Status.SUCCESS,
@@ -41,11 +41,11 @@ const approve = async (chainId: ChainId, args: IApproveTransactionArgs, signerOr
   }
 }
 
-const purchaseCover = async (chainId: ChainId, key: string, args: IPolicyFeeArgs, signerOrProvider: ethers.providers.Provider | ethers.Signer): Promise<IWrappedResult> => {
+const purchaseCover = async (chainId: ChainId, coverKey: string, productKey: string, args: IPolicyFeeArgs, signerOrProvider: ethers.providers.Provider | ethers.Signer): Promise<IWrappedResult> => {
   const policy = await PolicyContract.getInstance(chainId, signerOrProvider)
 
   const { duration, amount, referralCode, onBehalfOf } = args
-  const result = await policy.purchaseCover(onBehalfOf, key, duration, amount, referralCode)
+  const result = await policy.purchaseCover(onBehalfOf, coverKey, productKey, duration, amount, referralCode)
 
   return {
     status: Status.SUCCESS,
