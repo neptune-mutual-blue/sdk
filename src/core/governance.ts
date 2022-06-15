@@ -167,7 +167,7 @@ const refute = async (chainId: ChainId, coverKey: string, productKey: string, st
 const getMinStake = async (chainId: ChainId, key: string, signerOrProvider: ethers.providers.Provider | ethers.Signer): Promise<IWrappedResult> => {
   const governanceContract = await Governance.getInstance(chainId, signerOrProvider)
 
-  const result = await governanceContract['getFirstReportingStake(bytes32)'](key)
+  const result = await governanceContract.getFirstReportingStake(key)
 
   return {
     status: Status.SUCCESS,
