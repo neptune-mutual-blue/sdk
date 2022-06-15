@@ -17,7 +17,7 @@ const approveStake = async (chainId: ChainId, args: IApproveTransactionArgs, sig
   }
 }
 
-const report = async (chainId: ChainId, key: string, info: IReportingInfo, signerOrProvider: ethers.providers.Provider | ethers.Signer): Promise<IWrappedResult> => {
+const report = async (chainId: ChainId, coverKey: string, productKey: string, info: IReportingInfo, signerOrProvider: ethers.providers.Provider | ethers.Signer): Promise<IWrappedResult> => {
   const { title, observed, proofOfIncident, stake } = info
 
   if (!title) { // eslint-disable-line
@@ -45,7 +45,7 @@ const report = async (chainId: ChainId, key: string, info: IReportingInfo, signe
   }
 
   storage.createdBy = account
-  storage.permalink = `https://app.neptunemutual.com/covers/view/${key}/reporting/${observed.getTime()}`
+  storage.permalink = `https://app.neptunemutual.com/covers/view/${coverKey}/reporting/${observed.getTime()}`
 
   const payload = await ipfs.write(storage)
 
@@ -56,14 +56,15 @@ const report = async (chainId: ChainId, key: string, info: IReportingInfo, signe
   const [hash, hashBytes32] = payload
 
   const governanceContract = await Governance.getInstance(chainId, signerOrProvider)
-  const incidentDate = await governanceContract.getActiveIncidentDate(key)
+  const incidentDate = await governanceContract.getActiveIncidentDate(coverKey, productKey)
 
   if (incidentDate.toString() !== '0') {
     throw new InvalidReportError('The incident has already been reported')
   }
 
   const tx = await governanceContract.report(
-    key,
+    coverKey,
+    productKey,
     hashBytes32,
     stake
   )
@@ -81,26 +82,27 @@ const report = async (chainId: ChainId, key: string, info: IReportingInfo, signe
   }
 }
 
-const dispute = async (chainId: ChainId, key: string, stake: string, signerOrProvider: ethers.providers.Provider | ethers.Signer): Promise<IWrappedResult> => {
+const dispute = async (chainId: ChainId, coverKey: string, productKey: string, stake: string, signerOrProvider: ethers.providers.Provider | ethers.Signer): Promise<IWrappedResult> => {
   if (!stake) { // eslint-disable-line
     throw new InvalidReportError('Cannot dispute incident without NEP stake')
   }
 
   const governanceContract = await Governance.getInstance(chainId, signerOrProvider)
-  const incidentDate = await governanceContract.getActiveIncidentDate(key)
+  const incidentDate = await governanceContract.getActiveIncidentDate(coverKey, productKey)
 
   if (incidentDate.toString() === '0') {
     throw new InvalidReportError('Cannot dispute a non-existing incident')
   }
 
-  const [, no] = await governanceContract.getStakes(key, incidentDate) // eslint-disable-line
+  const [, no] = await governanceContract.getStakes(coverKey, productKey, incidentDate) // eslint-disable-line
 
   if (no.toString() !== '0') {
     throw new InvalidReportError('Cannot dispute an already-disputed incident')
   }
 
   const result = await governanceContract.dispute(
-    key,
+    coverKey,
+    productKey,
     incidentDate,
     ZERO_BYTES32,
     stake
@@ -112,20 +114,21 @@ const dispute = async (chainId: ChainId, key: string, stake: string, signerOrPro
   }
 }
 
-const attest = async (chainId: ChainId, key: string, stake: string, signerOrProvider: ethers.providers.Provider | ethers.Signer): Promise<IWrappedResult> => {
+const attest = async (chainId: ChainId, coverKey: string, productKey: string, stake: string, signerOrProvider: ethers.providers.Provider | ethers.Signer): Promise<IWrappedResult> => {
   if (!stake) { // eslint-disable-line
     throw new InvalidReportError('Cannot attest an incident without NEP stake')
   }
 
   const governanceContract = await Governance.getInstance(chainId, signerOrProvider)
-  const incidentDate = await governanceContract.getActiveIncidentDate(key)
+  const incidentDate = await governanceContract.getActiveIncidentDate(coverKey, productKey)
 
   if (incidentDate.toString() === '0') {
     throw new InvalidReportError('Cannot attest a non-existing incident')
   }
 
   const result = await governanceContract.attest(
-    key,
+    coverKey,
+    productKey,
     incidentDate,
     stake
   )
@@ -136,20 +139,21 @@ const attest = async (chainId: ChainId, key: string, stake: string, signerOrProv
   }
 }
 
-const refute = async (chainId: ChainId, key: string, stake: string, signerOrProvider: ethers.providers.Provider | ethers.Signer): Promise<IWrappedResult> => {
+const refute = async (chainId: ChainId, coverKey: string, productKey: string, stake: string, signerOrProvider: ethers.providers.Provider | ethers.Signer): Promise<IWrappedResult> => {
   if (!stake) { // eslint-disable-line
     throw new InvalidReportError('Cannot refute an incident without NEP stake')
   }
 
   const governanceContract = await Governance.getInstance(chainId, signerOrProvider)
-  const incidentDate = await governanceContract.getActiveIncidentDate(key)
+  const incidentDate = await governanceContract.getActiveIncidentDate(coverKey, productKey)
 
   if (incidentDate.toString() === '0') {
     throw new InvalidReportError('Cannot refute a non-existing incident')
   }
 
   const result = await governanceContract.refute(
-    key,
+    coverKey,
+    productKey,
     incidentDate,
     stake
   )
@@ -171,10 +175,10 @@ const getMinStake = async (chainId: ChainId, key: string, signerOrProvider: ethe
   }
 }
 
-const getIncidentDate = async (chainId: ChainId, key: string, signerOrProvider: ethers.providers.Provider | ethers.Signer): Promise<IWrappedResult> => {
+const getIncidentDate = async (chainId: ChainId, coverKey: string, productKey: string, signerOrProvider: ethers.providers.Provider | ethers.Signer): Promise<IWrappedResult> => {
   const governanceContract = await Governance.getInstance(chainId, signerOrProvider)
 
-  const result = await governanceContract.getActiveIncidentDate(key)
+  const result = await governanceContract.getActiveIncidentDate(coverKey, productKey)
 
   return {
     status: Status.SUCCESS,
@@ -182,10 +186,10 @@ const getIncidentDate = async (chainId: ChainId, key: string, signerOrProvider: 
   }
 }
 
-const getReporter = async (chainId: ChainId, key: string, incidentDate: number, signerOrProvider: ethers.providers.Provider | ethers.Signer): Promise<IWrappedResult> => {
+const getReporter = async (chainId: ChainId, coverKey: string, productKey: string, incidentDate: number, signerOrProvider: ethers.providers.Provider | ethers.Signer): Promise<IWrappedResult> => {
   const governanceContract = await Governance.getInstance(chainId, signerOrProvider)
 
-  const result = await governanceContract.getReporter(key, incidentDate)
+  const result = await governanceContract.getReporter(coverKey, productKey, incidentDate)
 
   return {
     status: Status.SUCCESS,
@@ -193,10 +197,10 @@ const getReporter = async (chainId: ChainId, key: string, incidentDate: number, 
   }
 }
 
-const getStatus = async (chainId: ChainId, key: string, signerOrProvider: ethers.providers.Provider | ethers.Signer): Promise<IWrappedResult> => {
+const getStatus = async (chainId: ChainId, coverKey: string, productKey: string, signerOrProvider: ethers.providers.Provider | ethers.Signer): Promise<IWrappedResult> => {
   const governanceContract = await Governance.getInstance(chainId, signerOrProvider)
 
-  const result = parseInt(await governanceContract.getStatus(key))
+  const result = parseInt(await governanceContract.getStatus(coverKey, productKey))
 
   return {
     status: Status.SUCCESS,
@@ -207,10 +211,10 @@ const getStatus = async (chainId: ChainId, key: string, signerOrProvider: ethers
   }
 }
 
-const getStakes = async (chainId: ChainId, key: string, incidentDate: number, signerOrProvider: ethers.providers.Provider | ethers.Signer): Promise<IWrappedResult> => {
+const getStakes = async (chainId: ChainId, coverKey: string, productKey: string, incidentDate: number, signerOrProvider: ethers.providers.Provider | ethers.Signer): Promise<IWrappedResult> => {
   const governanceContract = await Governance.getInstance(chainId, signerOrProvider)
 
-  const result = await governanceContract.getStakes(key, incidentDate)
+  const result = await governanceContract.getStakes(coverKey, productKey, incidentDate)
   const [yes, no] = result
 
   return {
@@ -222,10 +226,10 @@ const getStakes = async (chainId: ChainId, key: string, incidentDate: number, si
   }
 }
 
-const getStakesOf = async (chainId: ChainId, key: string, incidentDate: number, account: string, signerOrProvider: ethers.providers.Provider | ethers.Signer): Promise<IWrappedResult> => {
+const getStakesOf = async (chainId: ChainId, coverKey: string, productKey: string, incidentDate: number, account: string, signerOrProvider: ethers.providers.Provider | ethers.Signer): Promise<IWrappedResult> => {
   const governanceContract = await Governance.getInstance(chainId, signerOrProvider)
 
-  const result = await governanceContract.getStakesOf(key, incidentDate, account)
+  const result = await governanceContract.getStakesOf(coverKey, productKey, incidentDate, account)
   const [yes, no] = result
 
   return {

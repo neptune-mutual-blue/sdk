@@ -72,14 +72,14 @@ const approveStakeAndFees = async (chainId: ChainId, args: IApproveTransactionAr
   }
 }
 
-const getCoverInfo = async (chainId: ChainId, key: string, signerOrProvider: ethers.providers.Provider | ethers.Signer): Promise<ICoverInfoStorage> => {
+const getCoverInfo = async (chainId: ChainId, coverKey: string, productKey: string, signerOrProvider: ethers.providers.Provider | ethers.Signer): Promise<ICoverInfoStorage> => {
   const coverContract = await Cover.getInstance(chainId, signerOrProvider)
-  const cover = await coverContract.getCover(key)
+  const cover = await coverContract.getCover(coverKey, productKey)
 
   const { info } = cover
 
   if (info === ZERO_BYTES32) {
-    throw new InvalidCoverKeyError(`Invalid cover key ${key}`)
+    throw new InvalidCoverKeyError(`Invalid cover key ${coverKey}`)
   }
 
   return (await ipfs.readBytes32(info)) as ICoverInfoStorage
