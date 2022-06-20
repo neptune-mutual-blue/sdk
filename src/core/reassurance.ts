@@ -1,13 +1,13 @@
 import { Provider } from '@ethersproject/providers'
 import { Signer } from '@ethersproject/abstract-signer'
-import { ReassuranceToken, Reassurance } from '../registry'
+import { Stablecoin, Reassurance } from '../registry'
 import { ChainId, IApproveTransactionArgs, IWrappedResult, Status } from '../types'
 import { getApprovalAmount } from '../utils/erc20-utils'
 import { getAddress } from '../utils/signer'
 
-const getAllowance = async (chainId: ChainId, key: string, owner: string, signerOrProvider: Provider | Signer): Promise<IWrappedResult> => {
+const getAllowance = async (chainId: ChainId, owner: string, signerOrProvider: Provider | Signer): Promise<IWrappedResult> => {
   const contract = await Reassurance.getAddress(chainId, signerOrProvider)
-  const reassuranceToken = await ReassuranceToken.getInstance(chainId, key, signerOrProvider)
+  const reassuranceToken = await Stablecoin.getInstance(chainId, signerOrProvider)
 
   const result = await reassuranceToken.allowance(owner, contract)
 
@@ -17,11 +17,11 @@ const getAllowance = async (chainId: ChainId, key: string, owner: string, signer
   }
 }
 
-const approve = async (chainId: ChainId, key: string, args: IApproveTransactionArgs, signerOrProvider: Provider | Signer): Promise<IWrappedResult> => {
+const approve = async (chainId: ChainId, args: IApproveTransactionArgs, signerOrProvider: Provider | Signer): Promise<IWrappedResult> => {
   const contract = await Reassurance.getAddress(chainId, signerOrProvider)
   const amount = getApprovalAmount(args)
 
-  const reassuranceToken = await ReassuranceToken.getInstance(chainId, key, signerOrProvider)
+  const reassuranceToken = await Stablecoin.getInstance(chainId, signerOrProvider)
 
   const result = await reassuranceToken.approve(contract, amount)
 

@@ -22,10 +22,12 @@ Supported Chains {
   '1': 'Ethereum',
   '3': 'Ropsten',
   '56': 'BinanceSmartChain',
+  '43113': 'Fuji',
   '80001': 'Mumbai',
   Ethereum: 1,
   Ropsten: 3,
   BinanceSmartChain: 56,
+  Fuji: 43113,
   Mumbai: 80001
 }
 ********************************************/
@@ -87,6 +89,7 @@ NPM_ROPSTEN_STORE or NEXT_PUBLIC_ROPSTEN_STORE
 NPM_KOVAN_STORE or NEXT_PUBLIC_KOVAN_STORE
 NPM_BSC_TESTNET_STORE or NEXT_PUBLIC_BSC_TESTNET_STORE
 NPM_MUMBAI_STORE or NEXT_PUBLIC_MUMBAI_STORE
+NPM_FUJI_STORE or NEXT_PUBLIC_FUJI_STORE
 ```
 
 [Read the Full Documentation](https://app.gitbook.com/@neptunemutual/s/docs/sdk/quickstart)
