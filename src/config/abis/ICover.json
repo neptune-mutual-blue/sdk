@@ -436,40 +436,6 @@
     "type": "function"
   },
   {
-    "inputs": [
-      {
-        "internalType": "bytes32",
-        "name": "coverKey",
-        "type": "bytes32"
-      },
-      {
-        "internalType": "bytes32",
-        "name": "productKey",
-        "type": "bytes32"
-      }
-    ],
-    "name": "getCover",
-    "outputs": [
-      {
-        "internalType": "address",
-        "name": "coverOwner",
-        "type": "address"
-      },
-      {
-        "internalType": "bytes32",
-        "name": "info",
-        "type": "bytes32"
-      },
-      {
-        "internalType": "uint256[]",
-        "name": "values",
-        "type": "uint256[]"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
     "inputs": [],
     "name": "getName",
     "outputs": [
