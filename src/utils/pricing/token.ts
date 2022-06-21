@@ -1,24 +1,25 @@
-import { ethers } from 'ethers'
-import { registry } from '../..'
+import { Provider } from '@ethersproject/providers'
+import { Signer } from '@ethersproject/abstract-signer'
+import { IUniswapV2RouterLike, Stablecoin } from '../../registry'
 import { ChainId } from '../../types'
 import { stringify } from '../numbers'
 import { getPairFromFactory } from '../uniswap-v2/pair'
 
-const getPrice = async (chainId: ChainId, token: string, amount: number, signerOrProvider: ethers.providers.Provider | ethers.Signer): Promise<string> => {
-  const stablecoin = await registry.Stablecoin.getAddress(chainId, signerOrProvider)
+const getPrice = async (chainId: ChainId, token: string, amount: number, signerOrProvider: Provider | Signer): Promise<string> => {
+  const stablecoin = await Stablecoin.getAddress(chainId, signerOrProvider)
 
   if (token.toLowerCase() === stablecoin.toLowerCase()) {
     return stringify(amount)
   }
 
-  const router = await registry.IUniswapV2RouterLike.getInstance(chainId, signerOrProvider)
+  const router = await IUniswapV2RouterLike.getInstance(chainId, signerOrProvider)
   const [stablecoinNeeded, _tokenNeeded] = await router.getAmountsIn(stringify(amount), [stablecoin, token]) // eslint-disable-line
 
   return stablecoinNeeded
 }
 
-const getPriceUsingPair = async (chainId: ChainId, token: string, amount: number, signerOrProvider: ethers.providers.Provider | ethers.Signer): Promise<string> => {
-  const stablecoin = await registry.Stablecoin.getAddress(chainId, signerOrProvider)
+const getPriceUsingPair = async (chainId: ChainId, token: string, amount: number, signerOrProvider: Provider | Signer): Promise<string> => {
+  const stablecoin = await Stablecoin.getAddress(chainId, signerOrProvider)
   const value = stringify(amount)
 
   if (token.toLowerCase() === stablecoin.toLowerCase()) {

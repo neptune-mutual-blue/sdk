@@ -1,9 +1,10 @@
-import { ethers } from 'ethers'
-import { registry } from '../..'
+import { Provider } from '@ethersproject/providers'
+import { Signer } from '@ethersproject/abstract-signer'
+import { Vault } from '../../registry'
 import { stringify } from '../numbers'
 
-const getPrice = async (pod: string, amount: number, signerOrProvider: ethers.providers.Provider | ethers.Signer): Promise<string> => {
-  const vault = await registry.Vault.getInstanceByAddress(pod, signerOrProvider)
+const getPrice = async (pod: string, amount: number, signerOrProvider: Provider | Signer): Promise<string> => {
+  const vault = await Vault.getInstanceByAddress(pod, signerOrProvider)
 
   return vault.calculateLiquidity(stringify(amount))
 }

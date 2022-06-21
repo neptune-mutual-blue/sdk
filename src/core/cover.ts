@@ -1,14 +1,14 @@
-import { ethers } from 'ethers'
-import { Reassurance, Cover, IERC20, NPMToken, Staking } from '../registry'
+import { Provider } from '@ethersproject/providers'
+import { Signer } from '@ethersproject/abstract-signer'
+import { Reassurance, Cover, IERC20, NPMToken, Stablecoin, Staking } from '../registry'
 import { ChainId, ICoverInfo, ICoverInfoStorage, IApproveTransactionArgs, Status, IWrappedResult, exceptions } from '../types'
 import { ipfs, erc20Utils, signer } from '../utils'
 import { constants } from '../config'
 import { ZERO_BYTES32 } from '../config/constants'
-import { registry } from '..'
 
 const { DuplicateCoverError, GenericError, InvalidAccountError, InvalidSignerError, InvalidCoverKeyError } = exceptions
 
-const whitelistCoverCreator = async (chainId: ChainId, whitelisted: string, signerOrProvider: ethers.providers.Provider | ethers.Signer): Promise<IWrappedResult> => {
+const whitelistCoverCreator = async (chainId: ChainId, whitelisted: string, signerOrProvider: Provider | Signer): Promise<IWrappedResult> => {
   const { ZERO_ADDRESS } = constants
 
   if (whitelisted === ZERO_ADDRESS) {
@@ -27,7 +27,7 @@ const whitelistCoverCreator = async (chainId: ChainId, whitelisted: string, sign
   }
 }
 
-const removeCoverCreatorFromWhitelist = async (chainId: ChainId, whitelisted: string, signerOrProvider: ethers.providers.Provider | ethers.Signer): Promise<IWrappedResult> => {
+const removeCoverCreatorFromWhitelist = async (chainId: ChainId, whitelisted: string, signerOrProvider: Provider | Signer): Promise<IWrappedResult> => {
   const { ZERO_ADDRESS } = constants
 
   if (whitelisted === ZERO_ADDRESS) {
@@ -46,7 +46,7 @@ const removeCoverCreatorFromWhitelist = async (chainId: ChainId, whitelisted: st
   }
 }
 
-const approveReassurance = async (chainId: ChainId, tokenAddress: string, args: IApproveTransactionArgs, signerOrProvider: ethers.providers.Provider | ethers.Signer): Promise<IWrappedResult> => {
+const approveReassurance = async (chainId: ChainId, tokenAddress: string, args: IApproveTransactionArgs, signerOrProvider: Provider | Signer): Promise<IWrappedResult> => {
   const reassuranceToken = IERC20.getInstance(tokenAddress, signerOrProvider)
 
   const contract = await Reassurance.getAddress(chainId, signerOrProvider)
@@ -60,7 +60,7 @@ const approveReassurance = async (chainId: ChainId, tokenAddress: string, args: 
   }
 }
 
-const approveStakeAndFees = async (chainId: ChainId, args: IApproveTransactionArgs, signerOrProvider: ethers.providers.Provider | ethers.Signer): Promise<IWrappedResult> => {
+const approveStakeAndFees = async (chainId: ChainId, args: IApproveTransactionArgs, signerOrProvider: Provider | Signer): Promise<IWrappedResult> => {
   const npm = await NPMToken.getInstance(chainId, signerOrProvider)
   const amount = erc20Utils.getApprovalAmount(args)
   const staking = await Staking.getAddress(chainId, signerOrProvider)
@@ -72,20 +72,20 @@ const approveStakeAndFees = async (chainId: ChainId, args: IApproveTransactionAr
   }
 }
 
-const getCoverInfo = async (chainId: ChainId, key: string, signerOrProvider: ethers.providers.Provider | ethers.Signer): Promise<ICoverInfoStorage> => {
+const getCoverInfo = async (chainId: ChainId, coverKey: string, productKey: string, signerOrProvider: Provider | Signer): Promise<ICoverInfoStorage> => {
   const coverContract = await Cover.getInstance(chainId, signerOrProvider)
-  const cover = await coverContract.getCover(key)
+  const cover = await coverContract.getCover(coverKey, productKey)
 
   const { info } = cover
 
   if (info === ZERO_BYTES32) {
-    throw new InvalidCoverKeyError(`Invalid cover key ${key}`)
+    throw new InvalidCoverKeyError(`Invalid cover key ${coverKey}`)
   }
 
   return (await ipfs.readBytes32(info)) as ICoverInfoStorage
 }
 
-const createCover = async (chainId: ChainId, info: ICoverInfo, signerOrProvider: ethers.providers.Provider | ethers.Signer): Promise<IWrappedResult> => {
+const createCover = async (chainId: ChainId, info: ICoverInfo, signerOrProvider: Provider | Signer): Promise<IWrappedResult> => {
   const { ZERO_ADDRESS } = constants
   const { key } = info
 
@@ -123,7 +123,7 @@ const createCover = async (chainId: ChainId, info: ICoverInfo, signerOrProvider:
     throw new DuplicateCoverError(`The namespace "${key}" already exists`)
   }
 
-  const stablecoin = await registry.Stablecoin.getAddress(chainId, signerOrProvider)
+  const stablecoin = await Stablecoin.getAddress(chainId, signerOrProvider)
 
   const tx = await coverContract.addCover(
     key,

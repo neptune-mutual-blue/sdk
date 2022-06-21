@@ -30,8 +30,8 @@ class Mumbai implements INetwork {
       WETH: wmatic
     }
     this.uniswap = {
-      factory: null,
-      router: null,
+      factory: '0x5757371414417b8C6CAad45bAeF941aBc7d3Ab32',
+      router: '0x8954AfA98594b838bda56FE4C12a09D7739D179b',
       masterChef: null
     }
   }

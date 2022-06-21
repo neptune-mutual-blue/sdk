@@ -1,6 +1,5 @@
 import * as Protocol from './Protocol'
 import * as Reassurance from './Reassurance'
-import * as ReassuranceToken from './ReassuranceToken'
 import * as PolicyContract from './PolicyContract'
 import * as Cover from './Cover'
 import * as IERC20 from './IERC20'
@@ -21,7 +20,6 @@ import * as IUniswapV2RouterLike from './IUniswapV2RouterLike'
 export {
   Protocol,
   Reassurance,
-  ReassuranceToken,
   PolicyContract,
   Cover,
   IERC20,

@@ -1,9 +1,10 @@
-import { ethers } from 'ethers'
+import { Provider } from '@ethersproject/providers'
+import { Signer } from '@ethersproject/abstract-signer'
 import { ClaimsProcessor, IERC20 } from '../registry'
 import { ChainId, IApproveTransactionArgs, Status, IWrappedResult } from '../types'
 import { erc20Utils } from '../utils'
 
-const getAllowance = async (chainId: ChainId, cTokenAddress: string, owner: string, signerOrProvider: ethers.providers.Provider | ethers.Signer): Promise<IWrappedResult> => {
+const getAllowance = async (chainId: ChainId, cTokenAddress: string, owner: string, signerOrProvider: Provider | Signer): Promise<IWrappedResult> => {
   const cxToken = IERC20.getInstance(cTokenAddress, signerOrProvider)
   const processor = await ClaimsProcessor.getAddress(chainId, signerOrProvider)
 
@@ -15,7 +16,7 @@ const getAllowance = async (chainId: ChainId, cTokenAddress: string, owner: stri
   }
 }
 
-const approve = async (chainId: ChainId, cTokenAddress: string, args: IApproveTransactionArgs, signerOrProvider: ethers.providers.Provider | ethers.Signer): Promise<IWrappedResult> => {
+const approve = async (chainId: ChainId, cTokenAddress: string, args: IApproveTransactionArgs, signerOrProvider: Provider | Signer): Promise<IWrappedResult> => {
   const cxToken = IERC20.getInstance(cTokenAddress, signerOrProvider)
 
   const processor = await ClaimsProcessor.getAddress(chainId, signerOrProvider)
@@ -29,10 +30,10 @@ const approve = async (chainId: ChainId, cTokenAddress: string, args: IApproveTr
   }
 }
 
-const validate = async (chainId: ChainId, cTokenAddress: string, key: string, incidentDate: number, signerOrProvider: ethers.providers.Provider | ethers.Signer): Promise<IWrappedResult> => {
+const validate = async (chainId: ChainId, cTokenAddress: string, coverKey: string, productKey: string, incidentDate: number, amount: number, signerOrProvider: Provider | Signer): Promise<IWrappedResult> => {
   const processor = await ClaimsProcessor.getInstance(chainId, signerOrProvider)
 
-  const result = await processor.validate(cTokenAddress, key, incidentDate)
+  const result = await processor.validate(cTokenAddress, coverKey, productKey, incidentDate, amount)
 
   return {
     status: Status.SUCCESS,
@@ -40,10 +41,10 @@ const validate = async (chainId: ChainId, cTokenAddress: string, key: string, in
   }
 }
 
-const claim = async (chainId: ChainId, cTokenAddress: string, key: string, incidentDate: number, amount: number, signerOrProvider: ethers.providers.Provider | ethers.Signer): Promise<IWrappedResult> => {
+const claim = async (chainId: ChainId, cTokenAddress: string, coverKey: string, productKey: string, incidentDate: number, amount: number, signerOrProvider: Provider | Signer): Promise<IWrappedResult> => {
   const processor = await ClaimsProcessor.getInstance(chainId, signerOrProvider)
 
-  const result = await processor.claim(cTokenAddress, key, incidentDate, amount)
+  const result = await processor.claim(cTokenAddress, coverKey, productKey, incidentDate, amount)
 
   return {
     status: Status.SUCCESS,

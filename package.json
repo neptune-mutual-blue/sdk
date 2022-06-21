@@ -1,5 +1,5 @@
 {
-  "version": "0.4.5-beta",
+  "version": "0.4.6-beta",
   "name": "@neptunemutual/sdk",
   "author": "Neptune Mutual Team",
   "description": "Neptune Mutual SDK",
@@ -29,17 +29,22 @@
     "publish": "npm run build && npm publish"
   },
   "dependencies": {
-    "axios": "0.26.0",
-    "bs58": "4.0.1",
-    "ethers": "5.4.7",
-    "ethers-multicall": "0.2.2",
-    "lru-cache": "6.0.0"
+    "@ethersproject/abstract-signer": "5.4.1",
+    "@ethersproject/constants": "5.4.0",
+    "@ethersproject/contracts": "5.4.1",
+    "@ethersproject/providers": "5.4.5",
+    "@ethersproject/solidity": "5.4.0",
+    "@ethersproject/strings": "5.4.0",
+    "axios": "0.26.0"
   },
   "devDependencies": {
-    "@types/bs58": "4.0.1",
-    "@types/lru-cache": "5.1.1",
     "microbundle": "0.14.2",
     "ts-standard": "11.0.0"
+  },
+  "ts-standard": {
+    "ignore": [
+      "src/packages/**/*.ts"
+    ]
   },
   "directories": {
     "test": "test"
