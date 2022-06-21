@@ -21,31 +21,27 @@ const genKey = (chainId: ChainId, nsKey: string): string => {
 const get = (key: string): string | null => {
   const provider = getProvider()
 
-  if (provider == null) {
-    return null
+  if (provider != null) {
+    return provider.get(key)
   }
 
-  return provider.get(key)
+  return null
 }
 
 const set = (key: string, value: string): void => {
   const provider = getProvider()
 
-  if (provider == null) {
-    return
+  if (provider != null) {
+    provider.set(key, value)
   }
-
-  provider.set(key, value)
 }
 
 const remove = (key: string): void => {
   const provider = getProvider()
 
-  if (provider == null) {
-    return
+  if (provider != null) {
+    provider.remove(key)
   }
-
-  provider.remove(key)
 }
 
 export {

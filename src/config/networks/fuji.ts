@@ -2,7 +2,7 @@ import { INetwork, IToken, ChainId } from '../../types'
 import { Token } from '../../entities/Token'
 import { getStoreAddressFromEnvironment } from '../store'
 
-const weth = new Token(ChainId.Fuji, '0xB83700Cc2A4F5Bf9bC297ACCffF1Ea4Cb34dBEA0', 'Wrapped Ether', 'WETH')
+const weth = new Token(ChainId.Fuji, '0xD9D01A9F7C810EC035C0e42cB9E80Ef44D7f8692', 'Wrapped AVAX', 'WAVAX')
 
 class Fuji implements INetwork {
   chainId: ChainId
@@ -30,8 +30,8 @@ class Fuji implements INetwork {
       WETH: weth
     }
     this.uniswap = {
-      factory: null,
-      router: null,
+      factory: '0xe4a575550c2b460d2307b82dcd7afe84ad1484dd',
+      router: '0x2D99ABD9008Dc933ff5c0CD271B88309593aB921',
       masterChef: null
     }
   }
