@@ -2,8 +2,7 @@ import { INetwork, IToken, ChainId } from '../../types'
 import { Token } from '../../entities/Token'
 import { getStoreAddressFromEnvironment } from '../store'
 
-// @todo: Check if the address is correct
-const weth = new Token(ChainId.Fuji, '0x80d884a38624dcc3456a5486cb02f6f16415d1ee', 'Wrapped Ether', 'WETH')
+const weth = new Token(ChainId.Fuji, '0xB83700Cc2A4F5Bf9bC297ACCffF1Ea4Cb34dBEA0', 'Wrapped Ether', 'WETH')
 
 class Fuji implements INetwork {
   chainId: ChainId
