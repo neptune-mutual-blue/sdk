@@ -1,10 +1,13 @@
-import bs58 from 'bs58'
 import { IPFSClient } from '../net'
+import { base58 } from '../packages/scure-base'
 
 const fallbackNodes = ['https://ipfs.infura.io:5001', 'https://api.thegraph.com/ipfs']
 
-const toBytes32 = (ipfsListing: string): string => `0x${bs58.decode(ipfsListing).slice(2).toString('hex')}`
-const toIPFShash = (bytes32Hex: string): string => bs58.encode(Buffer.from(`1220${bytes32Hex.slice(2)}`, 'hex'))
+const toBytes32 = (ipfsListing: string): string => `0x${Array.from(base58.decode(ipfsListing).slice(2))
+  .map((x) => x.toString(16))
+  .map((x) => String(x).padStart(2, '0'))
+  .join('')}`
+const toIPFShash = (bytes32Hex: string): string => base58.encode(Uint8Array.from(Buffer.from('1220' + bytes32Hex.slice(2), 'hex')))
 
 const write = async (contents: Object, nodeUrls?: string[]): Promise<string[] | undefined> => {
   const formatted = JSON.stringify(contents, null, 2)
@@ -21,7 +24,7 @@ const write = async (contents: Object, nodeUrls?: string[]): Promise<string[] | 
   return [hash, toBytes32(hash)]
 }
 
-const read = async (key: string, nodeUrls?: string[]): Promise<Object|undefined> => {
+const read = async (key: string, nodeUrls?: string[]): Promise<Object | undefined> => {
   const nodes = nodeUrls !== undefined ? nodeUrls : fallbackNodes
   const client = new IPFSClient(nodes)
 

@@ -22,10 +22,12 @@ Supported Chains {
   '1': 'Ethereum',
   '3': 'Ropsten',
   '56': 'BinanceSmartChain',
+  '43113': 'Fuji',
   '80001': 'Mumbai',
   Ethereum: 1,
   Ropsten: 3,
   BinanceSmartChain: 56,
+  Fuji: 43113,
   Mumbai: 80001
 }
 ********************************************/
@@ -38,13 +40,14 @@ The SDK automatically creates a default readonly provider for you. Therefore, yo
 **Getting Cover Info by Passing a Provider**
 
 ```javascript
-import { ethers } from 'ethers'
+import { JsonRpcProvider } from '@ethersproject/providers'
+import { Wallet } from '@ethersproject/wallet'
 import { ChainId, cover } from '@neptunemutual/sdk'
 
 const myProvider = () => {
   const fakePrivateKey = '0586782a6b30a2526f960bfde45db0470c51919c0ac2ae9ad5ad39b847955109'
-  const provider = new ethers.providers.JsonRpcProvider('https://rpc-mumbai.maticvigil.com')
-  return new ethers.Wallet(fakePrivateKey, provider)
+  const provider = new JsonRpcProvider('https://rpc-mumbai.maticvigil.com')
+  return new Wallet(fakePrivateKey, provider)
 }
 
 const readCoverInfo = async () => {
@@ -86,6 +89,7 @@ NPM_ROPSTEN_STORE or NEXT_PUBLIC_ROPSTEN_STORE
 NPM_KOVAN_STORE or NEXT_PUBLIC_KOVAN_STORE
 NPM_BSC_TESTNET_STORE or NEXT_PUBLIC_BSC_TESTNET_STORE
 NPM_MUMBAI_STORE or NEXT_PUBLIC_MUMBAI_STORE
+NPM_FUJI_STORE or NEXT_PUBLIC_FUJI_STORE
 ```
 
 [Read the Full Documentation](https://app.gitbook.com/@neptunemutual/s/docs/sdk/quickstart)

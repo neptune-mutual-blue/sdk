@@ -3,7 +3,8 @@ enum ChainId {
   Ropsten = 3,
   Kovan = 42,
   BinanceSmartChainTestnet = 97,
-  Mumbai = 80001
+  Mumbai = 80001,
+  Fuji = 43113
 }
 
 export {

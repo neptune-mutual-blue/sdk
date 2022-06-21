@@ -1,11 +1,11 @@
 interface IStoreCandidate {
-  key: string[] | undefined
-  signature: string[] | undefined
+  key?: string[]
+  signature?: string[]
   returns: string
   property: string
-  compute: ((result: any) => any) | undefined
-  args: string[] | undefined
-  fn: string | undefined
+  compute?: ((result: any) => any)
+  args?: string[]
+  fn?: string
 }
 
 export { IStoreCandidate }

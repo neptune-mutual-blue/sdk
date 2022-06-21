@@ -1,9 +1,10 @@
-import { ethers } from 'ethers'
+import { Provider } from '@ethersproject/providers'
+import { Signer } from '@ethersproject/abstract-signer'
 import { Stablecoin, Vault, NPMToken } from '../registry'
 import { IApproveTransactionArgs, ChainId, Status, IWrappedResult } from '../types'
 import { erc20Utils, signer } from '../utils'
 
-const getAllowance = async (chainId: ChainId, key: string, owner: string, signerOrProvider: ethers.providers.Provider | ethers.Signer): Promise<IWrappedResult> => {
+const getAllowance = async (chainId: ChainId, key: string, owner: string, signerOrProvider: Provider | Signer): Promise<IWrappedResult> => {
   const stablecoin = await Stablecoin.getInstance(chainId, signerOrProvider)
   const vault = await Vault.getAddress(chainId, key, signerOrProvider)
 
@@ -15,7 +16,7 @@ const getAllowance = async (chainId: ChainId, key: string, owner: string, signer
   }
 }
 
-const approveStake = async (chainId: ChainId, key: string, args: IApproveTransactionArgs, signerOrProvider: ethers.providers.Provider | ethers.Signer): Promise<IWrappedResult> => {
+const approveStake = async (chainId: ChainId, key: string, args: IApproveTransactionArgs, signerOrProvider: Provider | Signer): Promise<IWrappedResult> => {
   const npm = await NPMToken.getInstance(chainId, signerOrProvider)
   const amount = erc20Utils.getApprovalAmount(args)
   const vault = await Vault.getAddress(chainId, key, signerOrProvider)
@@ -27,7 +28,7 @@ const approveStake = async (chainId: ChainId, key: string, args: IApproveTransac
   }
 }
 
-const approve = async (chainId: ChainId, key: string, args: IApproveTransactionArgs, signerOrProvider: ethers.providers.Provider | ethers.Signer): Promise<IWrappedResult> => {
+const approve = async (chainId: ChainId, key: string, args: IApproveTransactionArgs, signerOrProvider: Provider | Signer): Promise<IWrappedResult> => {
   const stablecoin = await Stablecoin.getInstance(chainId, signerOrProvider)
   const vault = await Vault.getAddress(chainId, key, signerOrProvider)
 
@@ -41,7 +42,7 @@ const approve = async (chainId: ChainId, key: string, args: IApproveTransactionA
   }
 }
 
-const add = async (chainId: ChainId, key: string, amount: number, stake: number, signerOrProvider: ethers.providers.Provider | ethers.Signer, referralCode: string): Promise<IWrappedResult> => {
+const add = async (chainId: ChainId, key: string, amount: number, stake: number, signerOrProvider: Provider | Signer, referralCode: string): Promise<IWrappedResult> => {
   const vault = await Vault.getInstance(chainId, key, signerOrProvider)
   const result = await vault.addLiquidity(key, amount, stake, referralCode)
 
@@ -51,7 +52,7 @@ const add = async (chainId: ChainId, key: string, amount: number, stake: number,
   }
 }
 
-const getBalance = async (chainId: ChainId, key: string, signerOrProvider: ethers.providers.Provider | ethers.Signer): Promise<IWrappedResult> => {
+const getBalance = async (chainId: ChainId, key: string, signerOrProvider: Provider | Signer): Promise<IWrappedResult> => {
   const vault = await Vault.getInstance(chainId, key, signerOrProvider)
   const result = await vault.getStablecoinBalanceOf()
 
@@ -61,7 +62,7 @@ const getBalance = async (chainId: ChainId, key: string, signerOrProvider: ether
   }
 }
 
-const getBalanceOf = async (chainId: ChainId, key: string, signerOrProvider: ethers.providers.Provider | ethers.Signer): Promise<IWrappedResult> => {
+const getBalanceOf = async (chainId: ChainId, key: string, signerOrProvider: Provider | Signer): Promise<IWrappedResult> => {
   const vault = await Vault.getInstance(chainId, key, signerOrProvider)
   const sender = await signer.getAddress(signerOrProvider)
   const result = await vault.balanceOf(sender)

@@ -24,6 +24,11 @@ export const getDefinition = (): any => {
       env: process.env.NPM_MUMBAI_STORE,
       next: process.env.NEXT_PUBLIC_MUMBAI_STORE,
       fallback: ''
+    },
+    43113: {
+      env: process.env.NPM_FUJI_STORE,
+      next: process.env.NEXT_PUBLIC_FUJI_STORE,
+      fallback: ''
     }
   }
 }

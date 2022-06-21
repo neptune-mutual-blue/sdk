@@ -1,8 +1,9 @@
-import { ethers } from 'ethers'
+import { Provider } from '@ethersproject/providers'
+import { Signer } from '@ethersproject/abstract-signer'
 import { Resolution, Governance } from '../registry'
 import { ChainId, Status, IWrappedResult } from '../types'
 
-const finalize = async (chainId: ChainId, coverKey: string, productKey: string, incidentDate: number, signerOrProvider: ethers.providers.Provider | ethers.Signer): Promise<IWrappedResult> => {
+const finalize = async (chainId: ChainId, coverKey: string, productKey: string, incidentDate: number, signerOrProvider: Provider | Signer): Promise<IWrappedResult> => {
   const resolutionContract = await Resolution.getInstance(chainId, signerOrProvider)
 
   const result = await resolutionContract.finalize(coverKey, productKey, incidentDate)
@@ -13,7 +14,7 @@ const finalize = async (chainId: ChainId, coverKey: string, productKey: string, 
   }
 }
 
-const resolve = async (chainId: ChainId, coverKey: string, productKey: string, incidentDate: number, signerOrProvider: ethers.providers.Provider | ethers.Signer): Promise<IWrappedResult> => {
+const resolve = async (chainId: ChainId, coverKey: string, productKey: string, incidentDate: number, signerOrProvider: Provider | Signer): Promise<IWrappedResult> => {
   const resolutionContract = await Resolution.getInstance(chainId, signerOrProvider)
 
   const result = await resolutionContract.resolve(coverKey, productKey, incidentDate)
@@ -24,7 +25,7 @@ const resolve = async (chainId: ChainId, coverKey: string, productKey: string, i
   }
 }
 
-const emergencyResolve = async (chainId: ChainId, coverKey: string, productKey: string, incidentDate: number, decision: boolean, signerOrProvider: ethers.providers.Provider | ethers.Signer): Promise<IWrappedResult> => {
+const emergencyResolve = async (chainId: ChainId, coverKey: string, productKey: string, incidentDate: number, decision: boolean, signerOrProvider: Provider | Signer): Promise<IWrappedResult> => {
   const resolutionContract = await Resolution.getInstance(chainId, signerOrProvider)
 
   const result = await resolutionContract.emergencyResolve(coverKey, productKey, incidentDate, decision)
@@ -35,7 +36,7 @@ const emergencyResolve = async (chainId: ChainId, coverKey: string, productKey: 
   }
 }
 
-const getResolutionDate = async (chainId: ChainId, coverKey: string, productKey: string, signerOrProvider: ethers.providers.Provider | ethers.Signer): Promise<IWrappedResult> => {
+const getResolutionDate = async (chainId: ChainId, coverKey: string, productKey: string, signerOrProvider: Provider | Signer): Promise<IWrappedResult> => {
   const governanceContract = await Governance.getInstance(chainId, signerOrProvider)
 
   const result = await governanceContract.getResolutionTimestamp(coverKey, productKey)

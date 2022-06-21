@@ -5,6 +5,7 @@ import { Mumbai } from './mumbai'
 import { BinanceSmartChainTestnet } from './bsc-testnet'
 import { Ropsten } from './ropsten'
 import { Kovan } from './kovan'
+import { Fuji } from './fuji'
 
 const getChainConfig = (chainId: ChainId): INetwork => {
   switch (chainId) {
@@ -14,6 +15,8 @@ const getChainConfig = (chainId: ChainId): INetwork => {
       return new Kovan()
     case ChainId.Mumbai:
       return new Mumbai()
+    case ChainId.Fuji:
+      return new Fuji()
     case ChainId.BinanceSmartChainTestnet:
       return new BinanceSmartChainTestnet()
   }

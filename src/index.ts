@@ -5,6 +5,7 @@ import * as entities from './entities'
 import * as config from './config'
 import * as utils from './utils'
 import * as net from './net'
+import * as multicall from './packages/ethers-multicall/src/index'
 
 const { ChainId } = types
 const { reassurance, cover, policy, cxToken, liquidity, governance, resolution, claimsProcessor } = core
@@ -24,7 +25,8 @@ const sdk = {
   entities,
   config,
   utils,
-  net
+  net,
+  multicall
 }
 
 export {
@@ -42,7 +44,8 @@ export {
   entities,
   config,
   utils,
-  net
+  net,
+  multicall
 }
 
 export default sdk

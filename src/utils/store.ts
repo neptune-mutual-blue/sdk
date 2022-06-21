@@ -1,6 +1,7 @@
-import { ethers } from 'ethers'
+import { Provider as EthersProvider } from '@ethersproject/providers'
+import { keccak256 as solidityKeccak256 } from '@ethersproject/solidity'
 import { store, abis } from '../config'
-import { Contract, Provider } from 'ethers-multicall'
+import { Contract, Provider } from '../packages/ethers-multicall/src'
 import { ChainId, IStoreCandidate } from '../types'
 import { ZERO_BYTES32 } from '../config/constants'
 
@@ -15,7 +16,7 @@ const getKey = (signature: string[]|undefined, ...items: string[]): string => {
     types = items.map(() => 'bytes32')
   }
 
-  return ethers.utils.solidityKeccak256(types, items)
+  return solidityKeccak256(types, items)
 }
 
 const getFunc = (type: string): string => {
@@ -36,7 +37,7 @@ const getFunc = (type: string): string => {
   }
 }
 
-const readStorage = async (chainId: ChainId, candidates: IStoreCandidate[], provider: ethers.providers.Provider): Promise<object[]> => {
+const readStorage = async (chainId: ChainId, candidates: IStoreCandidate[], provider: EthersProvider): Promise<object[]> => {
   const result: any = {}
 
   const ethcallProvider = new Provider(provider)
