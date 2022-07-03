@@ -5,6 +5,9 @@ import { ChainId, ICoverInfo, ICoverInfoStorage, IApproveTransactionArgs, Status
 import { ipfs, erc20Utils, signer, keyUtil, store } from '../utils'
 import { constants } from '../config'
 import { ZERO_BYTES32 } from '../config/constants'
+import { IProductInfo } from '../types/IProductInfo'
+import { IProductInfoStorage } from '../types/IProductInfoStorage'
+import { InvalidProductKeyError } from '../types/Exceptions'
 
 const { DuplicateCoverError, GenericError, InvalidAccountError, InvalidSignerError, InvalidCoverKeyError } = exceptions
 
@@ -105,7 +108,6 @@ const getProductInfo = async (chainId: ChainId, coverKey: string, productKey: st
 }
 
 const createCover = async (chainId: ChainId, info: ICoverInfo, signerOrProvider: Provider | Signer, transactionOverrides: any = {}): Promise<IWrappedResult> => {
-  const { ZERO_ADDRESS } = constants
   const { key } = info
 
   if (!key) { // eslint-disable-line
@@ -136,11 +138,6 @@ const createCover = async (chainId: ChainId, info: ICoverInfo, signerOrProvider:
   const [hash, hashBytes32] = payload
 
   const coverContract = await Cover.getInstance(chainId, signerOrProvider)
-  const cover = await coverContract.getCover(key)
-
-  if (cover.coverOwner !== ZERO_ADDRESS) {
-    throw new DuplicateCoverError(`The namespace "${key}" already exists`)
-  }
 
   const stablecoin = await Stablecoin.getAddress(chainId, signerOrProvider)
 
@@ -180,4 +177,63 @@ const createCover = async (chainId: ChainId, info: ICoverInfo, signerOrProvider:
   }
 }
 
-export { whitelistCoverCreator, removeCoverCreatorFromWhitelist, getCoverInfo, getProductInfo, approveReassurance, approveStakeAndFees, createCover }
+const createProduct = async (chainId: ChainId, info: IProductInfo, signerOrProvider: Provider | Signer, transactionOverrides: any = {}): Promise<IWrappedResult> => {
+  const { ZERO_BYTES32 } = constants
+  const { coverKey, productKey } = info
+
+  if (!coverKey || coverKey === ZERO_BYTES32) { // eslint-disable-line
+    throw new InvalidCoverKeyError('Invalid or empty cover key')
+  }
+
+  if (!productKey || productKey === ZERO_BYTES32) { // eslint-disable-line
+    throw new InvalidProductKeyError('Invalid or empty product key')
+  }
+
+  const storage = info as IProductInfoStorage
+
+  const account = await signer.getAddress(signerOrProvider)
+
+  if (account == null) {
+    throw new InvalidSignerError('The provider is not a valid signer')
+  }
+
+  storage.createdBy = account
+  storage.permalink = `https://app.neptunemutual.com/covers/view/${coverKey}/products/${productKey}`
+
+  const payload = await ipfs.write(storage)
+
+  if (payload === undefined) {
+    throw new GenericError('Could not save cover to an IPFS network')
+  }
+
+  const [hash, hashBytes32] = payload
+
+  const coverContract = await Cover.getInstance(chainId, signerOrProvider)
+
+  const status = 1
+  const tx = await coverContract.addProduct(
+    coverKey,
+    productKey,
+    hashBytes32,
+    info.requiresWhitelist,
+    [
+      status,
+      info.capitalEfficiency
+    ],
+    transactionOverrides
+  )
+
+  return {
+    status: Status.SUCCESS,
+    result: {
+      storage: {
+        hashBytes32,
+        hash,
+        permalink: `https://ipfs.infura.io/ipfs/${hash}`
+      },
+      tx
+    }
+  }
+}
+
+export { whitelistCoverCreator, removeCoverCreatorFromWhitelist, getCoverInfo, getProductInfo, approveReassurance, approveStakeAndFees, createCover, createProduct }

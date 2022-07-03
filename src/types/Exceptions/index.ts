@@ -4,6 +4,7 @@ import { GenericError } from './GenericError'
 import { InvalidSignerError } from './InvalidSignerError'
 import { UnsupportedBlockchainError } from './UnsupportedBlockchainError'
 import { InvalidCoverKeyError } from './InvalidCoverKeyError'
+import { InvalidProductKeyError } from './InvalidProductKeyError'
 import { InvalidReportError } from './InvalidReportError'
 import { InvalidAccountError } from './InvalidAccountError'
 
@@ -13,6 +14,7 @@ export {
   GenericError,
   InvalidAccountError,
   InvalidCoverKeyError,
+  InvalidProductKeyError,
   InvalidReportError,
   InvalidSignerError,
   UnsupportedBlockchainError
