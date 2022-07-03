@@ -123,12 +123,18 @@ const createCover = async (chainId: ChainId, info: ICoverInfo, signerOrProvider:
     throw new DuplicateCoverError(`The namespace "${key}" already exists`)
   }
 
-  const stablecoin = await Stablecoin.getAddress(chainId, signerOrProvider)
+  const tokenAddress = await Stablecoin.getAddress(chainId, signerOrProvider)
+  const tokenInstance = await IERC20.getInstance(tokenAddress, signerOrProvider)
+
+  const tokenName = await tokenInstance.callStatic.name();
+  const tokenSymbol = await tokenInstance.callStatic.symbol();
 
   const tx = await coverContract.addCover(
     key,
     hashBytes32,
-    stablecoin,
+    tokenName,
+    tokenSymbol,
+    info.supportsProducts,
     info.requiresWhitelist,
     [
       info.stakeWithFees.toString(),
@@ -138,7 +144,9 @@ const createCover = async (chainId: ChainId, info: ICoverInfo, signerOrProvider:
       info.cooldownPeriod.toString(),
       info.claimPeriod.toString(),
       info.pricingFloor.toString(),
-      info.pricingCeiling.toString()
+      info.pricingCeiling.toString(),
+      info.reassuranceRate.toString(),
+      info.leverage.toString()
     ]
   )
 
