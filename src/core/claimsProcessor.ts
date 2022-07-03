@@ -16,13 +16,13 @@ const getAllowance = async (chainId: ChainId, cTokenAddress: string, owner: stri
   }
 }
 
-const approve = async (chainId: ChainId, cTokenAddress: string, args: IApproveTransactionArgs, signerOrProvider: Provider | Signer): Promise<IWrappedResult> => {
+const approve = async (chainId: ChainId, cTokenAddress: string, args: IApproveTransactionArgs, signerOrProvider: Provider | Signer, transactionOverrides: any = {}): Promise<IWrappedResult> => {
   const cxToken = IERC20.getInstance(cTokenAddress, signerOrProvider)
 
   const processor = await ClaimsProcessor.getAddress(chainId, signerOrProvider)
   const amount = erc20Utils.getApprovalAmount(args)
 
-  const result = await cxToken.approve(processor, amount)
+  const result = await cxToken.approve(processor, amount, transactionOverrides)
 
   return {
     status: Status.SUCCESS,
@@ -41,10 +41,10 @@ const validate = async (chainId: ChainId, cTokenAddress: string, coverKey: strin
   }
 }
 
-const claim = async (chainId: ChainId, cTokenAddress: string, coverKey: string, productKey: string, incidentDate: number, amount: number, signerOrProvider: Provider | Signer): Promise<IWrappedResult> => {
+const claim = async (chainId: ChainId, cTokenAddress: string, coverKey: string, productKey: string, incidentDate: number, amount: number, signerOrProvider: Provider | Signer, transactionOverrides: any = {}): Promise<IWrappedResult> => {
   const processor = await ClaimsProcessor.getInstance(chainId, signerOrProvider)
 
-  const result = await processor.claim(cTokenAddress, coverKey, productKey, incidentDate, amount)
+  const result = await processor.claim(cTokenAddress, coverKey, productKey, incidentDate, amount, transactionOverrides)
 
   return {
     status: Status.SUCCESS,

@@ -1,16 +1,17 @@
 import { Provider } from '@ethersproject/providers'
 import { Signer } from '@ethersproject/abstract-signer'
-import { ZERO_BYTES32 } from '../config/constants'
 import { NPMToken, Governance } from '../registry'
 import { ChainId, IApproveTransactionArgs, Status, IWrappedResult, IReportingInfo, IReportingInfoStorage, CoverStatus } from '../types'
 import { GenericError, InvalidReportError, InvalidSignerError } from '../types/Exceptions'
 import { erc20Utils, ipfs, signer } from '../utils'
+import { IDisputeInfoStorage } from '../types/IReportingInfoStorage'
+import { IDisputeInfo } from '../types/IReportingInfo'
 
-const approveStake = async (chainId: ChainId, args: IApproveTransactionArgs, signerOrProvider: Provider | Signer): Promise<IWrappedResult> => {
+const approveStake = async (chainId: ChainId, args: IApproveTransactionArgs, signerOrProvider: Provider | Signer, transactionOverrides: any = {}): Promise<IWrappedResult> => {
   const npm = await NPMToken.getInstance(chainId, signerOrProvider)
   const amount = erc20Utils.getApprovalAmount(args)
   const governance = await Governance.getAddress(chainId, signerOrProvider)
-  const result = await npm.approve(governance, amount)
+  const result = await npm.approve(governance, amount, transactionOverrides)
 
   return {
     status: Status.SUCCESS,
@@ -18,7 +19,7 @@ const approveStake = async (chainId: ChainId, args: IApproveTransactionArgs, sig
   }
 }
 
-const report = async (chainId: ChainId, coverKey: string, productKey: string, info: IReportingInfo, signerOrProvider: Provider | Signer): Promise<IWrappedResult> => {
+const report = async (chainId: ChainId, coverKey: string, productKey: string, info: IReportingInfo, signerOrProvider: Provider | Signer, transactionOverrides: any = {}): Promise<IWrappedResult> => {
   const { title, observed, proofOfIncident, stake } = info
 
   if (!title) { // eslint-disable-line
@@ -34,7 +35,7 @@ const report = async (chainId: ChainId, coverKey: string, productKey: string, in
   }
 
   if (!stake) { // eslint-disable-line
-    throw new InvalidReportError('Specify your NEP stake to report this incident')
+    throw new InvalidReportError('Specify your NPM stake to report this incident')
   }
 
   const storage = info as IReportingInfoStorage
@@ -67,7 +68,8 @@ const report = async (chainId: ChainId, coverKey: string, productKey: string, in
     coverKey,
     productKey,
     hashBytes32,
-    stake
+    stake,
+    transactionOverrides
   )
 
   return {
@@ -83,9 +85,19 @@ const report = async (chainId: ChainId, coverKey: string, productKey: string, in
   }
 }
 
-const dispute = async (chainId: ChainId, coverKey: string, productKey: string, stake: string, signerOrProvider: Provider | Signer): Promise<IWrappedResult> => {
+const dispute = async (chainId: ChainId, coverKey: string, productKey: string, info: IDisputeInfo, signerOrProvider: Provider | Signer, transactionOverrides: any = {}): Promise<IWrappedResult> => {
+  const { title, proofOfDispute, stake } = info
+
+  if (!title) { // eslint-disable-line
+    throw new InvalidReportError('Enter the dispute title')
+  }
+
+  if (!proofOfDispute) { // eslint-disable-line
+    throw new InvalidReportError('Provide a proof of the dispute')
+  }
+
   if (!stake) { // eslint-disable-line
-    throw new InvalidReportError('Cannot dispute incident without NEP stake')
+    throw new InvalidReportError('Cannot dispute incident without NPM stake')
   }
 
   const governanceContract = await Governance.getInstance(chainId, signerOrProvider)
@@ -101,23 +113,50 @@ const dispute = async (chainId: ChainId, coverKey: string, productKey: string, s
     throw new InvalidReportError('Cannot dispute an already-disputed incident')
   }
 
-  const result = await governanceContract.dispute(
+  const storage = info as IDisputeInfoStorage
+
+  const account = await signer.getAddress(signerOrProvider)
+
+  if (account == null) {
+    throw new InvalidSignerError('The provider is not a valid signer')
+  }
+
+  storage.createdBy = account
+  storage.permalink = `https://app.neptunemutual.com/covers/view/${coverKey}/dispute/${incidentDate.toString() as string}`
+
+  const payload = await ipfs.write(storage)
+
+  if (payload === undefined) {
+    throw new GenericError('Could not save cover to an IPFS network')
+  }
+
+  const [hash, hashBytes32] = payload
+
+  const tx = await governanceContract.dispute(
     coverKey,
     productKey,
     incidentDate,
-    ZERO_BYTES32,
-    stake
+    hashBytes32,
+    stake,
+    transactionOverrides
   )
 
   return {
     status: Status.SUCCESS,
-    result
+    result: {
+      storage: {
+        hashBytes32,
+        hash,
+        permalink: `https://ipfs.infura.io/ipfs/${hash}`
+      },
+      tx
+    }
   }
 }
 
-const attest = async (chainId: ChainId, coverKey: string, productKey: string, stake: string, signerOrProvider: Provider | Signer): Promise<IWrappedResult> => {
+const attest = async (chainId: ChainId, coverKey: string, productKey: string, stake: string, signerOrProvider: Provider | Signer, transactionOverrides: any = {}): Promise<IWrappedResult> => {
   if (!stake) { // eslint-disable-line
-    throw new InvalidReportError('Cannot attest an incident without NEP stake')
+    throw new InvalidReportError('Cannot attest an incident without NPM stake')
   }
 
   const governanceContract = await Governance.getInstance(chainId, signerOrProvider)
@@ -131,7 +170,8 @@ const attest = async (chainId: ChainId, coverKey: string, productKey: string, st
     coverKey,
     productKey,
     incidentDate,
-    stake
+    stake,
+    transactionOverrides
   )
 
   return {
@@ -140,9 +180,9 @@ const attest = async (chainId: ChainId, coverKey: string, productKey: string, st
   }
 }
 
-const refute = async (chainId: ChainId, coverKey: string, productKey: string, stake: string, signerOrProvider: Provider | Signer): Promise<IWrappedResult> => {
+const refute = async (chainId: ChainId, coverKey: string, productKey: string, stake: string, signerOrProvider: Provider | Signer, transactionOverrides: any = {}): Promise<IWrappedResult> => {
   if (!stake) { // eslint-disable-line
-    throw new InvalidReportError('Cannot refute an incident without NEP stake')
+    throw new InvalidReportError('Cannot refute an incident without NPM stake')
   }
 
   const governanceContract = await Governance.getInstance(chainId, signerOrProvider)
@@ -156,7 +196,8 @@ const refute = async (chainId: ChainId, coverKey: string, productKey: string, st
     coverKey,
     productKey,
     incidentDate,
-    stake
+    stake,
+    transactionOverrides
   )
 
   return {
@@ -165,10 +206,10 @@ const refute = async (chainId: ChainId, coverKey: string, productKey: string, st
   }
 }
 
-const getMinStake = async (chainId: ChainId, key: string, signerOrProvider: Provider | Signer): Promise<IWrappedResult> => {
+const getMinStake = async (chainId: ChainId, coverKey: string, signerOrProvider: Provider | Signer): Promise<IWrappedResult> => {
   const governanceContract = await Governance.getInstance(chainId, signerOrProvider)
 
-  const result = await governanceContract.getFirstReportingStake(key)
+  const result = await governanceContract.getFirstReportingStake(coverKey)
 
   return {
     status: Status.SUCCESS,

@@ -2,13 +2,13 @@ import { Provider } from '@ethersproject/providers'
 import { Signer } from '@ethersproject/abstract-signer'
 import { Reassurance, Cover, IERC20, NPMToken, Stablecoin, Staking } from '../registry'
 import { ChainId, ICoverInfo, ICoverInfoStorage, IApproveTransactionArgs, Status, IWrappedResult, exceptions } from '../types'
-import { ipfs, erc20Utils, signer } from '../utils'
+import { ipfs, erc20Utils, signer, keyUtil, store } from '../utils'
 import { constants } from '../config'
 import { ZERO_BYTES32 } from '../config/constants'
 
 const { DuplicateCoverError, GenericError, InvalidAccountError, InvalidSignerError, InvalidCoverKeyError } = exceptions
 
-const whitelistCoverCreator = async (chainId: ChainId, whitelisted: string, signerOrProvider: Provider | Signer): Promise<IWrappedResult> => {
+const whitelistCoverCreator = async (chainId: ChainId, whitelisted: string, signerOrProvider: Provider | Signer, transactionOverrides: any = {}): Promise<IWrappedResult> => {
   const { ZERO_ADDRESS } = constants
 
   if (whitelisted === ZERO_ADDRESS) {
@@ -17,7 +17,7 @@ const whitelistCoverCreator = async (chainId: ChainId, whitelisted: string, sign
 
   const coverContract = await Cover.getInstance(chainId, signerOrProvider)
 
-  const tx = await coverContract.updateCoverCreatorWhitelist(whitelisted, true)
+  const tx = await coverContract.updateCoverCreatorWhitelist(whitelisted, true, transactionOverrides)
 
   return {
     status: Status.SUCCESS,
@@ -27,7 +27,7 @@ const whitelistCoverCreator = async (chainId: ChainId, whitelisted: string, sign
   }
 }
 
-const removeCoverCreatorFromWhitelist = async (chainId: ChainId, whitelisted: string, signerOrProvider: Provider | Signer): Promise<IWrappedResult> => {
+const removeCoverCreatorFromWhitelist = async (chainId: ChainId, whitelisted: string, signerOrProvider: Provider | Signer, transactionOverrides: any = {}): Promise<IWrappedResult> => {
   const { ZERO_ADDRESS } = constants
 
   if (whitelisted === ZERO_ADDRESS) {
@@ -36,7 +36,7 @@ const removeCoverCreatorFromWhitelist = async (chainId: ChainId, whitelisted: st
 
   const coverContract = await Cover.getInstance(chainId, signerOrProvider)
 
-  const tx = await coverContract.updateCoverCreatorWhitelist(whitelisted, false)
+  const tx = await coverContract.updateCoverCreatorWhitelist(whitelisted, false, transactionOverrides)
 
   return {
     status: Status.SUCCESS,
@@ -46,13 +46,13 @@ const removeCoverCreatorFromWhitelist = async (chainId: ChainId, whitelisted: st
   }
 }
 
-const approveReassurance = async (chainId: ChainId, tokenAddress: string, args: IApproveTransactionArgs, signerOrProvider: Provider | Signer): Promise<IWrappedResult> => {
+const approveReassurance = async (chainId: ChainId, tokenAddress: string, args: IApproveTransactionArgs, signerOrProvider: Provider | Signer, transactionOverrides: any = {}): Promise<IWrappedResult> => {
   const reassuranceToken = IERC20.getInstance(tokenAddress, signerOrProvider)
 
   const contract = await Reassurance.getAddress(chainId, signerOrProvider)
   const amount = erc20Utils.getApprovalAmount(args)
 
-  const result = await reassuranceToken.approve(contract, amount)
+  const result = await reassuranceToken.approve(contract, amount, transactionOverrides)
 
   return {
     status: Status.SUCCESS,
@@ -60,11 +60,11 @@ const approveReassurance = async (chainId: ChainId, tokenAddress: string, args: 
   }
 }
 
-const approveStakeAndFees = async (chainId: ChainId, args: IApproveTransactionArgs, signerOrProvider: Provider | Signer): Promise<IWrappedResult> => {
+const approveStakeAndFees = async (chainId: ChainId, args: IApproveTransactionArgs, signerOrProvider: Provider | Signer, transactionOverrides: any = {}): Promise<IWrappedResult> => {
   const npm = await NPMToken.getInstance(chainId, signerOrProvider)
   const amount = erc20Utils.getApprovalAmount(args)
   const staking = await Staking.getAddress(chainId, signerOrProvider)
-  const result = await npm.approve(staking, amount)
+  const result = await npm.approve(staking, amount, transactionOverrides)
 
   return {
     status: Status.SUCCESS,
@@ -72,11 +72,14 @@ const approveStakeAndFees = async (chainId: ChainId, args: IApproveTransactionAr
   }
 }
 
-const getCoverInfo = async (chainId: ChainId, coverKey: string, productKey: string, signerOrProvider: Provider | Signer): Promise<ICoverInfoStorage> => {
-  const coverContract = await Cover.getInstance(chainId, signerOrProvider)
-  const cover = await coverContract.getCover(coverKey, productKey)
-
-  const { info } = cover
+const getCoverInfo = async (chainId: ChainId, coverKey: string, provider: Provider): Promise<ICoverInfoStorage> => {
+  const candidates = [{
+    key: [keyUtil.PROTOCOL.NS.COVER_INFO, coverKey],
+    signature: ['bytes32', 'bytes32'],
+    returns: 'bytes32',
+    property: 'info'
+  }]
+  const { info } = await store.readStorage(chainId, candidates, provider)
 
   if (info === ZERO_BYTES32) {
     throw new InvalidCoverKeyError(`Invalid cover key ${coverKey}`)
@@ -85,7 +88,23 @@ const getCoverInfo = async (chainId: ChainId, coverKey: string, productKey: stri
   return (await ipfs.readBytes32(info)) as ICoverInfoStorage
 }
 
-const createCover = async (chainId: ChainId, info: ICoverInfo, signerOrProvider: Provider | Signer): Promise<IWrappedResult> => {
+const getProductInfo = async (chainId: ChainId, coverKey: string, productKey: string, provider: Provider): Promise<ICoverInfoStorage> => {
+  const candidates = [{
+    key: [keyUtil.PROTOCOL.NS.COVER_PRODUCT, coverKey, productKey],
+    signature: ['bytes32', 'bytes32'],
+    returns: 'bytes32',
+    property: 'info'
+  }]
+  const { info } = await store.readStorage(chainId, candidates, provider)
+
+  if (info === ZERO_BYTES32) {
+    throw new InvalidCoverKeyError('Invalid cover key or product key')
+  }
+
+  return (await ipfs.readBytes32(info)) as ICoverInfoStorage
+}
+
+const createCover = async (chainId: ChainId, info: ICoverInfo, signerOrProvider: Provider | Signer, transactionOverrides: any = {}): Promise<IWrappedResult> => {
   const { ZERO_ADDRESS } = constants
   const { key } = info
 
@@ -128,6 +147,9 @@ const createCover = async (chainId: ChainId, info: ICoverInfo, signerOrProvider:
   const tx = await coverContract.addCover(
     key,
     hashBytes32,
+    info.vault.name,
+    info.vault.symbol,
+    info.supportsProducts,
     stablecoin,
     info.requiresWhitelist,
     [
@@ -138,8 +160,11 @@ const createCover = async (chainId: ChainId, info: ICoverInfo, signerOrProvider:
       info.cooldownPeriod.toString(),
       info.claimPeriod.toString(),
       info.pricingFloor.toString(),
-      info.pricingCeiling.toString()
-    ]
+      info.pricingCeiling.toString(),
+      info.reassuranceRate.toString(),
+      info.leverage.toString()
+    ],
+    transactionOverrides
   )
 
   return {
@@ -155,4 +180,4 @@ const createCover = async (chainId: ChainId, info: ICoverInfo, signerOrProvider:
   }
 }
 
-export { whitelistCoverCreator, removeCoverCreatorFromWhitelist, getCoverInfo, approveReassurance, approveStakeAndFees, createCover }
+export { whitelistCoverCreator, removeCoverCreatorFromWhitelist, getCoverInfo, getProductInfo, approveReassurance, approveStakeAndFees, createCover }

@@ -37,7 +37,7 @@ const getFunc = (type: string): string => {
   }
 }
 
-const readStorage = async (chainId: ChainId, candidates: IStoreCandidate[], provider: EthersProvider): Promise<object[]> => {
+const readStorage = async (chainId: ChainId, candidates: IStoreCandidate[], provider: EthersProvider): Promise<any> => {
   const result: any = {}
 
   const ethcallProvider = new Provider(provider)

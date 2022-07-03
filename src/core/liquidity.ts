@@ -16,11 +16,11 @@ const getAllowance = async (chainId: ChainId, key: string, owner: string, signer
   }
 }
 
-const approveStake = async (chainId: ChainId, key: string, args: IApproveTransactionArgs, signerOrProvider: Provider | Signer): Promise<IWrappedResult> => {
+const approveStake = async (chainId: ChainId, key: string, args: IApproveTransactionArgs, signerOrProvider: Provider | Signer, transactionOverrides: any = {}): Promise<IWrappedResult> => {
   const npm = await NPMToken.getInstance(chainId, signerOrProvider)
   const amount = erc20Utils.getApprovalAmount(args)
   const vault = await Vault.getAddress(chainId, key, signerOrProvider)
-  const result = await npm.approve(vault, amount)
+  const result = await npm.approve(vault, amount, transactionOverrides)
 
   return {
     status: Status.SUCCESS,
@@ -28,13 +28,13 @@ const approveStake = async (chainId: ChainId, key: string, args: IApproveTransac
   }
 }
 
-const approve = async (chainId: ChainId, key: string, args: IApproveTransactionArgs, signerOrProvider: Provider | Signer): Promise<IWrappedResult> => {
+const approve = async (chainId: ChainId, key: string, args: IApproveTransactionArgs, signerOrProvider: Provider | Signer, transactionOverrides: any = {}): Promise<IWrappedResult> => {
   const stablecoin = await Stablecoin.getInstance(chainId, signerOrProvider)
   const vault = await Vault.getAddress(chainId, key, signerOrProvider)
 
   const amount = erc20Utils.getApprovalAmount(args)
 
-  const result = await stablecoin.approve(vault, amount)
+  const result = await stablecoin.approve(vault, amount, transactionOverrides)
 
   return {
     status: Status.SUCCESS,
@@ -42,9 +42,9 @@ const approve = async (chainId: ChainId, key: string, args: IApproveTransactionA
   }
 }
 
-const add = async (chainId: ChainId, key: string, amount: number, stake: number, signerOrProvider: Provider | Signer, referralCode: string): Promise<IWrappedResult> => {
-  const vault = await Vault.getInstance(chainId, key, signerOrProvider)
-  const result = await vault.addLiquidity(key, amount, stake, referralCode)
+const add = async (chainId: ChainId, coverKey: string, amount: string, stake: string, signerOrProvider: Provider | Signer, referralCode: string, transactionOverrides: any = {}): Promise<IWrappedResult> => {
+  const vault = await Vault.getInstance(chainId, coverKey, signerOrProvider)
+  const result = await vault.addLiquidity(coverKey, amount, stake, referralCode, transactionOverrides)
 
   return {
     status: Status.SUCCESS,

@@ -17,13 +17,13 @@ const getAllowance = async (chainId: ChainId, owner: string, signerOrProvider: P
   }
 }
 
-const approve = async (chainId: ChainId, args: IApproveTransactionArgs, signerOrProvider: Provider | Signer): Promise<IWrappedResult> => {
+const approve = async (chainId: ChainId, args: IApproveTransactionArgs, signerOrProvider: Provider | Signer, transactionOverrides: any = {}): Promise<IWrappedResult> => {
   const contract = await Reassurance.getAddress(chainId, signerOrProvider)
   const amount = getApprovalAmount(args)
 
   const reassuranceToken = await Stablecoin.getInstance(chainId, signerOrProvider)
 
-  const result = await reassuranceToken.approve(contract, amount)
+  const result = await reassuranceToken.approve(contract, amount, transactionOverrides)
 
   return {
     status: Status.SUCCESS,
@@ -31,10 +31,10 @@ const approve = async (chainId: ChainId, args: IApproveTransactionArgs, signerOr
   }
 }
 
-const add = async (chainId: ChainId, key: string, amount: number, signerOrProvider: Provider | Signer): Promise<IWrappedResult> => {
+const add = async (chainId: ChainId, key: string, amount: number, signerOrProvider: Provider | Signer, transactionOverrides: any = {}): Promise<IWrappedResult> => {
   const signer = await getAddress(signerOrProvider)
   const contract = await Reassurance.getInstance(chainId, signerOrProvider)
-  const result = await contract.addReassurance(key, signer, amount)
+  const result = await contract.addReassurance(key, signer, amount, transactionOverrides)
 
   return {
     status: Status.SUCCESS,
