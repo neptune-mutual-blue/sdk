@@ -1,6 +1,6 @@
 import { Provider } from '@ethersproject/providers'
 import { Signer } from '@ethersproject/abstract-signer'
-import { Reassurance, Cover, IERC20, NPMToken, Stablecoin, Staking } from '../registry'
+import { Reassurance, Cover, IERC20, NPMToken, Staking } from '../registry'
 import { ChainId, ICoverInfo, ICoverInfoStorage, IApproveTransactionArgs, Status, IWrappedResult, exceptions } from '../types'
 import { ipfs, erc20Utils, signer, keyUtil, store } from '../utils'
 import { constants } from '../config'
@@ -118,6 +118,22 @@ const createCover = async (chainId: ChainId, info: ICoverInfo, signerOrProvider:
     throw new DuplicateCoverError('Invalid or empty cover fee')
   }
 
+  if (!info.vault.name) { // eslint-disable-line
+    throw new GenericError('Invalid vault name')
+  }
+
+  if (!info.vault.symbol) { // eslint-disable-line
+    throw new GenericError('Invalid vault symbol')
+  }
+
+  if (typeof info.supportsProducts === 'undefined') { // eslint-disable-line
+    throw new GenericError('Invalid value provided for supportsProducts')
+  }
+
+  if (typeof info.requiresWhitelist === 'undefined') { // eslint-disable-line
+    throw new GenericError('Invalid value provided for requiresWhitelist')
+  }
+
   const storage = info as ICoverInfoStorage
 
   const account = await signer.getAddress(signerOrProvider)
@@ -139,15 +155,12 @@ const createCover = async (chainId: ChainId, info: ICoverInfo, signerOrProvider:
 
   const coverContract = await Cover.getInstance(chainId, signerOrProvider)
 
-  const stablecoin = await Stablecoin.getAddress(chainId, signerOrProvider)
-
   const tx = await coverContract.addCover(
     key,
     hashBytes32,
     info.vault.name,
     info.vault.symbol,
     info.supportsProducts,
-    stablecoin,
     info.requiresWhitelist,
     [
       info.stakeWithFees.toString(),
