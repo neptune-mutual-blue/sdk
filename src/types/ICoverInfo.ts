@@ -1,3 +1,5 @@
+import { ChainId } from './ChainId'
+
 interface ICoverInfo {
   key: string
   coverName: string
@@ -11,7 +13,7 @@ interface ICoverInfo {
   leverage: string
   tags: string[]
   about: string
-  blockchains: Array<{
+  blockchains?: Array<{
     chainId?: number
     name: string
   }>
@@ -39,6 +41,21 @@ interface ICoverInfo {
   stakeWithFees: string
   reassurance: string
   reassuranceRate: string
+  stakingPool?: {
+    name: string
+    settings: {
+      [key in ChainId]?: {
+        rewardToken: { symbol: string }
+        uniRewardTokenDollarPair: { token: string }
+        stakingTarget: string
+        maxStake: string
+        rewardPerBlock: string
+        lockupPeriodInBlocks: string
+        rewardTokenDeposit: string
+      }
+
+    }
+  }
 }
 
 export { ICoverInfo }
