@@ -13,7 +13,7 @@ const getAddress = async (chainId: ChainId, signerOrProvider: Provider | Signer)
 
 const getInstance = async (chainId: ChainId, signerOrProvider: Provider | Signer): Promise<Contract> => {
   const address = await getAddress(chainId, signerOrProvider)
-  return contract.getContract(address, abis.IERC20, signerOrProvider)
+  return contract.getContract(address, abis.IERC20Detailed, signerOrProvider)
 }
 
 export {

@@ -1,6 +1,5 @@
 interface IApproveTransactionArgs {
-  spender: string
-  amount: string
+  amount?: string
 }
 
 export { IApproveTransactionArgs }

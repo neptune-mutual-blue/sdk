@@ -28,13 +28,13 @@ const getAllowance = async (chainId: ChainId, owner: string, signerOrProvider: P
   }
 }
 
-const approve = async (chainId: ChainId, args: IApproveTransactionArgs, signerOrProvider: Provider | Signer): Promise<IWrappedResult> => {
+const approve = async (chainId: ChainId, args: IApproveTransactionArgs, signerOrProvider: Provider | Signer, transactionOverrides: any = {}): Promise<IWrappedResult> => {
   const stablecoin = await Stablecoin.getInstance(chainId, signerOrProvider)
   const policy = await PolicyContract.getAddress(chainId, signerOrProvider)
 
   const amount = erc20Utils.getApprovalAmount(args)
 
-  const result = await stablecoin.approve(policy, amount)
+  const result = await stablecoin.approve(policy, amount, transactionOverrides)
 
   return {
     status: Status.SUCCESS,
@@ -42,11 +42,11 @@ const approve = async (chainId: ChainId, args: IApproveTransactionArgs, signerOr
   }
 }
 
-const purchaseCover = async (chainId: ChainId, coverKey: string, productKey: string, args: IPolicyFeeArgs, signerOrProvider: Provider | Signer): Promise<IWrappedResult> => {
+const purchaseCover = async (chainId: ChainId, coverKey: string, productKey: string, args: IPolicyFeeArgs, signerOrProvider: Provider | Signer, transactionOverrides: any = {}): Promise<IWrappedResult> => {
   const policy = await PolicyContract.getInstance(chainId, signerOrProvider)
 
   const { duration, amount, referralCode, onBehalfOf } = args
-  const result = await policy.purchaseCover(onBehalfOf, coverKey, productKey, duration, amount, referralCode)
+  const result = await policy.purchaseCover(onBehalfOf, coverKey, productKey, duration, amount, referralCode, transactionOverrides)
 
   return {
     status: Status.SUCCESS,

@@ -4,6 +4,8 @@ import { IApproveTransactionArgs } from './IApproveTransactionArgs'
 import { INetwork } from './INetwork'
 import { ICoverInfo } from './ICoverInfo'
 import { ICoverInfoStorage } from './ICoverInfoStorage'
+import { IProductInfo } from './IProductInfo'
+import { IProductInfoStorage } from './IProductInfoStorage'
 import { IPolicyFeeArgs } from './IPolicyFeeArgs'
 import { IReportingInfo } from './IReportingInfo'
 import { IReportingInfoStorage } from './IReportingInfoStorage'
@@ -22,6 +24,8 @@ export {
   INetwork,
   ICoverInfo,
   ICoverInfoStorage,
+  IProductInfo,
+  IProductInfoStorage,
   IPolicyFeeArgs,
   IReportingInfo,
   IReportingInfoStorage,
