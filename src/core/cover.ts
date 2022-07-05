@@ -1,10 +1,11 @@
 import { Provider } from '@ethersproject/providers'
 import { Signer } from '@ethersproject/abstract-signer'
 import { Reassurance, Cover, IERC20, NPMToken, Stablecoin, Staking } from '../registry'
-import { ChainId, ICoverInfo, ICoverInfoStorage, IApproveTransactionArgs, Status, IWrappedResult, exceptions } from '../types'
+import { ChainId, ICoverInfo, ICoverInfoStorage, IApproveTransactionArgs, Status, IWrappedResult, exceptions, IProductInfo, IProductInfoStorage } from '../types'
 import { ipfs, erc20Utils, signer } from '../utils'
 import { constants } from '../config'
 import { ZERO_BYTES32 } from '../config/constants'
+import { getStatus } from './governance'
 
 const { DuplicateCoverError, GenericError, InvalidAccountError, InvalidSignerError, InvalidCoverKeyError } = exceptions
 
@@ -155,4 +156,115 @@ const createCover = async (chainId: ChainId, info: ICoverInfo, signerOrProvider:
   }
 }
 
-export { whitelistCoverCreator, removeCoverCreatorFromWhitelist, getCoverInfo, approveReassurance, approveStakeAndFees, createCover }
+const updateCover = async (chainId: ChainId, info: ICoverInfo, signerOrProvider: Provider | Signer): Promise<IWrappedResult> => {
+  const { key } = info
+
+  if (!key) { // eslint-disable-line
+    throw new DuplicateCoverError('Invalid or empty cover key')
+  }
+
+  if (!info.stakeWithFees) { // eslint-disable-line
+    throw new DuplicateCoverError('Invalid or empty cover fee')
+  }
+
+  const storage = info as ICoverInfoStorage
+
+  const account = await signer.getAddress(signerOrProvider)
+
+  if (account == null) {
+    throw new InvalidSignerError('The provider is not a valid signer')
+  }
+
+  storage.createdBy = account
+  storage.permalink = `https://app.neptunemutual.com/covers/view/${key}`
+
+  const payload = await ipfs.write(storage)
+
+  if (payload === undefined) {
+    throw new GenericError('Could not save cover to an IPFS network')
+  }
+
+  const [hash, hashBytes32] = payload;
+
+  const coverContract = await Cover.getInstance(chainId, signerOrProvider)
+
+  const tx = await coverContract.updateCover(key, hashBytes32);
+
+  return {
+    status: Status.SUCCESS,
+    result: {
+      storage: {
+        hashBytes32,
+        hash,
+        permalink: `https://ipfs.infura.io/ipfs/${hash}`
+      },
+      tx
+    }
+  } 
+}
+
+const updateProduct = async (chainId: ChainId, info: IProductInfo, signerOrProvider: Provider | Signer): Promise<IWrappedResult> => {
+  const { coverKey, productKey } = info
+
+  if (!coverKey) { // eslint-disable-line
+    throw new DuplicateCoverError('Invalid or empty cover key')
+  }
+
+  if (!productKey) { // eslint-disable-line
+    throw new DuplicateCoverError('Invalid or empty product key')
+  }
+
+  const storage = info as IProductInfoStorage;
+
+  const account = await signer.getAddress(signerOrProvider)
+
+  if (account == null) {
+    throw new InvalidSignerError('The provider is not a valid signer')
+  }
+
+  storage.createdBy = account
+  storage.permalink = `https://app.neptunemutual.com/covers/view/${coverKey}/${productKey}`
+
+  const payload = await ipfs.write(storage)
+
+  if (payload === undefined) {
+    throw new GenericError('Could not save cover to an IPFS network')
+  }
+
+  const [hash, hashBytes32] = payload;
+  
+  const res = await getStatus(chainId, coverKey, productKey, signerOrProvider);
+  const productStatus = await res.result.value;
+
+  const coverContract = await Cover.getInstance(chainId, signerOrProvider)
+
+  const tx = await coverContract.updateProduct(
+    coverKey, 
+    productKey, 
+    hashBytes32, 
+    [productStatus, info.capitalEfficiency]
+  );
+
+  return {
+    status: Status.SUCCESS,
+    result: {
+      storage: {
+        hashBytes32,
+        hash,
+        permalink: `https://ipfs.infura.io/ipfs/${hash}`
+      },
+      tx
+    }
+  } 
+}
+
+export { 
+  whitelistCoverCreator, 
+  removeCoverCreatorFromWhitelist, 
+  getCoverInfo, 
+  approveReassurance, 
+  approveStakeAndFees, 
+  createCover, 
+  updateCover, 
+  updateProduct 
+}
