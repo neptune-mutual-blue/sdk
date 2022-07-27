@@ -1,6 +1,6 @@
 import { Provider } from '@ethersproject/providers'
 import { Signer } from '@ethersproject/abstract-signer'
-import { Stablecoin } from '../../registry'
+import * as Stablecoin from '../../registry/Stablecoin'
 import { ChainId } from '../../types'
 import { stringify } from '../numbers'
 import { getPairInfo, getPairFromAddress } from '../uniswap-v2/pair'
