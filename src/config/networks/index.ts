@@ -4,6 +4,8 @@ import { UnsupportedBlockchainError } from '../../types/Exceptions/UnsupportedBl
 import { Mumbai } from './mumbai'
 import { Fuji } from './fuji'
 
+const TestChainId = [ChainId.Mumbai, ChainId.Fuji]
+
 const getChainConfig = (chainId: ChainId): INetwork => {
   switch (chainId) {
     case ChainId.Mumbai:
@@ -15,6 +17,11 @@ const getChainConfig = (chainId: ChainId): INetwork => {
   throw new UnsupportedBlockchainError(`The ChainId: ${chainId} isn't supported yet`)
 }
 
+const isTestChainId = (chain: number) => {
+  return !TestChainId.indexOf(chain)
+}
+
 export {
-  getChainConfig
+  getChainConfig,
+  isTestChainId
 }

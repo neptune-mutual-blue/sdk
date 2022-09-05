@@ -8,6 +8,7 @@ import * as store from './store'
 import * as pricing from './pricing'
 import * as uniswapV2 from './uniswap-v2'
 import * as numbers from './numbers'
+import * as hostname from './hostname'
 
 export {
   contract,
@@ -19,5 +20,6 @@ export {
   store,
   pricing,
   uniswapV2,
-  numbers
+  numbers,
+  hostname
 }

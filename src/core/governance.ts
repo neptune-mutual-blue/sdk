@@ -3,9 +3,11 @@ import { Signer } from '@ethersproject/abstract-signer'
 import { NPMToken, Governance } from '../registry'
 import { ChainId, IApproveTransactionArgs, Status, IWrappedResult, IReportingInfo, IReportingInfoStorage, CoverStatus } from '../types'
 import { GenericError, InvalidReportError, InvalidSignerError } from '../types/Exceptions'
-import { erc20Utils, ipfs, signer } from '../utils'
+import { erc20Utils, ipfs, signer, hostname } from '../utils'
 import { IDisputeInfoStorage } from '../types/IReportingInfoStorage'
 import { IDisputeInfo } from '../types/IReportingInfo'
+
+const { getHostName } = hostname;
 
 const approveStake = async (chainId: ChainId, args: IApproveTransactionArgs, signerOrProvider: Provider | Signer, transactionOverrides: any = {}): Promise<IWrappedResult> => {
   const npm = await NPMToken.getInstance(chainId, signerOrProvider)
@@ -47,7 +49,7 @@ const report = async (chainId: ChainId, coverKey: string, productKey: string, in
   }
 
   storage.createdBy = account
-  storage.permalink = `https://app.neptunemutual.com/covers/view/${coverKey}/reporting/${observed.getTime()}`
+  storage.permalink = `https://${getHostName(chainId)}/covers/view/${coverKey}/reporting/${observed.getTime()}`
 
   const payload = await ipfs.write(storage)
 
@@ -122,7 +124,7 @@ const dispute = async (chainId: ChainId, coverKey: string, productKey: string, i
   }
 
   storage.createdBy = account
-  storage.permalink = `https://app.neptunemutual.com/covers/view/${coverKey}/dispute/${incidentDate.toString() as string}`
+  storage.permalink = `https://${getHostName(chainId)}/covers/view/${coverKey}/dispute/${incidentDate.toString() as string}`
 
   const payload = await ipfs.write(storage)
 

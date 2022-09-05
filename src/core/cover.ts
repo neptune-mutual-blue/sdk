@@ -2,12 +2,13 @@ import { Provider } from '@ethersproject/providers'
 import { Signer } from '@ethersproject/abstract-signer'
 import { Reassurance, Cover, IERC20, NPMToken, Staking } from '../registry'
 import { ChainId, ICoverInfo, ICoverInfoStorage, IProductInfo, IProductInfoStorage, IApproveTransactionArgs, Status, IWrappedResult, exceptions } from '../types'
-import { ipfs, erc20Utils, signer, keyUtil, store } from '../utils'
+import { ipfs, erc20Utils, signer, keyUtil, store, hostname } from '../utils'
 import { constants } from '../config'
 import { ZERO_BYTES32 } from '../config/constants'
 import { InvalidProductKeyError } from '../types/Exceptions'
 
 const { GenericError, InvalidAccountError, InvalidSignerError, InvalidCoverKeyError } = exceptions
+const { getHostName } = hostname;
 
 const whitelistCoverCreator = async (chainId: ChainId, whitelisted: string, signerOrProvider: Provider | Signer, transactionOverrides: any = {}): Promise<IWrappedResult> => {
   const { ZERO_ADDRESS } = constants
@@ -141,7 +142,7 @@ const createCover = async (chainId: ChainId, info: ICoverInfo, signerOrProvider:
   }
 
   storage.createdBy = account
-  storage.permalink = `https://app.neptunemutual.com/covers/view/${key}`
+  storage.permalink = `https://${getHostName(chainId)}/covers/view/${key}`
 
   const payload = await ipfs.write(storage)
 
@@ -209,7 +210,7 @@ const createProduct = async (chainId: ChainId, info: IProductInfo, signerOrProvi
   }
 
   storage.createdBy = account
-  storage.permalink = `https://app.neptunemutual.com/covers/view/${coverKey}/products/${productKey}`
+  storage.permalink = `https://${getHostName(chainId)}/covers/view/${coverKey}/products/${productKey}`
 
   const payload = await ipfs.write(storage)
 
@@ -267,7 +268,7 @@ const updateCover = async (chainId: ChainId, info: ICoverInfo, signerOrProvider:
   }
 
   storage.createdBy = account
-  storage.permalink = `https://app.neptunemutual.com/covers/view/${key}`
+  storage.permalink = `https://${getHostName(chainId)}/covers/view/${key}`
 
   const payload = await ipfs.write(storage)
 
@@ -314,7 +315,7 @@ const updateProduct = async (chainId: ChainId, info: IProductInfo, productStatus
   }
 
   storage.createdBy = account
-  storage.permalink = `https://app.neptunemutual.com/covers/view/${coverKey}/${productKey}`
+  storage.permalink = `https://${getHostName(chainId)}/covers/view/${coverKey}/${productKey}`
 
   const payload = await ipfs.write(storage)
 
