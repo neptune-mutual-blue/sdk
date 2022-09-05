@@ -18,7 +18,7 @@ const getChainConfig = (chainId: ChainId): INetwork => {
 }
 
 const isTestChainId = (chain: number) => {
-  return !TestChainId.indexOf(chain)
+  return !!TestChainId.indexOf(chain)
 }
 
 export {
