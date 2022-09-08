@@ -6,6 +6,7 @@ import { GenericError, InvalidReportError, InvalidSignerError } from '../types/E
 import { erc20Utils, ipfs, signer, hostname } from '../utils'
 import { IDisputeInfoStorage } from '../types/IReportingInfoStorage'
 import { IDisputeInfo } from '../types/IReportingInfo'
+import { parseBytes32String } from "@ethersproject/strings";
 
 const { getHostName } = hostname;
 
@@ -49,7 +50,11 @@ const report = async (chainId: ChainId, coverKey: string, productKey: string, in
   }
 
   storage.createdBy = account
-  storage.permalink = `https://${getHostName(chainId)}/covers/view/${coverKey}/reporting/${observed.getTime()}`
+  storage.permalink = `https://${getHostName(chainId)}/reporting/${parseBytes32String(coverKey)}`
+
+  if(parseBytes32String(productKey)) {
+    storage.permalink = `${storage.permalink}/product/${parseBytes32String(productKey)}`
+  }
 
   const payload = await ipfs.write(storage)
 

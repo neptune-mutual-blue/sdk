@@ -142,7 +142,7 @@ const createCover = async (chainId: ChainId, info: ICoverInfo, signerOrProvider:
   }
 
   storage.createdBy = account
-  storage.permalink = `https://${getHostName(chainId)}/covers/view/${key}`
+  storage.permalink = `https://${getHostName(chainId)}/covers/${key}/options`
 
   const payload = await ipfs.write(storage)
 
