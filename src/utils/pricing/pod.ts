@@ -1,6 +1,6 @@
 import { Provider } from '@ethersproject/providers'
 import { Signer } from '@ethersproject/abstract-signer'
-import { Vault } from '../../registry'
+import * as Vault from '../../registry/Vault'
 import { stringify } from '../numbers'
 
 const getPrice = async (pod: string, amount: number, signerOrProvider: Provider | Signer): Promise<string> => {

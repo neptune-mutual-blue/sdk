@@ -1,6 +1,7 @@
 import { Provider } from '@ethersproject/providers'
 import { Signer } from '@ethersproject/abstract-signer'
-import { IUniswapV2RouterLike, Stablecoin } from '../../registry'
+import * as IUniswapV2RouterLike from '../../registry/IUniswapV2RouterLike'
+import * as Stablecoin from '../../registry/Stablecoin'
 import { ChainId } from '../../types'
 import { stringify } from '../numbers'
 import { getPairFromFactory } from '../uniswap-v2/pair'

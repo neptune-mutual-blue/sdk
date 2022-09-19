@@ -3,7 +3,7 @@ import { Signer } from '@ethersproject/abstract-signer'
 import { ChainId, Status, IWrappedResult, PolicyDuration } from '../types'
 import { PolicyContract } from '../registry'
 import { abis } from '../config'
-import { contract } from '../utils'
+import * as contract from '../utils/contract'
 
 const getCToken = async (chainId: ChainId, coverKey: string, productKey: string, duration: PolicyDuration, signerOrProvider: Provider | Signer): Promise<IWrappedResult> => {
   const policy = await PolicyContract.getInstance(chainId, signerOrProvider)

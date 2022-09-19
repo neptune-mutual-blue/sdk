@@ -1,4 +1,5 @@
 import axios from 'axios'
+import { v4 as uuid } from 'uuid'
 
 class IPFSClient {
   urls: string[]
@@ -11,7 +12,7 @@ class IPFSClient {
     let boundary = 'Delimiter.'
 
     while (true) {
-      boundary += `${Math.random()}`
+      boundary += uuid()
 
       if (!stringPayload.includes(boundary)) {
         return boundary

@@ -1,7 +1,7 @@
 import { Provider } from '@ethersproject/providers'
 import { Signer } from '@ethersproject/abstract-signer'
 import { ChainId } from '../types'
-import { keyUtil } from '../utils'
+import * as keyUtil from '../utils/key-util'
 import { getOrFetch } from './CachedStoreAddress'
 
 const findAddress = async (chainId: ChainId, cnsBytes32: string, signerOrProvider: Provider | Signer): Promise<string> => {
