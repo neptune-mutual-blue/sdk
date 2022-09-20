@@ -10,9 +10,9 @@
       },
       {
         "indexed": false,
-        "internalType": "bytes32",
+        "internalType": "string",
         "name": "info",
-        "type": "bytes32"
+        "type": "string"
       },
       {
         "indexed": false,
@@ -110,9 +110,9 @@
       },
       {
         "indexed": false,
-        "internalType": "bytes32",
+        "internalType": "string",
         "name": "info",
-        "type": "bytes32"
+        "type": "string"
       }
     ],
     "name": "CoverUpdated",
@@ -204,9 +204,9 @@
       },
       {
         "indexed": false,
-        "internalType": "bytes32",
+        "internalType": "string",
         "name": "info",
-        "type": "bytes32"
+        "type": "string"
       },
       {
         "indexed": false,
@@ -278,9 +278,9 @@
       },
       {
         "indexed": false,
-        "internalType": "bytes32",
+        "internalType": "string",
         "name": "info",
-        "type": "bytes32"
+        "type": "string"
       },
       {
         "indexed": false,
@@ -319,9 +319,9 @@
         "type": "bytes32"
       },
       {
-        "internalType": "bytes32",
+        "internalType": "string",
         "name": "info",
-        "type": "bytes32"
+        "type": "string"
       },
       {
         "internalType": "string",
@@ -373,9 +373,9 @@
         "type": "bytes32"
       },
       {
-        "internalType": "bytes32",
+        "internalType": "string",
         "name": "info",
-        "type": "bytes32"
+        "type": "string"
       },
       {
         "internalType": "bool",
@@ -547,9 +547,9 @@
         "type": "bytes32"
       },
       {
-        "internalType": "bytes32",
+        "internalType": "string",
         "name": "info",
-        "type": "bytes32"
+        "type": "string"
       }
     ],
     "name": "updateCover",
@@ -616,9 +616,9 @@
         "type": "bytes32"
       },
       {
-        "internalType": "bytes32",
+        "internalType": "string",
         "name": "info",
-        "type": "bytes32"
+        "type": "string"
       },
       {
         "internalType": "uint256[]",

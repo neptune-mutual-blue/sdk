@@ -123,6 +123,12 @@
         "internalType": "uint256",
         "name": "platformFee",
         "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "stakingTarget",
+        "type": "uint256"
       }
     ],
     "name": "PoolUpdated",
