@@ -150,25 +150,27 @@ const createCover = async (chainId: ChainId, info: ICoverInfo, signerOrProvider:
 
   const coverContract = await Cover.getInstance(chainId, signerOrProvider)
 
+  const addCoverArgs = {
+    coverKey: key,
+    info: hash,
+    tokenName: info.vault.name,
+    tokenSymbol: info.vault.symbol,
+    supportsProducts: info.supportsProducts,
+    requiresWhitelist: info.requiresWhitelist,
+    stakeWithFee: info.stakeWithFees.toString(),
+    initialReassuranceAmount: info.reassurance.toString(),
+    minStakeToReport: info.minReportingStake.toString(),
+    reportingPeriod: info.reportingPeriod.toString(),
+    cooldownPeriod: info.cooldownPeriod.toString(),
+    claimPeriod: info.claimPeriod.toString(),
+    floor: info.pricingFloor.toString(),
+    ceiling: info.pricingCeiling.toString(),
+    reassuranceRate: info.reassuranceRate.toString(),
+    leverageFactor: info.leverage.toString(),
+  };
+
   const tx = await coverContract.addCover(
-    key,
-    hash,
-    info.vault.name,
-    info.vault.symbol,
-    info.supportsProducts,
-    info.requiresWhitelist,
-    [
-      info.stakeWithFees.toString(),
-      info.reassurance.toString(),
-      info.minReportingStake.toString(),
-      info.reportingPeriod.toString(),
-      info.cooldownPeriod.toString(),
-      info.claimPeriod.toString(),
-      info.pricingFloor.toString(),
-      info.pricingCeiling.toString(),
-      info.reassuranceRate.toString(),
-      info.leverage.toString()
-    ],
+    addCoverArgs,
     transactionOverrides
   )
 
@@ -216,15 +218,17 @@ const createProduct = async (chainId: ChainId, info: IProductInfo, signerOrProvi
   const coverContract = await Cover.getInstance(chainId, signerOrProvider)
 
   const status = 1
+  const addProductArgs = {
+    coverKey: coverKey,
+    productKey: productKey,
+    info: hash,
+    requiresWhitelist: info.requiresWhitelist,
+    productStatus: status,
+    efficiency: info.capitalEfficiency,
+  }
+
   const tx = await coverContract.addProduct(
-    coverKey,
-    productKey,
-    hash,
-    info.requiresWhitelist,
-    [
-      status,
-      info.capitalEfficiency
-    ],
+    addProductArgs,
     transactionOverrides
   )
 
@@ -314,11 +318,16 @@ const updateProduct = async (chainId: ChainId, info: IProductInfo, productStatus
 
   const coverContract = await Cover.getInstance(chainId, signerOrProvider)
 
+  const updateProductArgs = {
+    coverKey: coverKey,
+    productKey: productKey,
+    info: hash,
+    productStatus: productStatus,
+    efficiency: info.capitalEfficiency,
+  }
+
   const tx = await coverContract.updateProduct(
-    coverKey,
-    productKey,
-    hash,
-    [productStatus, info.capitalEfficiency],
+    updateProductArgs,
     transactionOverrides
   )
 
