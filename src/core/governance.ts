@@ -47,7 +47,7 @@ const report = async (chainId: ChainId, coverKey: string, productKey: string, in
   }
 
   storage.createdBy = account
-  storage.permalink = `https://app.neptunemutual.com/covers/view/${coverKey}/reporting/${observed.getTime()}`
+  storage.permalink = `https://app.neptunemutual.com/reports/${coverKey}/products/${productKey}`
 
   const hash = await ipfs.write(storage)
 
@@ -119,7 +119,7 @@ const dispute = async (chainId: ChainId, coverKey: string, productKey: string, i
   }
 
   storage.createdBy = account
-  storage.permalink = `https://app.neptunemutual.com/covers/view/${coverKey}/dispute/${incidentDate.toString() as string}`
+  storage.permalink = `https://app.neptunemutual.com/reports/${coverKey}/products/${productKey}/incidents/${incidentDate.toString() as string}`
 
   const hash = await ipfs.write(storage)
 

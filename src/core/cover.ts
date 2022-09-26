@@ -140,7 +140,7 @@ const createCover = async (chainId: ChainId, info: ICoverInfo, signerOrProvider:
   }
 
   storage.createdBy = account
-  storage.permalink = `https://app.neptunemutual.com/covers/view/${key}`
+  storage.permalink = `https://app.neptunemutual.com/covers/${key}`
 
   const hash = await ipfs.write(storage)
 
@@ -166,8 +166,8 @@ const createCover = async (chainId: ChainId, info: ICoverInfo, signerOrProvider:
     floor: info.pricingFloor.toString(),
     ceiling: info.pricingCeiling.toString(),
     reassuranceRate: info.reassuranceRate.toString(),
-    leverageFactor: info.leverage.toString(),
-  };
+    leverageFactor: info.leverage.toString()
+  }
 
   const tx = await coverContract.addCover(
     addCoverArgs,
@@ -207,7 +207,7 @@ const createProduct = async (chainId: ChainId, info: IProductInfo, signerOrProvi
   }
 
   storage.createdBy = account
-  storage.permalink = `https://app.neptunemutual.com/covers/view/${coverKey}/products/${productKey}`
+  storage.permalink = `https://app.neptunemutual.com/covers/${coverKey}/products/${productKey}`
 
   const hash = await ipfs.write(storage)
 
@@ -224,7 +224,7 @@ const createProduct = async (chainId: ChainId, info: IProductInfo, signerOrProvi
     info: hash,
     requiresWhitelist: info.requiresWhitelist,
     productStatus: status,
-    efficiency: info.capitalEfficiency,
+    efficiency: info.capitalEfficiency
   }
 
   const tx = await coverContract.addProduct(
@@ -264,7 +264,7 @@ const updateCover = async (chainId: ChainId, info: ICoverInfo, signerOrProvider:
   }
 
   storage.createdBy = account
-  storage.permalink = `https://app.neptunemutual.com/covers/view/${key}`
+  storage.permalink = `https://app.neptunemutual.com/covers/${key}`
 
   const hash = await ipfs.write(storage)
 
@@ -308,7 +308,7 @@ const updateProduct = async (chainId: ChainId, info: IProductInfo, productStatus
   }
 
   storage.createdBy = account
-  storage.permalink = `https://app.neptunemutual.com/covers/view/${coverKey}/${productKey}`
+  storage.permalink = `https://app.neptunemutual.com/covers/${coverKey}/products/${productKey}`
 
   const hash = await ipfs.write(storage)
 
@@ -323,7 +323,7 @@ const updateProduct = async (chainId: ChainId, info: IProductInfo, productStatus
     productKey: productKey,
     info: hash,
     productStatus: productStatus,
-    efficiency: info.capitalEfficiency,
+    efficiency: info.capitalEfficiency
   }
 
   const tx = await coverContract.updateProduct(
