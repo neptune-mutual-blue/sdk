@@ -53,7 +53,7 @@ const purchaseCover = async (chainId: ChainId, coverKey: string, productKey: str
     productKey: productKey,
     coverDuration: duration,
     amountToCover: amount,
-    referralCode: referralCode,
+    referralCode: referralCode
   }
   const result = await policy.purchaseCover(purchaseCoverArgs, transactionOverrides)
 
