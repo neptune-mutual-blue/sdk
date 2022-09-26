@@ -46,7 +46,16 @@ const purchaseCover = async (chainId: ChainId, coverKey: string, productKey: str
   const policy = await PolicyContract.getInstance(chainId, signerOrProvider)
 
   const { duration, amount, referralCode, onBehalfOf } = args
-  const result = await policy.purchaseCover(onBehalfOf, coverKey, productKey, duration, amount, referralCode, transactionOverrides)
+
+  const purchaseCoverArgs = {
+    onBehalfOf: onBehalfOf,
+    coverKey: coverKey,
+    productKey: productKey,
+    coverDuration: duration,
+    amountToCover: amount,
+    referralCode: referralCode
+  }
+  const result = await policy.purchaseCover(purchaseCoverArgs, transactionOverrides)
 
   return {
     status: Status.SUCCESS,

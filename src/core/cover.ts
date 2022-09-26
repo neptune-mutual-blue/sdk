@@ -4,7 +4,6 @@ import { Reassurance, Cover, IERC20, NPMToken, Staking } from '../registry'
 import { ChainId, ICoverInfo, ICoverInfoStorage, IProductInfo, IProductInfoStorage, IApproveTransactionArgs, Status, IWrappedResult, exceptions } from '../types'
 import { ipfs, erc20Utils, signer, keyUtil, store } from '../utils'
 import { constants } from '../config'
-import { ZERO_BYTES32 } from '../config/constants'
 import { InvalidProductKeyError } from '../types/Exceptions'
 
 const { GenericError, InvalidAccountError, InvalidSignerError, InvalidCoverKeyError } = exceptions
@@ -77,16 +76,16 @@ const getCoverInfo = async (chainId: ChainId, coverKey: string, provider: Provid
   const candidates = [{
     key: [keyUtil.PROTOCOL.NS.COVER_INFO, coverKey],
     signature: ['bytes32', 'bytes32'],
-    returns: 'bytes32',
+    returns: 'string',
     property: 'info'
   }]
   const { info } = await store.readStorage(chainId, candidates, provider)
 
-  if (info === ZERO_BYTES32) {
+  if (info === '') {
     throw new InvalidCoverKeyError(`Invalid cover key ${coverKey}`)
   }
 
-  return (await ipfs.readBytes32(info)) as ICoverInfoStorage
+  return (await ipfs.read(info)) as ICoverInfoStorage
 }
 
 const getProductInfo = async (chainId: ChainId, coverKey: string, productKey: string, provider: Provider): Promise<ICoverInfoStorage> => {
@@ -98,11 +97,11 @@ const getProductInfo = async (chainId: ChainId, coverKey: string, productKey: st
   }]
   const { info } = await store.readStorage(chainId, candidates, provider)
 
-  if (info === ZERO_BYTES32) {
+  if (info === '') {
     throw new InvalidCoverKeyError('Invalid cover key or product key')
   }
 
-  return (await ipfs.readBytes32(info)) as ICoverInfoStorage
+  return (await ipfs.read(info)) as ICoverInfoStorage
 }
 
 const createCover = async (chainId: ChainId, info: ICoverInfo, signerOrProvider: Provider | Signer, transactionOverrides: any = {}): Promise<IWrappedResult> => {
@@ -141,37 +140,37 @@ const createCover = async (chainId: ChainId, info: ICoverInfo, signerOrProvider:
   }
 
   storage.createdBy = account
-  storage.permalink = `https://app.neptunemutual.com/covers/view/${key}`
+  storage.permalink = `https://app.neptunemutual.com/covers/${key}`
 
-  const payload = await ipfs.write(storage)
+  const hash = await ipfs.write(storage)
 
-  if (payload === undefined) {
+  if (hash === undefined) {
     throw new GenericError('Could not save cover to an IPFS network')
   }
 
-  const [hash, hashBytes32] = payload
-
   const coverContract = await Cover.getInstance(chainId, signerOrProvider)
 
+  const addCoverArgs = {
+    coverKey: key,
+    info: hash,
+    tokenName: info.vault.name,
+    tokenSymbol: info.vault.symbol,
+    supportsProducts: info.supportsProducts,
+    requiresWhitelist: info.requiresWhitelist,
+    stakeWithFee: info.stakeWithFees.toString(),
+    initialReassuranceAmount: info.reassurance.toString(),
+    minStakeToReport: info.minReportingStake.toString(),
+    reportingPeriod: info.reportingPeriod.toString(),
+    cooldownPeriod: info.cooldownPeriod.toString(),
+    claimPeriod: info.claimPeriod.toString(),
+    floor: info.pricingFloor.toString(),
+    ceiling: info.pricingCeiling.toString(),
+    reassuranceRate: info.reassuranceRate.toString(),
+    leverageFactor: info.leverage.toString()
+  }
+
   const tx = await coverContract.addCover(
-    key,
-    hashBytes32,
-    info.vault.name,
-    info.vault.symbol,
-    info.supportsProducts,
-    info.requiresWhitelist,
-    [
-      info.stakeWithFees.toString(),
-      info.reassurance.toString(),
-      info.minReportingStake.toString(),
-      info.reportingPeriod.toString(),
-      info.cooldownPeriod.toString(),
-      info.claimPeriod.toString(),
-      info.pricingFloor.toString(),
-      info.pricingCeiling.toString(),
-      info.reassuranceRate.toString(),
-      info.leverage.toString()
-    ],
+    addCoverArgs,
     transactionOverrides
   )
 
@@ -179,7 +178,6 @@ const createCover = async (chainId: ChainId, info: ICoverInfo, signerOrProvider:
     status: Status.SUCCESS,
     result: {
       storage: {
-        hashBytes32,
         hash,
         permalink: `https://ipfs.infura.io/ipfs/${hash}`
       },
@@ -209,28 +207,28 @@ const createProduct = async (chainId: ChainId, info: IProductInfo, signerOrProvi
   }
 
   storage.createdBy = account
-  storage.permalink = `https://app.neptunemutual.com/covers/view/${coverKey}/products/${productKey}`
+  storage.permalink = `https://app.neptunemutual.com/covers/${coverKey}/products/${productKey}`
 
-  const payload = await ipfs.write(storage)
+  const hash = await ipfs.write(storage)
 
-  if (payload === undefined) {
+  if (hash === undefined) {
     throw new GenericError('Could not save cover to an IPFS network')
   }
-
-  const [hash, hashBytes32] = payload
 
   const coverContract = await Cover.getInstance(chainId, signerOrProvider)
 
   const status = 1
+  const addProductArgs = {
+    coverKey: coverKey,
+    productKey: productKey,
+    info: hash,
+    requiresWhitelist: info.requiresWhitelist,
+    productStatus: status,
+    efficiency: info.capitalEfficiency
+  }
+
   const tx = await coverContract.addProduct(
-    coverKey,
-    productKey,
-    hashBytes32,
-    info.requiresWhitelist,
-    [
-      status,
-      info.capitalEfficiency
-    ],
+    addProductArgs,
     transactionOverrides
   )
 
@@ -238,7 +236,6 @@ const createProduct = async (chainId: ChainId, info: IProductInfo, signerOrProvi
     status: Status.SUCCESS,
     result: {
       storage: {
-        hashBytes32,
         hash,
         permalink: `https://ipfs.infura.io/ipfs/${hash}`
       },
@@ -267,25 +264,22 @@ const updateCover = async (chainId: ChainId, info: ICoverInfo, signerOrProvider:
   }
 
   storage.createdBy = account
-  storage.permalink = `https://app.neptunemutual.com/covers/view/${key}`
+  storage.permalink = `https://app.neptunemutual.com/covers/${key}`
 
-  const payload = await ipfs.write(storage)
+  const hash = await ipfs.write(storage)
 
-  if (payload === undefined) {
+  if (hash === undefined) {
     throw new GenericError('Could not save cover to an IPFS network')
   }
 
-  const [hash, hashBytes32] = payload
-
   const coverContract = await Cover.getInstance(chainId, signerOrProvider)
 
-  const tx = await coverContract.updateCover(key, hashBytes32, transactionOverrides)
+  const tx = await coverContract.updateCover(key, hash, transactionOverrides)
 
   return {
     status: Status.SUCCESS,
     result: {
       storage: {
-        hashBytes32,
         hash,
         permalink: `https://ipfs.infura.io/ipfs/${hash}`
       },
@@ -314,23 +308,26 @@ const updateProduct = async (chainId: ChainId, info: IProductInfo, productStatus
   }
 
   storage.createdBy = account
-  storage.permalink = `https://app.neptunemutual.com/covers/view/${coverKey}/${productKey}`
+  storage.permalink = `https://app.neptunemutual.com/covers/${coverKey}/products/${productKey}`
 
-  const payload = await ipfs.write(storage)
+  const hash = await ipfs.write(storage)
 
-  if (payload === undefined) {
+  if (hash === undefined) {
     throw new GenericError('Could not save cover to an IPFS network')
   }
 
-  const [hash, hashBytes32] = payload
-
   const coverContract = await Cover.getInstance(chainId, signerOrProvider)
 
+  const updateProductArgs = {
+    coverKey: coverKey,
+    productKey: productKey,
+    info: hash,
+    productStatus: productStatus,
+    efficiency: info.capitalEfficiency
+  }
+
   const tx = await coverContract.updateProduct(
-    coverKey,
-    productKey,
-    hashBytes32,
-    [productStatus, info.capitalEfficiency],
+    updateProductArgs,
     transactionOverrides
   )
 
@@ -338,7 +335,6 @@ const updateProduct = async (chainId: ChainId, info: IProductInfo, productStatus
     status: Status.SUCCESS,
     result: {
       storage: {
-        hashBytes32,
         hash,
         permalink: `https://ipfs.infura.io/ipfs/${hash}`
       },

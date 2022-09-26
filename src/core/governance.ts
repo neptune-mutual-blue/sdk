@@ -47,15 +47,13 @@ const report = async (chainId: ChainId, coverKey: string, productKey: string, in
   }
 
   storage.createdBy = account
-  storage.permalink = `https://app.neptunemutual.com/covers/view/${coverKey}/reporting/${observed.getTime()}`
+  storage.permalink = `https://app.neptunemutual.com/reports/${coverKey}/products/${productKey}`
 
-  const payload = await ipfs.write(storage)
+  const hash = await ipfs.write(storage)
 
-  if (payload === undefined) {
+  if (hash === undefined) {
     throw new GenericError('Could not save cover to an IPFS network')
   }
-
-  const [hash, hashBytes32] = payload
 
   const governanceContract = await Governance.getInstance(chainId, signerOrProvider)
   const incidentDate = await governanceContract.getActiveIncidentDate(coverKey, productKey)
@@ -67,7 +65,7 @@ const report = async (chainId: ChainId, coverKey: string, productKey: string, in
   const tx = await governanceContract.report(
     coverKey,
     productKey,
-    hashBytes32,
+    hash,
     stake,
     transactionOverrides
   )
@@ -76,7 +74,6 @@ const report = async (chainId: ChainId, coverKey: string, productKey: string, in
     status: Status.SUCCESS,
     result: {
       storage: {
-        hashBytes32,
         hash,
         permalink: `https://ipfs.infura.io/ipfs/${hash}`
       },
@@ -122,21 +119,19 @@ const dispute = async (chainId: ChainId, coverKey: string, productKey: string, i
   }
 
   storage.createdBy = account
-  storage.permalink = `https://app.neptunemutual.com/covers/view/${coverKey}/dispute/${incidentDate.toString() as string}`
+  storage.permalink = `https://app.neptunemutual.com/reports/${coverKey}/products/${productKey}/incidents/${incidentDate.toString() as string}`
 
-  const payload = await ipfs.write(storage)
+  const hash = await ipfs.write(storage)
 
-  if (payload === undefined) {
+  if (hash === undefined) {
     throw new GenericError('Could not save cover to an IPFS network')
   }
-
-  const [hash, hashBytes32] = payload
 
   const tx = await governanceContract.dispute(
     coverKey,
     productKey,
     incidentDate,
-    hashBytes32,
+    hash,
     stake,
     transactionOverrides
   )
@@ -145,7 +140,6 @@ const dispute = async (chainId: ChainId, coverKey: string, productKey: string, i
     status: Status.SUCCESS,
     result: {
       storage: {
-        hashBytes32,
         hash,
         permalink: `https://ipfs.infura.io/ipfs/${hash}`
       },
