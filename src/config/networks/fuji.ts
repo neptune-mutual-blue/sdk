@@ -19,6 +19,8 @@ class Fuji implements INetwork {
     WETH: IToken
   }
 
+  hostname: string
+
   constructor () {
     this.chainId = ChainId.Fuji
     this.chain = 'Fuji Test Network (Avalanche)'
@@ -34,6 +36,8 @@ class Fuji implements INetwork {
       router: '0x2D99ABD9008Dc933ff5c0CD271B88309593aB921',
       masterChef: null
     }
+
+    this.hostname = 'test.neptunemutual.com'
   }
 }
 

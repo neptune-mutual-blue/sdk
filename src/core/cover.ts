@@ -3,7 +3,7 @@ import { Signer } from '@ethersproject/abstract-signer'
 import { Reassurance, Cover, IERC20, NPMToken, Staking } from '../registry'
 import { ChainId, ICoverInfo, ICoverInfoStorage, IProductInfo, IProductInfoStorage, IApproveTransactionArgs, Status, IWrappedResult, exceptions } from '../types'
 import { ipfs, erc20Utils, signer, keyUtil, store } from '../utils'
-import { constants } from '../config'
+import { constants, networks } from '../config'
 import { InvalidProductKeyError } from '../types/Exceptions'
 
 const { GenericError, InvalidAccountError, InvalidSignerError, InvalidCoverKeyError } = exceptions
@@ -106,6 +106,7 @@ const getProductInfo = async (chainId: ChainId, coverKey: string, productKey: st
 
 const createCover = async (chainId: ChainId, info: ICoverInfo, signerOrProvider: Provider | Signer, transactionOverrides: any = {}): Promise<IWrappedResult> => {
   const { key } = info
+  const { hostname } = networks.getChainConfig(chainId)
 
   if (!key) { // eslint-disable-line
     throw new InvalidCoverKeyError('Invalid or empty cover key')
@@ -140,7 +141,7 @@ const createCover = async (chainId: ChainId, info: ICoverInfo, signerOrProvider:
   }
 
   storage.createdBy = account
-  storage.permalink = `https://app.neptunemutual.com/covers/${key}`
+  storage.permalink = `https://${hostname}/covers/${key}`
 
   const hash = await ipfs.write(storage)
 
@@ -189,6 +190,7 @@ const createCover = async (chainId: ChainId, info: ICoverInfo, signerOrProvider:
 const createProduct = async (chainId: ChainId, info: IProductInfo, signerOrProvider: Provider | Signer, transactionOverrides: any = {}): Promise<IWrappedResult> => {
   const { ZERO_BYTES32 } = constants
   const { coverKey, productKey } = info
+  const { hostname } = networks.getChainConfig(chainId)
 
   if (!coverKey || coverKey === ZERO_BYTES32) { // eslint-disable-line
     throw new InvalidCoverKeyError('Invalid or empty cover key')
@@ -207,7 +209,7 @@ const createProduct = async (chainId: ChainId, info: IProductInfo, signerOrProvi
   }
 
   storage.createdBy = account
-  storage.permalink = `https://app.neptunemutual.com/covers/${coverKey}/products/${productKey}`
+  storage.permalink = `https://${hostname}/covers/${coverKey}/products/${productKey}`
 
   const hash = await ipfs.write(storage)
 
@@ -246,6 +248,7 @@ const createProduct = async (chainId: ChainId, info: IProductInfo, signerOrProvi
 
 const updateCover = async (chainId: ChainId, info: ICoverInfo, signerOrProvider: Provider | Signer, transactionOverrides: any = {}): Promise<IWrappedResult> => {
   const { key } = info
+  const { hostname } = networks.getChainConfig(chainId)
 
   if (!key) { // eslint-disable-line
     throw new InvalidCoverKeyError('Invalid or empty cover key')
@@ -264,7 +267,7 @@ const updateCover = async (chainId: ChainId, info: ICoverInfo, signerOrProvider:
   }
 
   storage.createdBy = account
-  storage.permalink = `https://app.neptunemutual.com/covers/${key}`
+  storage.permalink = `https://${hostname}/covers/${key}`
 
   const hash = await ipfs.write(storage)
 
@@ -290,6 +293,7 @@ const updateCover = async (chainId: ChainId, info: ICoverInfo, signerOrProvider:
 
 const updateProduct = async (chainId: ChainId, info: IProductInfo, productStatus: number, signerOrProvider: Provider | Signer, transactionOverrides: any = {}): Promise<IWrappedResult> => {
   const { coverKey, productKey } = info
+  const { hostname } = networks.getChainConfig(chainId)
 
   if (!coverKey) { // eslint-disable-line
     throw new InvalidCoverKeyError('Invalid or empty cover key')
@@ -308,7 +312,7 @@ const updateProduct = async (chainId: ChainId, info: IProductInfo, productStatus
   }
 
   storage.createdBy = account
-  storage.permalink = `https://app.neptunemutual.com/covers/${coverKey}/products/${productKey}`
+  storage.permalink = `https://${hostname}/covers/${coverKey}/products/${productKey}`
 
   const hash = await ipfs.write(storage)
 
