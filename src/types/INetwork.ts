@@ -14,6 +14,7 @@ interface INetwork {
   tokens: {
     WETH: IToken
   }
+  hostname: string
 }
 
 export { INetwork }

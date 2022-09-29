@@ -6,6 +6,7 @@ import { GenericError, InvalidReportError, InvalidSignerError } from '../types/E
 import { erc20Utils, ipfs, signer } from '../utils'
 import { IDisputeInfoStorage } from '../types/IReportingInfoStorage'
 import { IDisputeInfo } from '../types/IReportingInfo'
+import { getChainConfig } from '../config/networks'
 
 const approveStake = async (chainId: ChainId, args: IApproveTransactionArgs, signerOrProvider: Provider | Signer, transactionOverrides: any = {}): Promise<IWrappedResult> => {
   const npm = await NPMToken.getInstance(chainId, signerOrProvider)
@@ -21,6 +22,7 @@ const approveStake = async (chainId: ChainId, args: IApproveTransactionArgs, sig
 
 const report = async (chainId: ChainId, coverKey: string, productKey: string, info: IReportingInfo, signerOrProvider: Provider | Signer, transactionOverrides: any = {}): Promise<IWrappedResult> => {
   const { title, observed, proofOfIncident, stake } = info
+  const { hostname } = getChainConfig(chainId)
 
   if (!title) { // eslint-disable-line
     throw new InvalidReportError('Enter the report title')
@@ -47,7 +49,7 @@ const report = async (chainId: ChainId, coverKey: string, productKey: string, in
   }
 
   storage.createdBy = account
-  storage.permalink = `https://app.neptunemutual.com/reports/${coverKey}/products/${productKey}`
+  storage.permalink = `https://${hostname}/reports/${coverKey}/products/${productKey}`
 
   const hash = await ipfs.write(storage)
 
@@ -84,6 +86,7 @@ const report = async (chainId: ChainId, coverKey: string, productKey: string, in
 
 const dispute = async (chainId: ChainId, coverKey: string, productKey: string, info: IDisputeInfo, signerOrProvider: Provider | Signer, transactionOverrides: any = {}): Promise<IWrappedResult> => {
   const { title, proofOfDispute, stake } = info
+  const { hostname } = getChainConfig(chainId)
 
   if (!title) { // eslint-disable-line
     throw new InvalidReportError('Enter the dispute title')
@@ -119,7 +122,7 @@ const dispute = async (chainId: ChainId, coverKey: string, productKey: string, i
   }
 
   storage.createdBy = account
-  storage.permalink = `https://app.neptunemutual.com/reports/${coverKey}/products/${productKey}/incidents/${incidentDate.toString() as string}`
+  storage.permalink = `https://${hostname}/reports/${coverKey}/products/${productKey}/incidents/${incidentDate.toString() as string}`
 
   const hash = await ipfs.write(storage)
 
