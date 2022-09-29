@@ -75,7 +75,7 @@ const report = async (chainId: ChainId, coverKey: string, productKey: string, in
     result: {
       storage: {
         hash,
-        permalink: `https://ipfs.infura.io/ipfs/${hash}`
+        permalink: `https://ipfs.io/ipfs/${hash}`
       },
       tx
     }
@@ -141,7 +141,7 @@ const dispute = async (chainId: ChainId, coverKey: string, productKey: string, i
     result: {
       storage: {
         hash,
-        permalink: `https://ipfs.infura.io/ipfs/${hash}`
+        permalink: `https://ipfs.io/ipfs/${hash}`
       },
       tx
     }

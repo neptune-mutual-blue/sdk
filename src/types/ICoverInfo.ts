@@ -53,7 +53,6 @@ interface ICoverInfo {
         lockupPeriodInBlocks: string
         rewardTokenDeposit: string
       }
-
     }
   }
 }

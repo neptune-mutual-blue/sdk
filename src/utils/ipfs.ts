@@ -1,6 +1,6 @@
 import { IPFSClient } from '../net'
 
-const fallbackNodes = ['https://ipfs.infura.io:5001', 'https://api.thegraph.com/ipfs']
+const fallbackNodes = ['https://api.thegraph.com/ipfs']
 
 const write = async (contents: Object, nodeUrls?: string[]): Promise<string | undefined> => {
   const formatted = JSON.stringify(contents, null, 2)

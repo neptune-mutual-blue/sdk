@@ -1,6 +1,6 @@
 import { Provider } from '@ethersproject/providers'
 import { Signer } from '@ethersproject/abstract-signer'
-import { Reassurance, Cover, IERC20, NPMToken, Staking } from '../registry'
+import { Cover, IERC20, NPMToken, Staking } from '../registry'
 import { ChainId, ICoverInfo, ICoverInfoStorage, IProductInfo, IProductInfoStorage, IApproveTransactionArgs, Status, IWrappedResult, exceptions } from '../types'
 import { ipfs, erc20Utils, signer, keyUtil, store } from '../utils'
 import { constants } from '../config'
@@ -49,7 +49,7 @@ const removeCoverCreatorFromWhitelist = async (chainId: ChainId, whitelisted: st
 const approveReassurance = async (chainId: ChainId, tokenAddress: string, args: IApproveTransactionArgs, signerOrProvider: Provider | Signer, transactionOverrides: any = {}): Promise<IWrappedResult> => {
   const reassuranceToken = IERC20.getInstance(tokenAddress, signerOrProvider)
 
-  const contract = await Reassurance.getAddress(chainId, signerOrProvider)
+  const contract = await Cover.getAddress(chainId, signerOrProvider)
   const amount = erc20Utils.getApprovalAmount(args)
 
   const result = await reassuranceToken.approve(contract, amount, transactionOverrides)
@@ -179,7 +179,7 @@ const createCover = async (chainId: ChainId, info: ICoverInfo, signerOrProvider:
     result: {
       storage: {
         hash,
-        permalink: `https://ipfs.infura.io/ipfs/${hash}`
+        permalink: `https://ipfs.io/ipfs/${hash}`
       },
       tx
     }
@@ -237,7 +237,7 @@ const createProduct = async (chainId: ChainId, info: IProductInfo, signerOrProvi
     result: {
       storage: {
         hash,
-        permalink: `https://ipfs.infura.io/ipfs/${hash}`
+        permalink: `https://ipfs.io/ipfs/${hash}`
       },
       tx
     }
@@ -281,7 +281,7 @@ const updateCover = async (chainId: ChainId, info: ICoverInfo, signerOrProvider:
     result: {
       storage: {
         hash,
-        permalink: `https://ipfs.infura.io/ipfs/${hash}`
+        permalink: `https://ipfs.io/ipfs/${hash}`
       },
       tx
     }
@@ -336,7 +336,7 @@ const updateProduct = async (chainId: ChainId, info: IProductInfo, productStatus
     result: {
       storage: {
         hash,
-        permalink: `https://ipfs.infura.io/ipfs/${hash}`
+        permalink: `https://ipfs.io/ipfs/${hash}`
       },
       tx
     }
