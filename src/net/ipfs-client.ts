@@ -53,19 +53,18 @@ class IPFSClient {
   }
 
   async getString (hash: string): Promise<string | undefined> {
-    const urls = this.urls
-
-    // eslint-disable-next-line
-    return Promise.any(urls.map(url => {
-      return this.call({
-        hash,
-        method: 'POST',
-        url: `${url}/api/v0/cat?arg=${hash}`,
-        headers: {
-          Accept: 'application/json'
-        }
+    return await Promise.any(
+      this.urls.map(async (url) => {
+        return await this.call({
+          hash,
+          method: 'POST',
+          url: `${url}/api/v0/cat?arg=${hash}`,
+          headers: {
+            Accept: 'application/json'
+          }
+        })
       })
-    }))
+    )
   }
 
   async call (options: any): Promise<string | undefined> {
