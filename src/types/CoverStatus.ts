@@ -6,6 +6,4 @@ enum CoverStatus {
   Claimable = 4
 }
 
-export {
-  CoverStatus
-}
+export { CoverStatus }

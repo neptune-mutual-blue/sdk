@@ -1,8 +1,9 @@
-import { Provider } from '@ethersproject/providers'
 import { Signer } from '@ethersproject/abstract-signer'
+import { Provider } from '@ethersproject/providers'
+
+import * as cache from '../cache/index'
 import { ChainId } from '../types'
 import * as Store from './Store'
-import * as cache from '../cache/index'
 
 const getOrFetch = async (chainId: ChainId, nsKey: string, signerOrProvider: Provider | Signer): Promise<string> => {
   const cacheKey = cache.genKey(chainId, nsKey)
@@ -20,6 +21,4 @@ const getOrFetch = async (chainId: ChainId, nsKey: string, signerOrProvider: Pro
   return address
 }
 
-export {
-  getOrFetch
-}
+export { getOrFetch }

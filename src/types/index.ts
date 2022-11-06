@@ -1,38 +1,37 @@
 import { ChainId } from './ChainId'
 import { CoverStatus } from './CoverStatus'
+import * as exceptions from './Exceptions'
 import { IApproveTransactionArgs } from './IApproveTransactionArgs'
-import { INetwork } from './INetwork'
 import { ICoverInfo } from './ICoverInfo'
 import { ICoverInfoStorage } from './ICoverInfoStorage'
+import { INetwork } from './INetwork'
+import { IPolicyFeeArgs } from './IPolicyFeeArgs'
 import { IProductInfo } from './IProductInfo'
 import { IProductInfoStorage } from './IProductInfoStorage'
-import { IPolicyFeeArgs } from './IPolicyFeeArgs'
 import { IReportingInfo } from './IReportingInfo'
 import { IReportingInfoStorage } from './IReportingInfoStorage'
+import { IStoreCandidate } from './IStoreCandidate'
 import { IToken } from './IToken'
 import { IWrappedResult } from './IWrappedResult'
-import { Status } from './Status'
 import { PolicyDuration } from './PolicyDuration'
-import { IStoreCandidate } from './IStoreCandidate'
-
-import * as exceptions from './Exceptions'
+import { Status } from './Status'
 
 export {
   ChainId,
   CoverStatus,
+  exceptions,
   IApproveTransactionArgs,
-  INetwork,
   ICoverInfo,
   ICoverInfoStorage,
+  INetwork,
+  IPolicyFeeArgs,
   IProductInfo,
   IProductInfoStorage,
-  IPolicyFeeArgs,
   IReportingInfo,
   IReportingInfoStorage,
+  IStoreCandidate,
   IToken,
   IWrappedResult,
-  Status,
   PolicyDuration,
-  IStoreCandidate,
-  exceptions
+  Status
 }

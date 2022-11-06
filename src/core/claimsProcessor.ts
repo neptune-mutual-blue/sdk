@@ -1,7 +1,16 @@
-import { Provider } from '@ethersproject/providers'
 import { Signer } from '@ethersproject/abstract-signer'
-import { ClaimsProcessor, IERC20 } from '../registry'
-import { ChainId, IApproveTransactionArgs, Status, IWrappedResult } from '../types'
+import { Provider } from '@ethersproject/providers'
+
+import {
+  ClaimsProcessor,
+  IERC20
+} from '../registry'
+import {
+  ChainId,
+  IApproveTransactionArgs,
+  IWrappedResult,
+  Status
+} from '../types'
 import { erc20Utils } from '../utils'
 
 const getAllowance = async (chainId: ChainId, cTokenAddress: string, owner: string, signerOrProvider: Provider | Signer): Promise<IWrappedResult> => {
@@ -52,9 +61,4 @@ const claim = async (chainId: ChainId, cTokenAddress: string, coverKey: string, 
   }
 }
 
-export {
-  getAllowance,
-  approve,
-  validate,
-  claim
-}
+export { approve, claim, getAllowance, validate }

@@ -1,8 +1,21 @@
-import { Provider } from '@ethersproject/providers'
 import { Signer } from '@ethersproject/abstract-signer'
-import { Stablecoin, Vault, NPMToken } from '../registry'
-import { IApproveTransactionArgs, ChainId, Status, IWrappedResult } from '../types'
-import { erc20Utils, signer } from '../utils'
+import { Provider } from '@ethersproject/providers'
+
+import {
+  NPMToken,
+  Stablecoin,
+  Vault
+} from '../registry'
+import {
+  ChainId,
+  IApproveTransactionArgs,
+  IWrappedResult,
+  Status
+} from '../types'
+import {
+  erc20Utils,
+  signer
+} from '../utils'
 
 const getAllowance = async (chainId: ChainId, key: string, owner: string, signerOrProvider: Provider | Signer): Promise<IWrappedResult> => {
   const stablecoin = await Stablecoin.getInstance(chainId, signerOrProvider)
@@ -73,11 +86,4 @@ const getBalanceOf = async (chainId: ChainId, key: string, signerOrProvider: Pro
   }
 }
 
-export {
-  getAllowance,
-  getBalance,
-  getBalanceOf,
-  approve,
-  approveStake,
-  add
-}
+export { add, approve, approveStake, getAllowance, getBalance, getBalanceOf }

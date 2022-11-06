@@ -1,5 +1,6 @@
-import { Provider } from '@ethersproject/providers'
 import { Signer } from '@ethersproject/abstract-signer'
+import { Provider } from '@ethersproject/providers'
+
 import { ChainId } from '../types'
 import * as keyUtil from '../utils/key-util'
 import { getOrFetch } from './CachedStoreAddress'
@@ -11,6 +12,4 @@ const findAddress = async (chainId: ChainId, cnsBytes32: string, signerOrProvide
   return getOrFetch(chainId, key, signerOrProvider)
 }
 
-export {
-  findAddress
-}
+export { findAddress }

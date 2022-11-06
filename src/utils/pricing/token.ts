@@ -1,5 +1,6 @@
-import { Provider } from '@ethersproject/providers'
 import { Signer } from '@ethersproject/abstract-signer'
+import { Provider } from '@ethersproject/providers'
+
 import * as IUniswapV2RouterLike from '../../registry/IUniswapV2RouterLike'
 import * as Stablecoin from '../../registry/Stablecoin'
 import { ChainId } from '../../types'

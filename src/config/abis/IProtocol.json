@@ -102,6 +102,11 @@
           },
           {
             "internalType": "uint256",
+            "name": "minStakeToAddLiquidity",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
             "name": "firstReportingStake",
             "type": "uint256"
           },
@@ -153,6 +158,26 @@
           {
             "internalType": "uint256",
             "name": "maxLendingRatio",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "lendingPeriod",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "withdrawalWindow",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "policyFloor",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "policyCeiling",
             "type": "uint256"
           }
         ],
@@ -488,6 +513,11 @@
           },
           {
             "internalType": "uint256",
+            "name": "minStakeToAddLiquidity",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
             "name": "firstReportingStake",
             "type": "uint256"
           },
@@ -539,6 +569,26 @@
           {
             "internalType": "uint256",
             "name": "maxLendingRatio",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "lendingPeriod",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "withdrawalWindow",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "policyFloor",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "policyCeiling",
             "type": "uint256"
           }
         ],

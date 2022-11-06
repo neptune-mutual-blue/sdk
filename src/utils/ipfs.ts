@@ -30,4 +30,4 @@ const read = async (key: string, nodeUrls?: string[]): Promise<Object | undefine
   return raw // which is undefined
 }
 
-export { write, read }
+export { read, write }

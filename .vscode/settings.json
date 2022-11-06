@@ -15,6 +15,9 @@
   "javascript.format.semicolons": "remove",
   "typescript.format.enable": true,
   "typescript.format.insertSpaceBeforeFunctionParenthesis": true,
+  "tsImportSorter.configuration.development.enableDebug": false,
+  "tsImportSorter.configuration.hasSemicolon": false,
+  "tsImportSorter.configuration.trailingComma": "none",
   "standard.autoFixOnSave": true,
   "standard.engine": "ts-standard",
   "cSpell.words": [
