@@ -1,7 +1,17 @@
-import { Provider } from '@ethersproject/providers'
 import { Signer } from '@ethersproject/abstract-signer'
-import { Stablecoin, PolicyContract } from '../registry'
-import { ChainId, IApproveTransactionArgs, IPolicyFeeArgs, Status, IWrappedResult } from '../types'
+import { Provider } from '@ethersproject/providers'
+
+import {
+  PolicyContract,
+  Stablecoin
+} from '../registry'
+import {
+  ChainId,
+  IApproveTransactionArgs,
+  IPolicyFeeArgs,
+  IWrappedResult,
+  Status
+} from '../types'
 import { erc20Utils } from '../utils'
 
 const getCoverFee = async (chainId: ChainId, coverKey: string, productKey: string, args: IPolicyFeeArgs, signerOrProvider: Provider | Signer): Promise<IWrappedResult> => {
@@ -63,9 +73,4 @@ const purchaseCover = async (chainId: ChainId, coverKey: string, productKey: str
   }
 }
 
-export {
-  getAllowance,
-  getCoverFee,
-  approve,
-  purchaseCover
-}
+export { approve, getAllowance, getCoverFee, purchaseCover }

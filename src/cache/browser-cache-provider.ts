@@ -41,6 +41,4 @@ class BrowserCacheProvider implements ICacheProvider {
   }
 }
 
-export {
-  BrowserCacheProvider
-}
+export { BrowserCacheProvider }

@@ -1,5 +1,5 @@
-import { IToken } from './IToken'
 import { ChainId } from './ChainId'
+import { IToken } from './IToken'
 
 interface INetwork {
   chainId: ChainId

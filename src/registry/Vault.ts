@@ -1,8 +1,9 @@
+import { Signer } from '@ethersproject/abstract-signer'
 import { Contract } from '@ethersproject/contracts'
 import { Provider } from '@ethersproject/providers'
-import { Signer } from '@ethersproject/abstract-signer'
-import { ChainId } from '../types'
+
 import { abis } from '../config'
+import { ChainId } from '../types'
 import * as contract from '../utils/contract'
 import * as keyUtil from '../utils/key-util'
 import { getOrFetch } from './CachedStoreAddress'
@@ -23,8 +24,4 @@ const getInstanceByAddress = async (address: string, signerOrProvider: Provider 
   return contract.getContract(address, abis.IVault, signerOrProvider)
 }
 
-export {
-  getAddress,
-  getInstance,
-  getInstanceByAddress
-}
+export { getAddress, getInstance, getInstanceByAddress }

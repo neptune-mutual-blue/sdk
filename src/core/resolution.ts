@@ -1,7 +1,15 @@
-import { Provider } from '@ethersproject/providers'
 import { Signer } from '@ethersproject/abstract-signer'
-import { Resolution, Governance } from '../registry'
-import { ChainId, Status, IWrappedResult } from '../types'
+import { Provider } from '@ethersproject/providers'
+
+import {
+  Governance,
+  Resolution
+} from '../registry'
+import {
+  ChainId,
+  IWrappedResult,
+  Status
+} from '../types'
 
 const finalize = async (chainId: ChainId, coverKey: string, productKey: string, incidentDate: number, signerOrProvider: Provider | Signer, transactionOverrides: any = {}): Promise<IWrappedResult> => {
   const resolutionContract = await Resolution.getInstance(chainId, signerOrProvider)
@@ -47,9 +55,4 @@ const getResolutionDate = async (chainId: ChainId, coverKey: string, productKey:
   }
 }
 
-export {
-  resolve,
-  emergencyResolve,
-  finalize,
-  getResolutionDate
-}
+export { emergencyResolve, finalize, getResolutionDate, resolve }

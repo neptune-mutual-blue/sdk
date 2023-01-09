@@ -188,12 +188,15 @@ const STAKING = {
 }
 
 export {
+  ACCESS_CONTROL,
+  BOND,
   encodeKey,
   encodeKeys,
-  toBytes32,
   getCoverContractKey,
+  PROTOCOL,
   qualify,
-  qualifyMember,
   qualifyBytes32,
-  ACCESS_CONTROL, BOND, PROTOCOL, STAKING
+  qualifyMember,
+  STAKING,
+  toBytes32
 }

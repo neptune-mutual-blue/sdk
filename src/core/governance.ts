@@ -1,12 +1,32 @@
-import { Provider } from '@ethersproject/providers'
 import { Signer } from '@ethersproject/abstract-signer'
-import { NPMToken, Governance } from '../registry'
-import { ChainId, IApproveTransactionArgs, Status, IWrappedResult, IReportingInfo, IReportingInfoStorage, CoverStatus } from '../types'
-import { GenericError, InvalidReportError, InvalidSignerError } from '../types/Exceptions'
-import { erc20Utils, ipfs, signer } from '../utils'
-import { IDisputeInfoStorage } from '../types/IReportingInfoStorage'
-import { IDisputeInfo } from '../types/IReportingInfo'
+import { Provider } from '@ethersproject/providers'
+
 import { getChainConfig } from '../config/networks'
+import {
+  Governance,
+  NPMToken
+} from '../registry'
+import {
+  ChainId,
+  CoverStatus,
+  IApproveTransactionArgs,
+  IReportingInfo,
+  IReportingInfoStorage,
+  IWrappedResult,
+  Status
+} from '../types'
+import {
+  GenericError,
+  InvalidReportError,
+  InvalidSignerError
+} from '../types/Exceptions'
+import { IDisputeInfo } from '../types/IReportingInfo'
+import { IDisputeInfoStorage } from '../types/IReportingInfoStorage'
+import {
+  erc20Utils,
+  ipfs,
+  signer
+} from '../utils'
 
 const approveStake = async (chainId: ChainId, args: IApproveTransactionArgs, signerOrProvider: Provider | Signer, transactionOverrides: any = {}): Promise<IWrappedResult> => {
   const npm = await NPMToken.getInstance(chainId, signerOrProvider)
@@ -282,14 +302,14 @@ const getStakesOf = async (chainId: ChainId, coverKey: string, productKey: strin
 
 export {
   approveStake,
-  report,
   attest,
   dispute,
-  refute,
+  getIncidentDate,
   getMinStake,
   getReporter,
-  getIncidentDate,
-  getStatus,
   getStakes,
-  getStakesOf
+  getStakesOf,
+  getStatus,
+  refute,
+  report
 }

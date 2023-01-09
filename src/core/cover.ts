@@ -1,10 +1,35 @@
-import { Provider } from '@ethersproject/providers'
 import { Signer } from '@ethersproject/abstract-signer'
-import { Cover, IERC20, NPMToken, Staking } from '../registry'
-import { ChainId, ICoverInfo, ICoverInfoStorage, IProductInfo, IProductInfoStorage, IApproveTransactionArgs, Status, IWrappedResult, exceptions } from '../types'
-import { ipfs, erc20Utils, signer, keyUtil, store } from '../utils'
-import { constants, networks } from '../config'
+import { Provider } from '@ethersproject/providers'
+
+import {
+  constants,
+  networks
+} from '../config'
+import {
+  Cover,
+  IERC20,
+  NPMToken,
+  Staking
+} from '../registry'
+import {
+  ChainId,
+  exceptions,
+  IApproveTransactionArgs,
+  ICoverInfo,
+  ICoverInfoStorage,
+  IProductInfo,
+  IProductInfoStorage,
+  IWrappedResult,
+  Status
+} from '../types'
 import { InvalidProductKeyError } from '../types/Exceptions'
+import {
+  erc20Utils,
+  ipfs,
+  keyUtil,
+  signer,
+  store
+} from '../utils'
 
 const { GenericError, InvalidAccountError, InvalidSignerError, InvalidCoverKeyError } = exceptions
 
@@ -347,4 +372,15 @@ const updateProduct = async (chainId: ChainId, info: IProductInfo, productStatus
   }
 }
 
-export { whitelistCoverCreator, removeCoverCreatorFromWhitelist, getCoverInfo, getProductInfo, approveReassurance, approveStakeAndFees, createCover, createProduct, updateCover, updateProduct }
+export {
+  approveReassurance,
+  approveStakeAndFees,
+  createCover,
+  createProduct,
+  getCoverInfo,
+  getProductInfo,
+  removeCoverCreatorFromWhitelist,
+  updateCover,
+  updateProduct,
+  whitelistCoverCreator
+}

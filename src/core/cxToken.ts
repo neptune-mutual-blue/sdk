@@ -1,8 +1,14 @@
-import { Provider } from '@ethersproject/providers'
 import { Signer } from '@ethersproject/abstract-signer'
-import { ChainId, Status, IWrappedResult, PolicyDuration } from '../types'
-import { PolicyContract } from '../registry'
+import { Provider } from '@ethersproject/providers'
+
 import { abis } from '../config'
+import { PolicyContract } from '../registry'
+import {
+  ChainId,
+  IWrappedResult,
+  PolicyDuration,
+  Status
+} from '../types'
 import * as contract from '../utils/contract'
 
 const getCToken = async (chainId: ChainId, coverKey: string, productKey: string, duration: PolicyDuration, signerOrProvider: Provider | Signer): Promise<IWrappedResult> => {
@@ -46,8 +52,4 @@ const getCTokenByExpiryDate = async (chainId: ChainId, coverKey: string, product
   }
 }
 
-export {
-  getCToken,
-  getCTokenByExpiryDate,
-  getCTokenByAddress
-}
+export { getCToken, getCTokenByAddress, getCTokenByExpiryDate }

@@ -1,4 +1,7 @@
-import { IToken, ChainId } from '../types'
+import {
+  ChainId,
+  IToken
+} from '../types'
 
 class Token implements IToken {
   chainId: ChainId
@@ -14,6 +17,4 @@ class Token implements IToken {
   }
 }
 
-export {
-  Token
-}
+export { Token }

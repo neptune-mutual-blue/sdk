@@ -1,5 +1,6 @@
-import { Provider } from '@ethersproject/providers'
 import { Signer } from '@ethersproject/abstract-signer'
+import { Provider } from '@ethersproject/providers'
+
 import * as Vault from '../../registry/Vault'
 import { stringify } from '../numbers'
 

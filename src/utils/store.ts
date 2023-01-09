@@ -1,9 +1,19 @@
 import { Provider as EthersProvider } from '@ethersproject/providers'
 import { keccak256 as solidityKeccak256 } from '@ethersproject/solidity'
-import { store, abis } from '../config'
-import { Contract, Provider } from '../packages/ethers-multicall/src'
-import { ChainId, IStoreCandidate } from '../types'
+
+import {
+  abis,
+  store
+} from '../config'
 import { ZERO_BYTES32 } from '../config/constants'
+import {
+  Contract,
+  Provider
+} from '../packages/ethers-multicall/src'
+import {
+  ChainId,
+  IStoreCandidate
+} from '../types'
 
 const getKey = (signature: string[]|undefined, ...items: string[]): string => {
   let types = signature

@@ -1,7 +1,16 @@
-import { Provider } from '@ethersproject/providers'
 import { Signer } from '@ethersproject/abstract-signer'
-import { Stablecoin, Reassurance } from '../registry'
-import { ChainId, IApproveTransactionArgs, IWrappedResult, Status } from '../types'
+import { Provider } from '@ethersproject/providers'
+
+import {
+  Reassurance,
+  Stablecoin
+} from '../registry'
+import {
+  ChainId,
+  IApproveTransactionArgs,
+  IWrappedResult,
+  Status
+} from '../types'
 import { getApprovalAmount } from '../utils/erc20-utils'
 import { getAddress } from '../utils/signer'
 
@@ -52,9 +61,4 @@ const get = async (chainId: ChainId, key: string, signerOrProvider: Provider | S
   }
 }
 
-export {
-  getAllowance,
-  get,
-  approve,
-  add
-}
+export { add, approve, get, getAllowance }

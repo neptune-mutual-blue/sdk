@@ -1,8 +1,9 @@
+import { Signer } from '@ethersproject/abstract-signer'
 import { Contract } from '@ethersproject/contracts'
 import { Provider } from '@ethersproject/providers'
-import { Signer } from '@ethersproject/abstract-signer'
-import { ChainId } from '../types'
+
 import { abis } from '../config'
+import { ChainId } from '../types'
 import * as contract from '../utils/contract'
 import * as keyUtil from '../utils/key-util'
 import { findAddress } from './MemberResolver'
@@ -17,7 +18,4 @@ const getInstance = async (chainId: ChainId, signerOrProvider: Provider | Signer
   return contract.getContract(address, abis.IResolution, signerOrProvider)
 }
 
-export {
-  getAddress,
-  getInstance
-}
+export { getAddress, getInstance }

@@ -1,9 +1,10 @@
 import { keccak256 as solidityKeccak256 } from '@ethersproject/solidity'
-import { ICacheProvider } from '../types/ICacheProvider'
-import { BrowserCacheProvider } from './browser-cache-provider'
-import { localStorageAvailable } from '../utils/local-storage'
+
 import { getStoreAddressFromEnvironment } from '../config/store'
 import { ChainId } from '../types/ChainId'
+import { ICacheProvider } from '../types/ICacheProvider'
+import { localStorageAvailable } from '../utils/local-storage'
+import { BrowserCacheProvider } from './browser-cache-provider'
 
 const getProvider = (): ICacheProvider|null => {
   if (localStorageAvailable()) {
@@ -44,9 +45,4 @@ const remove = (key: string): void => {
   }
 }
 
-export {
-  genKey,
-  get,
-  set,
-  remove
-}
+export { genKey, get, remove, set }

@@ -1,5 +1,5 @@
-import { Provider } from '@ethersproject/providers'
 import { Signer } from '@ethersproject/abstract-signer'
+import { Provider } from '@ethersproject/providers'
 
 const getAddress = async (signerOrProvider: Provider | Signer): Promise<string | null> => {
   if (signerOrProvider === undefined) {
@@ -12,6 +12,4 @@ const getAddress = async (signerOrProvider: Provider | Signer): Promise<string |
   return signer.getAddress()
 }
 
-export {
-  getAddress
-}
+export { getAddress }

@@ -1,9 +1,10 @@
+import { Signer } from '@ethersproject/abstract-signer'
 import { Contract } from '@ethersproject/contracts'
 import { Provider } from '@ethersproject/providers'
-import { Signer } from '@ethersproject/abstract-signer'
+
 import {
-  IUniswapV2PairLike,
-  IUniswapV2FactoryLike
+  IUniswapV2FactoryLike,
+  IUniswapV2PairLike
 } from '../../registry'
 import { ChainId } from '../../types/ChainId'
 
