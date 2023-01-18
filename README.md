@@ -20,11 +20,13 @@ console.info('Supported Chains %s', ChainId)
 /********************************************
 Supported Chains {
   '1': 'Ethereum',
+  '42161': 'Arbitrum',
   '3': 'Ropsten',
   '56': 'BinanceSmartChain',
   '43113': 'Fuji',
   '80001': 'Mumbai',
   Ethereum: 1,
+  Arbitrum: 42161,
   Ropsten: 3,
   BinanceSmartChain: 56,
   Fuji: 43113,

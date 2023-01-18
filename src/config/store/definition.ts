@@ -5,6 +5,11 @@ export const getDefinition = (): any => {
       next: process.env.NEXT_PUBLIC_ETHEREUM_STORE,
       fallback: undefined
     },
+    42161: {
+      env: process.env.NPM_ARBITRUM_STORE,
+      next: process.env.NEXT_PUBLIC_ARBITRUM_STORE,
+      fallback: ''
+    },
     80001: {
       env: process.env.NPM_MUMBAI_STORE,
       next: process.env.NEXT_PUBLIC_MUMBAI_STORE,
