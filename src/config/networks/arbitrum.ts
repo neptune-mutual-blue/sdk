@@ -28,7 +28,7 @@ class Arbitrum implements INetwork {
   constructor () {
     this.chainId = ChainId.Arbitrum
     this.chain = 'Arbitrum One Network'
-    this.approximateBlockTime = 12
+    this.approximateBlockTime = 1
 
     this.store = getStoreAddressFromEnvironment(ChainId.Arbitrum)
 
@@ -36,8 +36,8 @@ class Arbitrum implements INetwork {
       WETH: weth
     }
     this.uniswap = {
-      factory: '0x5C69bEe701ef814a2B6a3EDD4B1652CB9cc5aA6f',
-      router: '0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D',
+      factory: '0xc35DADB65012eC5796536bD9864eD8773aBc74C4',
+      router: '0x1b02dA8Cb0d097eB8D57A175b88c7D8b47997506',
       masterChef: null
     }
     this.hostname = 'arbitrum.neptunemutual.com'
