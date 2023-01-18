@@ -57,7 +57,12 @@ const approve = async (chainId: ChainId, key: string, args: IApproveTransactionA
 
 const add = async (chainId: ChainId, coverKey: string, amount: string, stake: string, signerOrProvider: Provider | Signer, referralCode: string, transactionOverrides: any = {}): Promise<IWrappedResult> => {
   const vault = await Vault.getInstance(chainId, coverKey, signerOrProvider)
-  const result = await vault.addLiquidity(coverKey, amount, stake, referralCode, transactionOverrides)
+  const result = await vault.addLiquidity({
+    coverKey,
+    amount,
+    npmStakeToAdd: stake,
+    referralCode
+  }, transactionOverrides)
 
   return {
     status: Status.SUCCESS,
