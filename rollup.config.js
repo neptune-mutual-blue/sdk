@@ -1,5 +1,6 @@
-import typescript from "rollup-plugin-typescript2";
-import json from "@rollup/plugin-json";
+import typescript from 'rollup-plugin-typescript2'
+
+import json from '@rollup/plugin-json'
 
 const isProduction = process.env.NODE_ENV === "production";
 
@@ -18,6 +19,16 @@ export default {
       exports: "named",
       sourcemap: true,
     },
+  ],
+  external: [
+    "@ethersproject/constants",
+    "@ethersproject/contracts",
+    "@ethersproject/solidity",
+    "@ethersproject/strings",
+    "axios",
+    "uuid",
+    "@ethersproject/abi",
+    "@ethersproject/keccak256",
   ],
   plugins: [
     typescript({
