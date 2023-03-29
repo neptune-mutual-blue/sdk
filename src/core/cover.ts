@@ -2,8 +2,7 @@ import { Signer } from '@ethersproject/abstract-signer'
 import { Provider } from '@ethersproject/providers'
 
 import {
-  constants,
-  networks
+  constants
 } from '../config'
 import {
   Cover,
@@ -18,7 +17,6 @@ import {
   ICoverInfo,
   ICoverInfoStorage,
   IProductInfo,
-  IProductInfoStorage,
   IWrappedResult,
   Status
 } from '../types'
@@ -129,9 +127,8 @@ const getProductInfo = async (chainId: ChainId, coverKey: string, productKey: st
   return (await ipfs.read(info)) as ICoverInfoStorage
 }
 
-const createCover = async (chainId: ChainId, info: ICoverInfo, signerOrProvider: Provider | Signer, transactionOverrides: any = {}): Promise<IWrappedResult> => {
+const createCover = async (chainId: ChainId, info: ICoverInfo, ipfsHash: string, signerOrProvider: Provider | Signer, transactionOverrides: any = {}): Promise<IWrappedResult> => {
   const { key } = info
-  const { hostname } = networks.getChainConfig(chainId)
 
   if (!key) { // eslint-disable-line
     throw new InvalidCoverKeyError('Invalid or empty cover key')
@@ -157,28 +154,17 @@ const createCover = async (chainId: ChainId, info: ICoverInfo, signerOrProvider:
     throw new GenericError('Invalid value provided for requiresWhitelist')
   }
 
-  const storage = info as ICoverInfoStorage
-
   const account = await signer.getAddress(signerOrProvider)
 
   if (account == null) {
     throw new InvalidSignerError('The provider is not a valid signer')
   }
 
-  storage.createdBy = account
-  storage.permalink = `https://${hostname}/covers/${key}`
-
-  const hash = await ipfs.write(storage)
-
-  if (hash === undefined) {
-    throw new GenericError('Could not save cover to an IPFS network')
-  }
-
   const coverContract = await Cover.getInstance(chainId, signerOrProvider)
 
   const addCoverArgs = {
     coverKey: key,
-    info: hash,
+    info: ipfsHash,
     tokenName: info.vault.name,
     tokenSymbol: info.vault.symbol,
     supportsProducts: info.supportsProducts,
@@ -204,18 +190,17 @@ const createCover = async (chainId: ChainId, info: ICoverInfo, signerOrProvider:
     status: Status.SUCCESS,
     result: {
       storage: {
-        hash,
-        permalink: `https://ipfs.io/ipfs/${hash}`
+        hash: ipfsHash,
+        permalink: `https://ipfs.io/ipfs/${ipfsHash}`
       },
       tx
     }
   }
 }
 
-const createProduct = async (chainId: ChainId, info: IProductInfo, signerOrProvider: Provider | Signer, transactionOverrides: any = {}): Promise<IWrappedResult> => {
+const createProduct = async (chainId: ChainId, info: IProductInfo, ipfsHash: string, signerOrProvider: Provider | Signer, transactionOverrides: any = {}): Promise<IWrappedResult> => {
   const { ZERO_BYTES32 } = constants
   const { coverKey, productKey } = info
-  const { hostname } = networks.getChainConfig(chainId)
 
   if (!coverKey || coverKey === ZERO_BYTES32) { // eslint-disable-line
     throw new InvalidCoverKeyError('Invalid or empty cover key')
@@ -225,21 +210,10 @@ const createProduct = async (chainId: ChainId, info: IProductInfo, signerOrProvi
     throw new InvalidProductKeyError('Invalid or empty product key')
   }
 
-  const storage = info as IProductInfoStorage
-
   const account = await signer.getAddress(signerOrProvider)
 
   if (account == null) {
     throw new InvalidSignerError('The provider is not a valid signer')
-  }
-
-  storage.createdBy = account
-  storage.permalink = `https://${hostname}/covers/${coverKey}/products/${productKey}`
-
-  const hash = await ipfs.write(storage)
-
-  if (hash === undefined) {
-    throw new GenericError('Could not save cover to an IPFS network')
   }
 
   const coverContract = await Cover.getInstance(chainId, signerOrProvider)
@@ -248,7 +222,7 @@ const createProduct = async (chainId: ChainId, info: IProductInfo, signerOrProvi
   const addProductArgs = {
     coverKey: coverKey,
     productKey: productKey,
-    info: hash,
+    info: ipfsHash,
     requiresWhitelist: info.requiresWhitelist,
     productStatus: status,
     efficiency: info.capitalEfficiency
@@ -263,17 +237,16 @@ const createProduct = async (chainId: ChainId, info: IProductInfo, signerOrProvi
     status: Status.SUCCESS,
     result: {
       storage: {
-        hash,
-        permalink: `https://ipfs.io/ipfs/${hash}`
+        hash: ipfsHash,
+        permalink: `https://ipfs.io/ipfs/${ipfsHash}`
       },
       tx
     }
   }
 }
 
-const updateCover = async (chainId: ChainId, info: ICoverInfo, signerOrProvider: Provider | Signer, transactionOverrides: any = {}): Promise<IWrappedResult> => {
+const updateCover = async (chainId: ChainId, info: ICoverInfo, ipfsHash: string, signerOrProvider: Provider | Signer, transactionOverrides: any = {}): Promise<IWrappedResult> => {
   const { key } = info
-  const { hostname } = networks.getChainConfig(chainId)
 
   if (!key) { // eslint-disable-line
     throw new InvalidCoverKeyError('Invalid or empty cover key')
@@ -283,42 +256,30 @@ const updateCover = async (chainId: ChainId, info: ICoverInfo, signerOrProvider:
     throw new GenericError('Invalid or empty cover fee')
   }
 
-  const storage = info as ICoverInfoStorage
-
   const account = await signer.getAddress(signerOrProvider)
 
   if (account == null) {
     throw new InvalidSignerError('The provider is not a valid signer')
   }
 
-  storage.createdBy = account
-  storage.permalink = `https://${hostname}/covers/${key}`
-
-  const hash = await ipfs.write(storage)
-
-  if (hash === undefined) {
-    throw new GenericError('Could not save cover to an IPFS network')
-  }
-
   const coverContract = await Cover.getInstance(chainId, signerOrProvider)
 
-  const tx = await coverContract.updateCover(key, hash, transactionOverrides)
+  const tx = await coverContract.updateCover(key, ipfsHash, transactionOverrides)
 
   return {
     status: Status.SUCCESS,
     result: {
       storage: {
-        hash,
-        permalink: `https://ipfs.io/ipfs/${hash}`
+        hash: ipfsHash,
+        permalink: `https://ipfs.io/ipfs/${ipfsHash}`
       },
       tx
     }
   }
 }
 
-const updateProduct = async (chainId: ChainId, info: IProductInfo, productStatus: number, signerOrProvider: Provider | Signer, transactionOverrides: any = {}): Promise<IWrappedResult> => {
+const updateProduct = async (chainId: ChainId, info: IProductInfo, ipfsHash: string, productStatus: number, signerOrProvider: Provider | Signer, transactionOverrides: any = {}): Promise<IWrappedResult> => {
   const { coverKey, productKey } = info
-  const { hostname } = networks.getChainConfig(chainId)
 
   if (!coverKey) { // eslint-disable-line
     throw new InvalidCoverKeyError('Invalid or empty cover key')
@@ -328,21 +289,10 @@ const updateProduct = async (chainId: ChainId, info: IProductInfo, productStatus
     throw new InvalidProductKeyError('Invalid or empty product key')
   }
 
-  const storage = info as IProductInfoStorage
-
   const account = await signer.getAddress(signerOrProvider)
 
   if (account == null) {
     throw new InvalidSignerError('The provider is not a valid signer')
-  }
-
-  storage.createdBy = account
-  storage.permalink = `https://${hostname}/covers/${coverKey}/products/${productKey}`
-
-  const hash = await ipfs.write(storage)
-
-  if (hash === undefined) {
-    throw new GenericError('Could not save cover to an IPFS network')
   }
 
   const coverContract = await Cover.getInstance(chainId, signerOrProvider)
@@ -350,7 +300,7 @@ const updateProduct = async (chainId: ChainId, info: IProductInfo, productStatus
   const updateProductArgs = {
     coverKey: coverKey,
     productKey: productKey,
-    info: hash,
+    info: ipfsHash,
     productStatus: productStatus,
     efficiency: info.capitalEfficiency
   }
@@ -364,8 +314,8 @@ const updateProduct = async (chainId: ChainId, info: IProductInfo, productStatus
     status: Status.SUCCESS,
     result: {
       storage: {
-        hash,
-        permalink: `https://ipfs.io/ipfs/${hash}`
+        hash: ipfsHash,
+        permalink: `https://ipfs.io/ipfs/${ipfsHash}`
       },
       tx
     }
