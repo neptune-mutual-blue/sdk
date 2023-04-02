@@ -10,6 +10,11 @@ export const getDefinition = (): any => {
       next: process.env.NEXT_PUBLIC_ARBITRUM_STORE,
       fallback: ''
     },
+    84531: {
+      env: process.env.NPM_BASE_GOERLI_STORE,
+      next: process.env.NEXT_PUBLIC_BASE_GOERLI_STORE,
+      fallback: ''
+    },
     80001: {
       env: process.env.NPM_MUMBAI_STORE,
       next: process.env.NEXT_PUBLIC_MUMBAI_STORE,
