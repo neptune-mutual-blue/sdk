@@ -1,7 +1,6 @@
 import { Signer } from '@ethersproject/abstract-signer'
 import { Provider } from '@ethersproject/providers'
 
-import { getChainConfig } from '../config/networks'
 import {
   Governance,
   NPMToken
@@ -11,20 +10,16 @@ import {
   CoverStatus,
   IApproveTransactionArgs,
   IReportingInfo,
-  IReportingInfoStorage,
   IWrappedResult,
   Status
 } from '../types'
 import {
-  GenericError,
   InvalidReportError,
   InvalidSignerError
 } from '../types/Exceptions'
 import { IDisputeInfo } from '../types/IReportingInfo'
-import { IDisputeInfoStorage } from '../types/IReportingInfoStorage'
 import {
   erc20Utils,
-  ipfs,
   signer
 } from '../utils'
 
@@ -40,9 +35,8 @@ const approveStake = async (chainId: ChainId, args: IApproveTransactionArgs, sig
   }
 }
 
-const report = async (chainId: ChainId, coverKey: string, productKey: string, info: IReportingInfo, signerOrProvider: Provider | Signer, transactionOverrides: any = {}): Promise<IWrappedResult> => {
+const report = async (chainId: ChainId, coverKey: string, productKey: string, info: IReportingInfo, ipfsHash: string, signerOrProvider: Provider | Signer, transactionOverrides: any = {}): Promise<IWrappedResult> => {
   const { title, observed, proofOfIncident, stake } = info
-  const { hostname } = getChainConfig(chainId)
 
   if (!title) { // eslint-disable-line
     throw new InvalidReportError('Enter the report title')
@@ -60,21 +54,10 @@ const report = async (chainId: ChainId, coverKey: string, productKey: string, in
     throw new InvalidReportError('Specify your NPM stake to report this incident')
   }
 
-  const storage = info as IReportingInfoStorage
-
   const account = await signer.getAddress(signerOrProvider)
 
   if (account == null) {
     throw new InvalidSignerError('The provider is not a valid signer')
-  }
-
-  storage.createdBy = account
-  storage.permalink = `https://${hostname}/reports/${coverKey}/products/${productKey}`
-
-  const hash = await ipfs.write(storage)
-
-  if (hash === undefined) {
-    throw new GenericError('Could not save cover to an IPFS network')
   }
 
   const governanceContract = await Governance.getInstance(chainId, signerOrProvider)
@@ -87,7 +70,7 @@ const report = async (chainId: ChainId, coverKey: string, productKey: string, in
   const tx = await governanceContract.report(
     coverKey,
     productKey,
-    hash,
+    ipfsHash,
     stake,
     transactionOverrides
   )
@@ -96,17 +79,16 @@ const report = async (chainId: ChainId, coverKey: string, productKey: string, in
     status: Status.SUCCESS,
     result: {
       storage: {
-        hash,
-        permalink: `https://ipfs.io/ipfs/${hash}`
+        hash: ipfsHash,
+        permalink: `https://ipfs.io/ipfs/${ipfsHash}`
       },
       tx
     }
   }
 }
 
-const dispute = async (chainId: ChainId, coverKey: string, productKey: string, info: IDisputeInfo, signerOrProvider: Provider | Signer, transactionOverrides: any = {}): Promise<IWrappedResult> => {
+const dispute = async (chainId: ChainId, coverKey: string, productKey: string, info: IDisputeInfo, ipfsHash: string, signerOrProvider: Provider | Signer, transactionOverrides: any = {}): Promise<IWrappedResult> => {
   const { title, proofOfDispute, stake } = info
-  const { hostname } = getChainConfig(chainId)
 
   if (!title) { // eslint-disable-line
     throw new InvalidReportError('Enter the dispute title')
@@ -133,28 +115,17 @@ const dispute = async (chainId: ChainId, coverKey: string, productKey: string, i
     throw new InvalidReportError('Cannot dispute an already-disputed incident')
   }
 
-  const storage = info as IDisputeInfoStorage
-
   const account = await signer.getAddress(signerOrProvider)
 
   if (account == null) {
     throw new InvalidSignerError('The provider is not a valid signer')
   }
 
-  storage.createdBy = account
-  storage.permalink = `https://${hostname}/reports/${coverKey}/products/${productKey}/incidents/${incidentDate.toString() as string}`
-
-  const hash = await ipfs.write(storage)
-
-  if (hash === undefined) {
-    throw new GenericError('Could not save cover to an IPFS network')
-  }
-
   const tx = await governanceContract.dispute(
     coverKey,
     productKey,
     incidentDate,
-    hash,
+    ipfsHash,
     stake,
     transactionOverrides
   )
@@ -163,8 +134,8 @@ const dispute = async (chainId: ChainId, coverKey: string, productKey: string, i
     status: Status.SUCCESS,
     result: {
       storage: {
-        hash,
-        permalink: `https://ipfs.io/ipfs/${hash}`
+        hash: ipfsHash,
+        permalink: `https://ipfs.io/ipfs/${ipfsHash}`
       },
       tx
     }
