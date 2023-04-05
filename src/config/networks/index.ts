@@ -11,20 +11,18 @@ import { Ethereum } from './ethereum'
 import { Fuji } from './fuji'
 import { Mumbai } from './mumbai'
 
-const configs = {
-  [ChainId.Ethereum]: new Ethereum(),
-  [ChainId.Arbitrum]: new Arbitrum(),
-  [ChainId.BaseGoerli]: new BaseGoerli(),
-  [ChainId.Mumbai]: new Mumbai(),
-  [ChainId.Fuji]: new Fuji(),
-  [ChainId.Invalid]: null
-}
-
 const getChainConfig = (chainId: ChainId): INetwork => {
-  const config = configs[chainId]
-
-  if (config !== undefined || config !== null) {
-    return config as INetwork
+  switch (chainId) {
+    case ChainId.Ethereum:
+      return new Ethereum()
+    case ChainId.Mumbai:
+      return new Mumbai()
+    case ChainId.Fuji:
+      return new Fuji()
+    case ChainId.Arbitrum:
+      return new Arbitrum()
+    case ChainId.BaseGoerli:
+      return new BaseGoerli()
   }
 
   throw new UnsupportedBlockchainError(`The ChainId: ${chainId} isn't supported yet`)
