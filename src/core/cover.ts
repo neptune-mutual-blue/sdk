@@ -40,7 +40,7 @@ const whitelistCoverCreator = async (chainId: ChainId, whitelisted: string, sign
 
   const coverContract = await Cover.getInstance(chainId, signerOrProvider)
 
-  const tx = await coverContract.updateCoverCreatorWhitelist(whitelisted, true, transactionOverrides)
+  const tx = await coverContract.updateCoverCreatorWhitelist([whitelisted], [true], transactionOverrides)
 
   return {
     status: Status.SUCCESS,
@@ -59,7 +59,7 @@ const removeCoverCreatorFromWhitelist = async (chainId: ChainId, whitelisted: st
 
   const coverContract = await Cover.getInstance(chainId, signerOrProvider)
 
-  const tx = await coverContract.updateCoverCreatorWhitelist(whitelisted, false, transactionOverrides)
+  const tx = await coverContract.updateCoverCreatorWhitelist([whitelisted], [false], transactionOverrides)
 
   return {
     status: Status.SUCCESS,
@@ -86,8 +86,8 @@ const approveReassurance = async (chainId: ChainId, tokenAddress: string, args: 
 const approveStakeAndFees = async (chainId: ChainId, args: IApproveTransactionArgs, signerOrProvider: Provider | Signer, transactionOverrides: any = {}): Promise<IWrappedResult> => {
   const npm = await NPMToken.getInstance(chainId, signerOrProvider)
   const amount = erc20Utils.getApprovalAmount(args)
-  const staking = await Staking.getAddress(chainId, signerOrProvider)
-  const result = await npm.approve(staking, amount, transactionOverrides)
+  const contract = await Cover.getAddress(chainId, signerOrProvider)
+  const result = await npm.approve(contract, amount, transactionOverrides)
 
   return {
     status: Status.SUCCESS,

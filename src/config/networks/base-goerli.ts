@@ -6,7 +6,7 @@ import {
 } from '../../types'
 import { getStoreAddressFromEnvironment } from '../store'
 
-const weth = new Token(ChainId.BaseGoerli, '0x44D627f900da8AdaC7561bD73aA745F132450798', 'Wrapped Ether', 'WETH')
+const weth = new Token(ChainId.BaseGoerli, '0x330Eb67E7Cf8aFd2C32109E1628b050472A183fa', 'Wrapped Ether', 'WETH')
 
 class BaseGoerli implements INetwork {
   chainId: ChainId
@@ -36,8 +36,8 @@ class BaseGoerli implements INetwork {
       WETH: weth
     }
     this.uniswap = {
-      factory: '0x352f2178BD6F1960d53e6c10CD1538AB4D97705B',
-      router: '0x9D39851E176f3d9431EBcf4F4F87c5fE74435537',
+      factory: '0x8286A48086BEeba59FDe71FFBfA66B005f22D121',
+      router: '0x6136dDE4BECBfBd6885d89c61574ED4dCaF16f54',
       masterChef: null
     }
     this.hostname = 'test.neptunemutual.com'

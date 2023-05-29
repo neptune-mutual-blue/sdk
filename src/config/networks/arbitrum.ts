@@ -40,7 +40,7 @@ class Arbitrum implements INetwork {
       router: '0x1b02dA8Cb0d097eB8D57A175b88c7D8b47997506',
       masterChef: null
     }
-    this.hostname = 'arbitrum.neptunemutual.com'
+    this.hostname = 'arbitrum.neptunemutual.net'
   }
 }
 
