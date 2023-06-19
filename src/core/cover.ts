@@ -7,8 +7,7 @@ import {
 import {
   Cover,
   IERC20,
-  NPMToken,
-  Staking
+  NPMToken
 } from '../registry'
 import {
   ChainId,
