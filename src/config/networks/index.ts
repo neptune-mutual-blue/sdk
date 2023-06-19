@@ -7,6 +7,7 @@ import {
 } from '../../types/Exceptions/UnsupportedBlockchainError'
 import { Arbitrum } from './arbitrum'
 import { BaseGoerli } from './base-goerli'
+import { BSC } from './bsc'
 import { Ethereum } from './ethereum'
 import { Fuji } from './fuji'
 import { Mumbai } from './mumbai'
@@ -21,6 +22,8 @@ const getChainConfig = (chainId: ChainId): INetwork => {
       return new Fuji()
     case ChainId.Arbitrum:
       return new Arbitrum()
+    case ChainId.BSC:
+      return new BSC()
     case ChainId.BaseGoerli:
       return new BaseGoerli()
   }

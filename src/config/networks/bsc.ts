@@ -6,9 +6,9 @@ import {
 } from '../../types'
 import { getStoreAddressFromEnvironment } from '../store'
 
-const weth = new Token(ChainId.Arbitrum, '0x82aF49447D8a07e3bd95BD0d56f35241523fBab1', 'Wrapped Ether', 'WETH')
+const weth = new Token(ChainId.BSC, '0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c', 'Wrapped Ether', 'WETH')
 
-class Arbitrum implements INetwork {
+class BSC implements INetwork {
   chainId: ChainId
   chain: string
   approximateBlockTime: number
@@ -26,22 +26,22 @@ class Arbitrum implements INetwork {
   hostname: string
 
   constructor () {
-    this.chainId = ChainId.Arbitrum
-    this.chain = 'Arbitrum One Network'
-    this.approximateBlockTime = 1
+    this.chainId = ChainId.BSC
+    this.chain = 'BNB Smart Chain'
+    this.approximateBlockTime = 2
 
-    this.store = getStoreAddressFromEnvironment(ChainId.Arbitrum)
+    this.store = getStoreAddressFromEnvironment(ChainId.BSC)
 
     this.tokens = {
       WETH: weth
     }
     this.uniswap = {
-      factory: '0xc35DADB65012eC5796536bD9864eD8773aBc74C4',
-      router: '0x1b02dA8Cb0d097eB8D57A175b88c7D8b47997506',
+      factory: '0xcA143Ce32Fe78f1f7019d7d551a6402fC5350c73',
+      router: '0x10ED43C718714eb63d5aA57B78B54704E256024E',
       masterChef: null
     }
-    this.hostname = 'arbitrum.neptunemutual.net'
+    this.hostname = 'bsc.neptunemutual.net'
   }
 }
 
-export { Arbitrum }
+export { BSC }

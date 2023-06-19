@@ -40,7 +40,7 @@ class Ethereum implements INetwork {
       router: '0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D',
       masterChef: null
     }
-    this.hostname = 'app.neptunemutual.com'
+    this.hostname = 'ethereum.neptunemutual.net'
   }
 }
 
