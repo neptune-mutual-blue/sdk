@@ -6,7 +6,7 @@ import {
 } from '../../types'
 import { getStoreAddressFromEnvironment } from '../store'
 
-const wmatic = new Token(ChainId.Mumbai, '0xE8F3118fDB41edcFEF7bF1DCa8009Fa8274aa070', 'Wrapped Matic', 'WMATIC')
+const wmatic = new Token(ChainId.Mumbai, '0xaf75BBD137e6f2dc92668a89b1a6d0E70B03da10', 'Wrapped Matic', 'WMATIC')
 
 class Mumbai implements INetwork {
   chainId: ChainId
@@ -36,8 +36,8 @@ class Mumbai implements INetwork {
       WETH: wmatic
     }
     this.uniswap = {
-      factory: '0x5757371414417b8C6CAad45bAeF941aBc7d3Ab32',
-      router: '0x8954AfA98594b838bda56FE4C12a09D7739D179b',
+      factory: '0xa22ac46e83Be5c2B947B604A85fF52DB0a0E01e8',
+      router: '0x0AEb349be52A1F95395AC0Fa8dCC63b17A492D6d',
       masterChef: null
     }
     this.hostname = 'mumbai.neptunemutual.com'
