@@ -1,6 +1,6 @@
-import { Contract } from './contract';
-import { Provider, setMulticallAddress } from './provider';
-import { ContractCall } from './types';
+import { Contract } from './contract.js';
+import { Provider, setMulticallAddress } from './provider.js';
+import { ContractCall } from './types.js';
 
 export { Contract, Provider, ContractCall, setMulticallAddress };
 export default { Contract, Provider, setMulticallAddress };

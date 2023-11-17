@@ -1,10 +1,10 @@
-import { Token } from '../../entities/Token'
+import { Token } from '../../entities/Token.js'
 import {
   ChainId,
-  INetwork,
-  IToken
-} from '../../types'
-import { getStoreAddressFromEnvironment } from '../store'
+  type INetwork,
+  type IToken
+} from '../../types/index.js'
+import { getStoreAddressFromEnvironment } from '../store/index.js'
 
 const weth = new Token(ChainId.Fuji, '0xD9D01A9F7C810EC035C0e42cB9E80Ef44D7f8692', 'Wrapped AVAX', 'WAVAX')
 
@@ -16,7 +16,7 @@ class Fuji implements INetwork {
   uniswap: {
     factory: string | null
     router: string | null
-    masterChef: string| null
+    masterChef: string | null
   }
 
   tokens: {

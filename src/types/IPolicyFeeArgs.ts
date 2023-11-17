@@ -1,4 +1,4 @@
-import { PolicyDuration } from './PolicyDuration'
+import { type PolicyDuration } from './PolicyDuration.js'
 
 interface IPolicyFeeArgs {
   duration: PolicyDuration
@@ -7,4 +7,4 @@ interface IPolicyFeeArgs {
   onBehalfOf: string
 }
 
-export { IPolicyFeeArgs }
+export type { IPolicyFeeArgs }

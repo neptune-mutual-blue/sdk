@@ -1,12 +1,12 @@
 import { keccak256 as solidityKeccak256 } from '@ethersproject/solidity'
 
-import { getStoreAddressFromEnvironment } from '../config/store'
-import { ChainId } from '../types/ChainId'
-import { ICacheProvider } from '../types/ICacheProvider'
-import { localStorageAvailable } from '../utils/local-storage'
-import { BrowserCacheProvider } from './browser-cache-provider'
+import { getStoreAddressFromEnvironment } from '../config/store/index.js'
+import { type ChainId } from '../types/ChainId.js'
+import { type ICacheProvider } from '../types/ICacheProvider.js'
+import { localStorageAvailable } from '../utils/local-storage.js'
+import { BrowserCacheProvider } from './browser-cache-provider.js'
 
-const getProvider = (): ICacheProvider|null => {
+const getProvider = (): ICacheProvider | null => {
   if (localStorageAvailable()) {
     return new BrowserCacheProvider()
   }

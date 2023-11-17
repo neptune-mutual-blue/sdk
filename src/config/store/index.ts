@@ -1,6 +1,6 @@
-import { ChainId } from '../../types'
-import { InvalidStoreError } from '../../types/Exceptions/InvalidStoreError'
-import { getDefinition } from './definition'
+import { type ChainId } from '../../types/index.js'
+import { InvalidStoreError } from '../../types/Exceptions/InvalidStoreError.js'
+import { getDefinition } from './definition.js'
 
 const getStoreAddressFromEnvironment = (chainId: ChainId): string => {
   const { env, next, fallback } = getDefinition()[chainId]

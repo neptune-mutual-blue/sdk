@@ -1,6 +1,6 @@
-import { Signer } from '@ethersproject/abstract-signer'
+import { type Signer } from '@ethersproject/abstract-signer'
 import { Contract } from '@ethersproject/contracts'
-import { Provider } from '@ethersproject/providers'
+import { type Provider } from '@ethersproject/providers'
 
 const getContract = (address: string, abi: any[], signerOrProvider: Provider | Signer): Contract => {
   return new Contract(address, abi, signerOrProvider)

@@ -1,32 +1,32 @@
-import { Signer } from '@ethersproject/abstract-signer'
-import { Provider } from '@ethersproject/providers'
+import { type Signer } from '@ethersproject/abstract-signer'
+import { type Provider } from '@ethersproject/providers'
 
 import {
   constants
-} from '../config'
+} from '../config/index.js'
 import {
   Cover,
   IERC20,
   NPMToken
-} from '../registry'
+} from '../registry/index.js'
 import {
-  ChainId,
+  type ChainId,
   exceptions,
-  IApproveTransactionArgs,
-  ICoverInfo,
-  ICoverInfoStorage,
-  IProductInfo,
-  IWrappedResult,
+  type IApproveTransactionArgs,
+  type ICoverInfo,
+  type ICoverInfoStorage,
+  type IProductInfo,
+  type IWrappedResult,
   Status
-} from '../types'
-import { InvalidProductKeyError } from '../types/Exceptions'
+} from '../types/index.js'
+import { InvalidProductKeyError } from '../types/Exceptions/index.js'
 import {
   erc20Utils,
   ipfs,
   keyUtil,
   signer,
   store
-} from '../utils'
+} from '../utils/index.js'
 
 const { GenericError, InvalidAccountError, InvalidSignerError, InvalidCoverKeyError } = exceptions
 
@@ -219,8 +219,8 @@ const createProduct = async (chainId: ChainId, info: IProductInfo, ipfsHash: str
 
   const status = 1
   const addProductArgs = {
-    coverKey: coverKey,
-    productKey: productKey,
+    coverKey,
+    productKey,
     info: ipfsHash,
     requiresWhitelist: info.requiresWhitelist,
     productStatus: status,
@@ -297,10 +297,10 @@ const updateProduct = async (chainId: ChainId, info: IProductInfo, ipfsHash: str
   const coverContract = await Cover.getInstance(chainId, signerOrProvider)
 
   const updateProductArgs = {
-    coverKey: coverKey,
-    productKey: productKey,
+    coverKey,
+    productKey,
     info: ipfsHash,
-    productStatus: productStatus,
+    productStatus,
     efficiency: info.capitalEfficiency
   }
 

@@ -1,7 +1,7 @@
 import {
-  IDisputeInfo,
-  IReportingInfo
-} from './IReportingInfo'
+  type IDisputeInfo,
+  type IReportingInfo
+} from './IReportingInfo.js'
 
 interface IReportingInfoStorage extends IReportingInfo {
   createdBy: string
@@ -13,4 +13,4 @@ interface IDisputeInfoStorage extends IDisputeInfo {
   permalink: string
 }
 
-export { IDisputeInfoStorage, IReportingInfoStorage }
+export type { IDisputeInfoStorage, IReportingInfoStorage }

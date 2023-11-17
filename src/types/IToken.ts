@@ -1,4 +1,4 @@
-import { ChainId } from './ChainId'
+import { type ChainId } from './ChainId.js'
 
 interface IToken {
   chainId: ChainId
@@ -7,4 +7,4 @@ interface IToken {
   symbol: string
 }
 
-export { IToken }
+export type { IToken }

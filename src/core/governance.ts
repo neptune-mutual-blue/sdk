@@ -1,27 +1,27 @@
-import { Signer } from '@ethersproject/abstract-signer'
-import { Provider } from '@ethersproject/providers'
+import { type Signer } from '@ethersproject/abstract-signer'
+import { type Provider } from '@ethersproject/providers'
 
 import {
   Governance,
   NPMToken
-} from '../registry'
+} from '../registry/index.js'
 import {
-  ChainId,
+  type ChainId,
   CoverStatus,
-  IApproveTransactionArgs,
-  IReportingInfo,
-  IWrappedResult,
+  type IApproveTransactionArgs,
+  type IReportingInfo,
+  type IWrappedResult,
   Status
-} from '../types'
+} from '../types/index.js'
 import {
   InvalidReportError,
   InvalidSignerError
-} from '../types/Exceptions'
-import { IDisputeInfo } from '../types/IReportingInfo'
+} from '../types/Exceptions/index.js'
+import { type IDisputeInfo } from '../types/IReportingInfo.js'
 import {
   erc20Utils,
   signer
-} from '../utils'
+} from '../utils/index.js'
 
 const approveStake = async (chainId: ChainId, args: IApproveTransactionArgs, signerOrProvider: Provider | Signer, transactionOverrides: any = {}): Promise<IWrappedResult> => {
   const npm = await NPMToken.getInstance(chainId, signerOrProvider)

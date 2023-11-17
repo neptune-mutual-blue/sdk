@@ -1,11 +1,11 @@
-import { IPFSClient } from '../net'
+import { IPFSClient } from '../net/index.js'
 
 const fallbackNodes = ['https://api.thegraph.com/ipfs']
 
-const write = async (contents: Object, nodeUrls?: string[]): Promise<string | undefined> => {
+const write = async (contents: Record<string, any>, nodeUrls?: string[]): Promise<string | undefined> => {
   const formatted = JSON.stringify(contents, null, 2)
 
-  const nodes = nodeUrls !== undefined ? nodeUrls : fallbackNodes
+  const nodes = typeof nodeUrls !== 'undefined' ? nodeUrls : fallbackNodes
   const client = new IPFSClient(nodes)
 
   const hash = await client.addString(formatted)
@@ -17,8 +17,8 @@ const write = async (contents: Object, nodeUrls?: string[]): Promise<string | un
   return hash
 }
 
-const read = async (key: string, nodeUrls?: string[]): Promise<Object | undefined> => {
-  const nodes = nodeUrls !== undefined ? nodeUrls : fallbackNodes
+const read = async (key: string, nodeUrls?: string[]): Promise<Record<string, any> | undefined> => {
+  const nodes = typeof nodeUrls !== 'undefined' ? nodeUrls : fallbackNodes
   const client = new IPFSClient(nodes)
 
   const raw = await client.getString(key)

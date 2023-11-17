@@ -1,8 +1,8 @@
-import { Signer } from '@ethersproject/abstract-signer'
-import { Provider } from '@ethersproject/providers'
+import { type Signer } from '@ethersproject/abstract-signer'
+import { type Provider } from '@ethersproject/providers'
 
-import * as Vault from '../../registry/Vault'
-import { stringify } from '../numbers'
+import * as Vault from '../../registry/Vault.js'
+import { stringify } from '../numbers.js'
 
 const getPrice = async (pod: string, amount: number, signerOrProvider: Provider | Signer): Promise<string> => {
   const vault = await Vault.getInstanceByAddress(pod, signerOrProvider)

@@ -1,4 +1,4 @@
-import { Status } from './Status'
+import { type Status } from './Status.js'
 
 interface IWrappedResult {
   status: Status
@@ -6,4 +6,4 @@ interface IWrappedResult {
   error?: Error
 }
 
-export { IWrappedResult }
+export type { IWrappedResult }

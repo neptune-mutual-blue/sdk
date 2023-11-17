@@ -1,7 +1,7 @@
 import {
-  ChainId,
-  IToken
-} from '../types'
+  type ChainId,
+  type IToken
+} from '../types/index.js'
 
 class Token implements IToken {
   chainId: ChainId

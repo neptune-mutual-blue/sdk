@@ -1,11 +1,11 @@
-import * as config from './config'
-import * as core from './core'
-import * as entities from './entities'
-import * as net from './net'
-import * as multicall from './packages/ethers-multicall/src/index'
-import * as registry from './registry'
-import * as types from './types'
-import * as utils from './utils'
+import * as config from './config/index.js'
+import * as core from './core/index.js'
+import * as entities from './entities/index.js'
+import * as net from './net/index.js'
+import * as multicall from './packages/ethers-multicall/src/index.js'
+import * as registry from './registry/index.js'
+import * as types from './types/index.js'
+import * as utils from './utils/index.js'
 
 const { ChainId } = types
 const { reassurance, cover, policy, cxToken, liquidity, governance, resolution, claimsProcessor } = core

@@ -1,16 +1,16 @@
 import {
   ChainId,
-  INetwork
-} from '../../types'
+  type INetwork
+} from '../../types/index.js'
 import {
   UnsupportedBlockchainError
-} from '../../types/Exceptions/UnsupportedBlockchainError'
-import { Arbitrum } from './arbitrum'
-import { BaseGoerli } from './base-goerli'
-import { BSC } from './bsc'
-import { Ethereum } from './ethereum'
-import { Fuji } from './fuji'
-import { Mumbai } from './mumbai'
+} from '../../types/Exceptions/UnsupportedBlockchainError.js'
+import { Arbitrum } from './arbitrum.js'
+import { BaseGoerli } from './base-goerli.js'
+import { BSC } from './bsc.js'
+import { Ethereum } from './ethereum.js'
+import { Fuji } from './fuji.js'
+import { Mumbai } from './mumbai.js'
 
 const getChainConfig = (chainId: ChainId): INetwork => {
   switch (chainId) {

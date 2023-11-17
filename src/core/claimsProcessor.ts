@@ -1,17 +1,17 @@
-import { Signer } from '@ethersproject/abstract-signer'
-import { Provider } from '@ethersproject/providers'
+import { type Signer } from '@ethersproject/abstract-signer'
+import { type Provider } from '@ethersproject/providers'
 
 import {
   ClaimsProcessor,
   IERC20
-} from '../registry'
+} from '../registry/index.js'
 import {
-  ChainId,
-  IApproveTransactionArgs,
-  IWrappedResult,
+  type ChainId,
+  type IApproveTransactionArgs,
+  type IWrappedResult,
   Status
-} from '../types'
-import { erc20Utils } from '../utils'
+} from '../types/index.js'
+import { erc20Utils } from '../utils/index.js'
 
 const getAllowance = async (chainId: ChainId, cTokenAddress: string, owner: string, signerOrProvider: Provider | Signer): Promise<IWrappedResult> => {
   const cxToken = IERC20.getInstance(cTokenAddress, signerOrProvider)
