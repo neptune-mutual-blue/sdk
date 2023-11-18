@@ -1,5 +1,5 @@
-import * as lp from './lp'
-import * as pod from './pod'
-import * as token from './token'
+import * as lp from './lp.js'
+import * as pod from './pod.js'
+import * as token from './token.js'
 
 export { lp, pod, token }

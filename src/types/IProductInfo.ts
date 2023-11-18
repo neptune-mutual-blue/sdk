@@ -23,4 +23,4 @@ interface IProductInfo {
   resolutionSources: string[]
 }
 
-export { IProductInfo }
+export type { IProductInfo }

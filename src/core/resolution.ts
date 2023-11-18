@@ -1,15 +1,15 @@
-import { Signer } from '@ethersproject/abstract-signer'
-import { Provider } from '@ethersproject/providers'
+import { type Signer } from '@ethersproject/abstract-signer'
+import { type Provider } from '@ethersproject/providers'
 
 import {
   Governance,
   Resolution
-} from '../registry'
+} from '../registry/index.js'
 import {
-  ChainId,
-  IWrappedResult,
+  type ChainId,
+  type IWrappedResult,
   Status
-} from '../types'
+} from '../types/index.js'
 
 const finalize = async (chainId: ChainId, coverKey: string, productKey: string, incidentDate: number, signerOrProvider: Provider | Signer, transactionOverrides: any = {}): Promise<IWrappedResult> => {
   const resolutionContract = await Resolution.getInstance(chainId, signerOrProvider)

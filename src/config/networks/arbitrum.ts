@@ -1,10 +1,10 @@
-import { Token } from '../../entities/Token'
+import { Token } from '../../entities/Token.js'
 import {
   ChainId,
-  INetwork,
-  IToken
-} from '../../types'
-import { getStoreAddressFromEnvironment } from '../store'
+  type INetwork,
+  type IToken
+} from '../../types/index.js'
+import { getStoreAddressFromEnvironment } from '../store/index.js'
 
 const weth = new Token(ChainId.Arbitrum, '0x82aF49447D8a07e3bd95BD0d56f35241523fBab1', 'Wrapped Ether', 'WETH')
 
@@ -16,7 +16,7 @@ class Arbitrum implements INetwork {
   uniswap: {
     factory: string | null
     router: string | null
-    masterChef: string| null
+    masterChef: string | null
   }
 
   tokens: {

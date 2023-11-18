@@ -1,12 +1,12 @@
-import { Signer } from '@ethersproject/abstract-signer'
-import { Contract } from '@ethersproject/contracts'
-import { Provider } from '@ethersproject/providers'
+import { type Signer } from '@ethersproject/abstract-signer'
+import { type Contract } from '@ethersproject/contracts'
+import { type Provider } from '@ethersproject/providers'
 
 import {
   IUniswapV2FactoryLike,
   IUniswapV2PairLike
-} from '../../registry'
-import { ChainId } from '../../types/ChainId'
+} from '../../registry/index.js'
+import { type ChainId } from '../../types/ChainId.js'
 
 const getPairFromAddress = async (pairAddress: string, signerOrProvider: Provider | Signer): Promise<Contract> => {
   // eslint-disable-next-line

@@ -4,4 +4,4 @@ interface ICacheProvider {
   remove: (key: string) => void
 }
 
-export { ICacheProvider }
+export type { ICacheProvider }

@@ -1,5 +1,5 @@
-import { ChainId } from './ChainId'
-import { IToken } from './IToken'
+import { type ChainId } from './ChainId.js'
+import { type IToken } from './IToken.js'
 
 interface INetwork {
   chainId: ChainId
@@ -17,4 +17,4 @@ interface INetwork {
   hostname: string
 }
 
-export { INetwork }
+export type { INetwork }

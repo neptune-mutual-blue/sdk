@@ -1,8 +1,8 @@
-import { IProductInfo } from './IProductInfo'
+import { type IProductInfo } from './IProductInfo.js'
 
 interface IProductInfoStorage extends IProductInfo {
   createdBy: string
   permalink: string
 }
 
-export { IProductInfoStorage }
+export type { IProductInfoStorage }

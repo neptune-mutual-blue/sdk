@@ -1,18 +1,18 @@
-import { Signer } from '@ethersproject/abstract-signer'
-import { Provider } from '@ethersproject/providers'
+import { type Signer } from '@ethersproject/abstract-signer'
+import { type Provider } from '@ethersproject/providers'
 
 import {
   PolicyContract,
   Stablecoin
-} from '../registry'
+} from '../registry/index.js'
 import {
-  ChainId,
-  IApproveTransactionArgs,
-  IPolicyFeeArgs,
-  IWrappedResult,
+  type ChainId,
+  type IApproveTransactionArgs,
+  type IPolicyFeeArgs,
+  type IWrappedResult,
   Status
-} from '../types'
-import { erc20Utils } from '../utils'
+} from '../types/index.js'
+import { erc20Utils } from '../utils/index.js'
 
 const getCoverFee = async (chainId: ChainId, coverKey: string, productKey: string, args: IPolicyFeeArgs, signerOrProvider: Provider | Signer): Promise<IWrappedResult> => {
   const policy = await PolicyContract.getInstance(chainId, signerOrProvider)
@@ -58,12 +58,12 @@ const purchaseCover = async (chainId: ChainId, coverKey: string, productKey: str
   const { duration, amount, referralCode, onBehalfOf } = args
 
   const purchaseCoverArgs = {
-    onBehalfOf: onBehalfOf,
-    coverKey: coverKey,
-    productKey: productKey,
+    onBehalfOf,
+    coverKey,
+    productKey,
     coverDuration: duration,
     amountToCover: amount,
-    referralCode: referralCode
+    referralCode
   }
   const result = await policy.purchaseCover(purchaseCoverArgs, transactionOverrides)
 

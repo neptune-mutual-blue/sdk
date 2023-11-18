@@ -8,4 +8,4 @@ interface IStoreCandidate {
   fn?: string
 }
 
-export { IStoreCandidate }
+export type { IStoreCandidate }

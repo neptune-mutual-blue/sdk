@@ -1,15 +1,15 @@
-import { Signer } from '@ethersproject/abstract-signer'
-import { Provider } from '@ethersproject/providers'
+import { type Signer } from '@ethersproject/abstract-signer'
+import { type Provider } from '@ethersproject/providers'
 
-import { abis } from '../config'
-import { PolicyContract } from '../registry'
+import * as abis from '../config/abis/index.js'
+import { PolicyContract } from '../registry/index.js'
 import {
-  ChainId,
-  IWrappedResult,
-  PolicyDuration,
+  type ChainId,
+  type IWrappedResult,
+  type PolicyDuration,
   Status
-} from '../types'
-import * as contract from '../utils/contract'
+} from '../types/index.js'
+import * as contract from '../utils/contract.js'
 
 const getCToken = async (chainId: ChainId, coverKey: string, productKey: string, duration: PolicyDuration, signerOrProvider: Provider | Signer): Promise<IWrappedResult> => {
   const policy = await PolicyContract.getInstance(chainId, signerOrProvider)

@@ -2,4 +2,4 @@ interface IApproveTransactionArgs {
   amount?: string
 }
 
-export { IApproveTransactionArgs }
+export type { IApproveTransactionArgs }

@@ -1,4 +1,4 @@
-import { ICacheProvider } from '../types/ICacheProvider'
+import { type ICacheProvider } from '../types/ICacheProvider.js'
 
 class BrowserCacheProvider implements ICacheProvider {
   maxAge: number

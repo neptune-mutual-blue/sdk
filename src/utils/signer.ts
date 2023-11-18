@@ -1,5 +1,5 @@
-import { Signer } from '@ethersproject/abstract-signer'
-import { Provider } from '@ethersproject/providers'
+import { type Signer } from '@ethersproject/abstract-signer'
+import { type Provider } from '@ethersproject/providers'
 
 const getAddress = async (signerOrProvider: Provider | Signer): Promise<string | null> => {
   if (signerOrProvider === undefined) {

@@ -1,10 +1,10 @@
-import { Token } from '../../entities/Token'
+import { Token } from '../../entities/Token.js'
 import {
   ChainId,
-  INetwork,
-  IToken
-} from '../../types'
-import { getStoreAddressFromEnvironment } from '../store'
+  type INetwork,
+  type IToken
+} from '../../types/index.js'
+import { getStoreAddressFromEnvironment } from '../store/index.js'
 
 const wmatic = new Token(ChainId.Mumbai, '0xaf75BBD137e6f2dc92668a89b1a6d0E70B03da10', 'Wrapped Matic', 'WMATIC')
 
@@ -16,7 +16,7 @@ class Mumbai implements INetwork {
   uniswap: {
     factory: string | null
     router: string | null
-    masterChef: string| null
+    masterChef: string | null
   }
 
   tokens: {

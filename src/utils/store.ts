@@ -1,21 +1,21 @@
-import { Provider as EthersProvider } from '@ethersproject/providers'
+import { type Provider as EthersProvider } from '@ethersproject/providers'
 import { keccak256 as solidityKeccak256 } from '@ethersproject/solidity'
 
 import {
   abis,
   store
-} from '../config'
-import { ZERO_BYTES32 } from '../config/constants'
+} from '../config/index.js'
+import { ZERO_BYTES32 } from '../config/constants.js'
 import {
   Contract,
   Provider
-} from '../packages/ethers-multicall/src'
+} from '../packages/ethers-multicall/src/index.js'
 import {
-  ChainId,
-  IStoreCandidate
-} from '../types'
+  type ChainId,
+  type IStoreCandidate
+} from '../types/index.js'
 
-const getKey = (signature: string[]|undefined, ...items: string[]): string => {
+const getKey = (signature: string[] | undefined, ...items: string[]): string => {
   let types = signature
 
   if (items.length === 1) {

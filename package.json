@@ -4,28 +4,28 @@
   "author": "Neptune Mutual Team",
   "description": "Neptune Mutual SDK",
   "license": "MIT",
-  "types": "dist/index.d.ts",
   "files": [
-    "dist",
-    "src"
+    "dist/"
   ],
   "engines": {
     "node": ">=10"
   },
-  "source": "src/index.ts",
-  "exports": {
-    "require": "./dist/index.cjs",
-    "default": "./dist/index.js"
-  },
   "type": "module",
-  "module": "./dist/index.js",
-  "main": "./dist/index.cjs",
+  "main": "dist/cjs/index.js",
+  "module": "dist/mjs/index.js",
+  "types": "dist/mjs/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/mjs/index.js",
+      "require": "./dist/cjs/index.js"
+    }
+  },
   "scripts": {
-    "build": "rm -rf ./dist && rollup -c --environment NODE_ENV:production",
-    "compile": "yarn build",
-    "dev": "rollup --watch -c",
-    "standard": "ts-standard",
-    "fix": "ts-standard --fix",
+    "build": "rm -rf ./dist && yarn compile",
+    "compile": "tsc -p tsconfig.json && tsc -p tsconfig-cjs.json && ./fixup.sh",
+    "dev": "nodemon --watch src -e ts --exec \"npm run compile\"",
+    "lint": "eslint 'src/**/*.{ts,tsx}'",
+    "fix": "eslint 'src/**/*.{ts,tsx}' --fix",
     "publish": "npm run build && npm publish"
   },
   "dependencies": {
@@ -39,21 +39,17 @@
     "uuid": "8.3.2"
   },
   "devDependencies": {
-    "@rollup/plugin-json": "5.0.2",
     "@types/node": "18.11.11",
     "@types/uuid": "8.3.4",
-    "rollup": "3.5.1",
-    "rollup-plugin-typescript2": "0.34.1",
-    "ts-standard": "11.0.0",
-    "typescript": "4.9.3"
-  },
-  "ts-standard": {
-    "ignore": [
-      "src/packages/**/*.ts"
-    ]
-  },
-  "directories": {
-    "test": "test"
+    "@typescript-eslint/eslint-plugin": "^6.4.0",
+    "@typescript-eslint/parser": "^6.11.0",
+    "eslint": "^8.0.1",
+    "eslint-config-standard-with-typescript": "^39.1.1",
+    "eslint-plugin-import": "^2.25.2",
+    "eslint-plugin-n": "^15.0.0",
+    "eslint-plugin-promise": "^6.0.0",
+    "tslib": "^2.6.2",
+    "typescript": "^5.2.2"
   },
   "repository": {
     "type": "git",

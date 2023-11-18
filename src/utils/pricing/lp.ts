@@ -1,13 +1,13 @@
-import { Signer } from '@ethersproject/abstract-signer'
-import { Provider } from '@ethersproject/providers'
+import { type Signer } from '@ethersproject/abstract-signer'
+import { type Provider } from '@ethersproject/providers'
 
-import * as Stablecoin from '../../registry/Stablecoin'
-import { ChainId } from '../../types'
-import { stringify } from '../numbers'
+import * as Stablecoin from '../../registry/Stablecoin.js'
+import { type ChainId } from '../../types/index.js'
+import { stringify } from '../numbers.js'
 import {
   getPairFromAddress,
   getPairInfo
-} from '../uniswap-v2/pair'
+} from '../uniswap-v2/pair.js'
 
 const getPrice = async (chainId: ChainId, pairAddress: string, amount: number, signerOrProvider: Provider | Signer): Promise<number> => {
   const pair = await getPairFromAddress(pairAddress, signerOrProvider)

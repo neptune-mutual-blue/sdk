@@ -1,8 +1,8 @@
 // @ts-nocheck
 import { Provider as EthersProvider } from '@ethersproject/abstract-provider';
-import { all } from './call';
-import { getEthBalance } from './calls';
-import { ContractCall } from './types';
+import { all } from './call.js';
+import { getEthBalance } from './calls.js';
+import { ContractCall } from './types.js';
 
 export class Provider {
   private _provider: EthersProvider;

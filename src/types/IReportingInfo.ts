@@ -13,4 +13,4 @@ interface IDisputeInfo {
   stake: string
 }
 
-export { IDisputeInfo, IReportingInfo }
+export type { IDisputeInfo, IReportingInfo }

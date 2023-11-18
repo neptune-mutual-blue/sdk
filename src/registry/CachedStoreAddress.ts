@@ -1,9 +1,9 @@
-import { Signer } from '@ethersproject/abstract-signer'
-import { Provider } from '@ethersproject/providers'
+import { type Signer } from '@ethersproject/abstract-signer'
+import { type Provider } from '@ethersproject/providers'
 
-import * as cache from '../cache/index'
-import { ChainId } from '../types'
-import * as Store from './Store'
+import * as cache from '../cache/index.js'
+import { type ChainId } from '../types/index.js'
+import * as Store from './Store.js'
 
 const getOrFetch = async (chainId: ChainId, nsKey: string, signerOrProvider: Provider | Signer): Promise<string> => {
   const cacheKey = cache.genKey(chainId, nsKey)

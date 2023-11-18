@@ -1,18 +1,18 @@
-import { Signer } from '@ethersproject/abstract-signer'
-import { Provider } from '@ethersproject/providers'
+import { type Signer } from '@ethersproject/abstract-signer'
+import { type Provider } from '@ethersproject/providers'
 
 import {
   Reassurance,
   Stablecoin
-} from '../registry'
+} from '../registry/index.js'
 import {
-  ChainId,
-  IApproveTransactionArgs,
-  IWrappedResult,
+  type ChainId,
+  type IApproveTransactionArgs,
+  type IWrappedResult,
   Status
-} from '../types'
-import { getApprovalAmount } from '../utils/erc20-utils'
-import { getAddress } from '../utils/signer'
+} from '../types/index.js'
+import { getApprovalAmount } from '../utils/erc20-utils.js'
+import { getAddress } from '../utils/signer.js'
 
 const getAllowance = async (chainId: ChainId, owner: string, signerOrProvider: Provider | Signer): Promise<IWrappedResult> => {
   const contract = await Reassurance.getAddress(chainId, signerOrProvider)

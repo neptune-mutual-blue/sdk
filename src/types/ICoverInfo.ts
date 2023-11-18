@@ -1,4 +1,4 @@
-import { ChainId } from './ChainId'
+import { type ChainId } from './ChainId.js'
 
 interface ICoverInfo {
   key: string
@@ -57,4 +57,4 @@ interface ICoverInfo {
   }
 }
 
-export { ICoverInfo }
+export type { ICoverInfo }

@@ -1,9 +1,9 @@
 import { Contract } from '@ethersproject/contracts'
 import { Provider } from '@ethersproject/providers'
 
-import { Abi } from './abi'
-import { multicallAbi } from './abi/multicall'
-import { ContractCall } from './types'
+import { Abi } from './abi.js'
+import { multicallAbi } from './abi/multicall.js'
+import { ContractCall } from './types.js'
 
 export async function all<T extends any[] = any[]> (
   calls: ContractCall[],

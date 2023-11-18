@@ -1,3 +1,3 @@
-type PolicyDuration = 1|2|3
+type PolicyDuration = 1 | 2 | 3
 
-export { PolicyDuration }
+export type { PolicyDuration }
