@@ -1,4 +1,3 @@
-import axios from 'axios'
 import { v4 as uuid } from 'uuid'
 
 class IPFSClient {
@@ -70,14 +69,15 @@ class IPFSClient {
   async call (options: any): Promise<string | undefined> {
     const { payload, method, url, headers } = options
 
-    const result = await axios.request({
-      url,
+    const response = await fetch(url, {
+      body: payload,
       method,
-      headers,
-      data: payload
+      headers
     })
 
-    return JSON.stringify(result.data)
+    const result = await response.json()
+
+    return JSON.stringify(result)
   }
 }
 
