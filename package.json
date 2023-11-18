@@ -24,8 +24,8 @@
     "build": "rm -rf ./dist && yarn compile",
     "compile": "tsc -p tsconfig.json && tsc -p tsconfig-cjs.json && ./fixup.sh",
     "dev": "nodemon --watch src -e ts --exec \"npm run compile\"",
-    "lint": "eslint .",
-    "fix": "eslint . --fix",
+    "lint": "eslint 'src/**/*.{ts,tsx}'",
+    "fix": "eslint 'src/**/*.{ts,tsx}' --fix",
     "publish": "npm run build && npm publish"
   },
   "dependencies": {

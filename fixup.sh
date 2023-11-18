@@ -13,10 +13,10 @@ cat >dist/mjs/package.json <<!EOF
 }
 !EOF
 
-filesToEdit=$(grep -l -r --include "*.js" "json\'" ./dist/mjs)
+filesToEdit=$(grep -l -r --include *.js  "^import.*\.json"  ./dist/mjs)
 
 echo "$filesToEdit"
 
-grep -l -r --include "*.js" "json\'" ./dist/mjs | xargs sed -i.bak "s/.json';/.json' assert { type: 'json' };/g";
+grep -l -r --include *.js  "^import.*\.json"  ./dist/mjs | xargs sed -i.bak "s/.json';/.json' assert { type: 'json' };/g";
 
 echo "Fixing completed!"
