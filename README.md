@@ -8,6 +8,10 @@ The Neptune Mutual SDK assists developers to build on top of Neptune Mutual prot
 npm install @neptunemutual/sdk
 ```
 
+**Requirements**
+
+- Node version: >= v18
+
 ## Multiple Blockchain Support
 
 Since the SDK supports multiple blockchains, you may want to quickly check the list of supported blockchains before you actually implement anything.
@@ -79,16 +83,23 @@ const readCoverInfo = async () => {
 readCoverInfo()
 ```
 
-## Override
+## Initialize
 
-Certain functionality of the SDK can be overridden by specifying environment variables:
+Certain functionality of the SDK depends on store smart contract. Store contract address can be set using the `initialize` function
 
+```js
+import sdk, { ChainId } from '@neptunemutual/sdk'
+
+sdk.initialize({
+  store: {
+    [ChainId.Mumbai]: '0x...'
+  }
+})
+
+const coverKey = sdk.utils.keyUtil.toBytes32('binance')
+const coverInfo = await sdk.cover.getCoverInfo(ChainId.Mumbai, coverKey, provider)
+
+console.log(coverInfo);
 ```
-Override Store:
 
-NPM_ETHEREUM_STORE or NEXT_PUBLIC_ETHEREUM_STORE
-NPM_MUMBAI_STORE or NEXT_PUBLIC_MUMBAI_STORE
-NPM_FUJI_STORE or NEXT_PUBLIC_FUJI_STORE
-```
-
-[Read the Full Documentation](https://app.gitbook.com/@neptunemutual/s/docs/sdk/quickstart)
+[Read the Full Documentation](https://neptunemutual.com/docs/sdk/quickstart/)
