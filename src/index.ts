@@ -1,4 +1,5 @@
 import * as config from './config/index.js'
+import { initialize } from './config/internal.js'
 import * as core from './core/index.js'
 import * as entities from './entities/index.js'
 import * as net from './net/index.js'
@@ -19,6 +20,7 @@ const sdk = {
   liquidity,
   registry,
   governance,
+  initialize,
   resolution,
   claimsProcessor,
   types,
@@ -37,6 +39,7 @@ export {
   cxToken,
   entities,
   governance,
+  initialize,
   liquidity,
   multicall,
   net,

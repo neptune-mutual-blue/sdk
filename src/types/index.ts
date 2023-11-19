@@ -14,6 +14,7 @@ import { type IStoreCandidate } from './IStoreCandidate.js'
 import { type IToken } from './IToken.js'
 import { type IWrappedResult } from './IWrappedResult.js'
 import { type PolicyDuration } from './PolicyDuration.js'
+import { type SDKInternalStorage } from './SDKInternalStorage.js'
 import { Status } from './Status.js'
 
 export {
@@ -33,5 +34,6 @@ export {
   type IToken,
   type IWrappedResult,
   type PolicyDuration,
+  type SDKInternalStorage,
   Status
 }

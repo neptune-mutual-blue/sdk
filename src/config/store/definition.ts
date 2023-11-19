@@ -1,34 +1,39 @@
-export const getDefinition = (): any => {
+import { ChainId } from '../../types/ChainId.js'
+import { getStorageValue } from '../internal.js'
+
+export const getDefinition = (): Record<Exclude<ChainId, ChainId.Invalid>, Record<'env' | 'next' | 'fallback', string | undefined>> => {
+  const storeAddresses = getStorageValue('store')
+
   return {
-    1: {
+    [ChainId.Ethereum]: {
       env: process.env.NPM_ETHEREUM_STORE,
       next: process.env.NEXT_PUBLIC_ETHEREUM_STORE,
-      fallback: undefined
+      fallback: storeAddresses?.[ChainId.Ethereum]
     },
-    42161: {
+    [ChainId.Arbitrum]: {
       env: process.env.NPM_ARBITRUM_STORE,
       next: process.env.NEXT_PUBLIC_ARBITRUM_STORE,
-      fallback: ''
+      fallback: storeAddresses?.[ChainId.Arbitrum]
     },
-    56: {
+    [ChainId.BSC]: {
       env: process.env.NPM_BSC_STORE,
       next: process.env.NEXT_PUBLIC_BSC_STORE,
-      fallback: ''
+      fallback: storeAddresses?.[ChainId.BSC]
     },
-    84531: {
+    [ChainId.BaseGoerli]: {
       env: process.env.NPM_BASE_GOERLI_STORE,
       next: process.env.NEXT_PUBLIC_BASE_GOERLI_STORE,
-      fallback: ''
+      fallback: storeAddresses?.[ChainId.BaseGoerli]
     },
-    80001: {
+    [ChainId.Mumbai]: {
       env: process.env.NPM_MUMBAI_STORE,
       next: process.env.NEXT_PUBLIC_MUMBAI_STORE,
-      fallback: ''
+      fallback: storeAddresses?.[ChainId.Mumbai]
     },
-    43113: {
+    [ChainId.Fuji]: {
       env: process.env.NPM_FUJI_STORE,
       next: process.env.NEXT_PUBLIC_FUJI_STORE,
-      fallback: ''
+      fallback: storeAddresses?.[ChainId.Fuji]
     }
   }
 }
