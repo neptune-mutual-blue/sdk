@@ -12,7 +12,7 @@ export const initialize = ({ store }: { store: SDKInternalStorage['store'] }): v
 
 export const getStorageValue = <T extends keyof SDKInternalStorage>(key: T): SDKInternalStorage[T] => {
   if (!_STORAGE.initialized) {
-    throw new Error('SDK not initialized')
+    console.error('SDK not initialized')
   }
 
   return _STORAGE[key]
