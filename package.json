@@ -1,5 +1,5 @@
 {
-  "version": "0.6.0-beta",
+  "version": "0.6.1-beta",
   "name": "@neptunemutual/sdk",
   "author": "Neptune Mutual Team",
   "description": "Neptune Mutual SDK",
@@ -26,7 +26,7 @@
     "dev": "nodemon --watch src -e ts --exec \"npm run compile\"",
     "lint": "eslint .",
     "fix": "eslint . --fix",
-    "publish": "npm run build && npm publish"
+    "prepublishOnly": "npm run build"
   },
   "dependencies": {
     "@ethersproject/abstract-signer": "5.4.1",
